@@ -365,6 +365,15 @@ public class Misc {
 		return worldPosition;
 	}
 
+	public static Vector3 getWorldPosForParentRelativePos(Vector3 parentRelativePos, Transform parent) {
+		Vector3 worldPosition = parentRelativePos;
+		while (parent != null) {
+			worldPosition += parent.localPosition;
+			parent = parent.parent;
+		}
+		return worldPosition;
+	}
+
 	public static Quaternion getWorldRotation(Transform transform) {
 		return transform.rotation;
 //        Quaternion worldRotation = transform.localRotation;
