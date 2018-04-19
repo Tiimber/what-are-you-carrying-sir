@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BagContentProperties : MonoBehaviour {
 
+	public Vector3 objectSize;
+
 	// Use this for initialization
 	void Start () {
 		

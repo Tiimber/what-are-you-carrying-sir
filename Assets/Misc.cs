@@ -850,4 +850,35 @@ public class Misc {
 	public static Vector3 GetProjectedPointOnLine(Vector3 point, Vector3 linePoint1, Vector3 linePoint2) {
         return Math3d.ProjectPointOnLineSegment(linePoint1, linePoint2, point);
 	}
+
+	public static Tuple2<float, float> getOffsetPctFromCenter(Vector3 zoomPoint) {
+		float centerX = Screen.width / 2f;
+		float centerY = Screen.height / 2f;
+
+		float offsetX = zoomPoint.x - centerX;
+		float offsetY = zoomPoint.y - centerY;
+
+		return new Tuple2<float, float>(offsetX / centerX, offsetY / centerY);
+	}
+
+    private static Dictionary<string, Coroutine> rotationCoroutines = new Dictionary<string, Coroutine>();
+    public static void AnimateRotationTo (string key, GameObject obj, Quaternion toRotation, float time = 0.3f) {
+        Quaternion fromRotation = obj.transform.rotation;
+        if (rotationCoroutines.ContainsKey(key)) {
+            Singleton<SingletonInstance>.Instance.StopCoroutine (rotationCoroutines[key]);
+            rotationCoroutines.Remove(key);
+        }
+        rotationCoroutines.Add(key, Singleton<SingletonInstance>.Instance.StartCoroutine (AnimateRotation(key, obj, fromRotation, toRotation, time)));
+    }
+
+    private static IEnumerator AnimateRotation (string key, GameObject obj, Quaternion from, Quaternion to, float time) {
+        float t = 0f;
+		while (t <= 1f) {
+			t += Time.unscaledDeltaTime / time;
+			Quaternion currentRotation = Quaternion.Slerp(from, to, t);
+            obj.transform.rotation = currentRotation;
+			yield return null;
+		}
+        rotationCoroutines.Remove(key);
+	}
 }

@@ -381,7 +381,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1094400749033120}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.0057, y: -0.0444, z: -0.0203}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4146960910336020}
@@ -429,7 +429,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1184023239694568}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.0057, y: -0.0444, z: -0.0203}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4702468338373674}
@@ -481,7 +481,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1886495735771624}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1337,16 +1337,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f455d6ab405214ad086529f5e56bd75e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectSize: {x: 0.0545716, y: 0.09197471, z: 0.05031586}
 --- !u!136 &136474304340399752
 CapsuleCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1886495735771624}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: d17fb7f67af604152bdd15b331b452b8, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.025
   m_Height: 0.12
   m_Direction: 1
-  m_Center: {x: 0.005, y: 0.04, z: 0.02}
+  m_Center: {x: 0, y: 0, z: 0}

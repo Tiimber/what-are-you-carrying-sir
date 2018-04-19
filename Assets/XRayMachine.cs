@@ -4,10 +4,31 @@ using UnityEngine;
 
 public class XRayMachine : MonoBehaviour {
 
-	public Vector3 dropPoint;
-	public Vector3 scanPoint;
-	public Vector3 checkPoint;
-	public Vector3 returnPoint;
+	public Vector3 bagDropPoint;
+
+	public Vector3 dropPointZoomOutPos;
+    public Vector3 dropPointZoomOutRotation;
+	public float dropPointZoomOutZoom;
+
+	public Vector3 scanPointZoomOutPos;
+    public Vector3 scanPointZoomOutRotation;
+	public float scanPointZoomOutZoom;
+
+	public Vector3 checkPointZoomOutPos;
+    public Vector3 checkPointZoomOutRotation;
+	public float checkPointZoomOutZoom;
+
+	public Vector3 dropPointZoomInPos;
+    public Vector3 dropPointZoomInRotation;
+	public float dropPointZoomInZoom;
+
+	public Vector3 scanPointZoomInPos;
+    public Vector3 scanPointZoomInRotation;
+	public float scanPointZoomInZoom;
+
+	public Vector3 checkPointZoomInPos;
+    public Vector3 checkPointZoomInRotation;
+    public float checkPointZoomInZoom;
 
 	// Use this for initialization
 	void Start () {

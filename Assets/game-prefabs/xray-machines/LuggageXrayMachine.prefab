@@ -7193,10 +7193,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eedff7df0ae60490a934dcc746e924d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropPoint: {x: -1.07, y: 0, z: -0.52}
-  scanPoint: {x: 0.02, y: 0, z: -0.52}
-  checkPoint: {x: 0.99, y: 0, z: -0.52}
-  returnPoint: {x: 2, y: 0, z: -0.52}
+  bagDropPoint: {x: -1.02, y: 0, z: -0.52}
+  dropPointZoomOutPos: {x: -1.17, y: 0.99, z: -10}
+  dropPointZoomOutRotation: {x: 0, y: 0, z: 0}
+  dropPointZoomOutZoom: 20
+  scanPointZoomOutPos: {x: 0, y: 0.99, z: -10}
+  scanPointZoomOutRotation: {x: 0, y: 0, z: 0}
+  scanPointZoomOutZoom: 20
+  checkPointZoomOutPos: {x: 0.95, y: 0.99, z: -10}
+  checkPointZoomOutRotation: {x: 0, y: 0, z: 0}
+  checkPointZoomOutZoom: 20
+  dropPointZoomInPos: {x: -1.17, y: 1.12, z: -10}
+  dropPointZoomInRotation: {x: 0, y: 0, z: 0}
+  dropPointZoomInZoom: 4
+  scanPointZoomInPos: {x: 0, y: 1.12, z: -10}
+  scanPointZoomInRotation: {x: 0, y: 0, z: 0}
+  scanPointZoomInZoom: 4
+  checkPointZoomInPos: {x: 0.95, y: 3, z: -2}
+  checkPointZoomInRotation: {x: 57, y: 0, z: 0}
+  checkPointZoomInZoom: 20
 --- !u!124 &124245701186918542
 Behaviour:
   m_ObjectHideFlags: 1
