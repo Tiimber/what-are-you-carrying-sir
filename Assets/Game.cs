@@ -30,8 +30,9 @@ public class Game : MonoBehaviour {
     // Use this for initialization
 	void Start () {
 		// TODO - Pick xrayMachine depending on level instead...
-		GameObject xrayMachineGameObject = Instantiate(xrayMachines[0], new Vector3(0f, 1f, 0f), Quaternion.identity);
+		GameObject xrayMachineGameObject = Instantiate(xrayMachines[0], xrayMachines[0].transform.position, Quaternion.identity);
 		currentXrayMachine = xrayMachineGameObject.GetComponent<XRayMachine> ();
+        currentXrayMachine.attachConenctingConveyors();
 	}
 
 	// Update is called once per frame

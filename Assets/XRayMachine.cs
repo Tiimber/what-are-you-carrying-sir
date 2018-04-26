@@ -30,6 +30,10 @@ public class XRayMachine : MonoBehaviour {
     public Vector3 checkPointZoomInRotation;
     public float checkPointZoomInZoom;
 
+    public GameObject conveyor;
+    public Vector3 connectingConveyorLeftPos;
+    public Vector3 connectingConveyorRightPos;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -39,4 +43,13 @@ public class XRayMachine : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public void attachConenctingConveyors() {
+        if (conveyor != null) {
+            GameObject leftConveyor = Instantiate(conveyor, connectingConveyorLeftPos, Quaternion.identity, transform);
+            GameObject rightConveyor = Instantiate(conveyor, connectingConveyorRightPos, Quaternion.identity, transform);
+            Debug.Break();
+        }
+
+    }
 }
