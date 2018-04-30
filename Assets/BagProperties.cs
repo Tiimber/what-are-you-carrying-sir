@@ -31,6 +31,14 @@ public class BagProperties : MonoBehaviour {
 		
 	}
 
+	public void setEnabledStateCollidersAndRigidbodies (bool enable = true) {
+		setGravity (enable);
+
+		foreach (MeshCollider meshCollider in actualBag.GetComponentsInChildren<MeshCollider>()) {
+			meshCollider.enabled = enable;
+		}
+	}
+
 	public void setGravity (bool gravityOn = true) {
 		Rigidbody rigidbody = GetComponent<Rigidbody> ();
 		rigidbody.useGravity = gravityOn;
@@ -64,4 +72,10 @@ public class BagProperties : MonoBehaviour {
         Quaternion toRotation = open ? Quaternion.Euler(lidRotationOpen) : Quaternion.identity;
 		Misc.AnimateRotationTo(gameObject.name + "_" + id, lidRotationObj, toRotation, time);
     }
+
+	public void OnTriggerEnter (Collider collider) {
+		if (collider != null && collider.GetComponent<ConveyorObject> () != null) {
+			setEnabledStateCollidersAndRigidbodies (false);
+		}
+	}
 }

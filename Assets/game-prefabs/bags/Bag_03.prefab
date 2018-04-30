@@ -420,6 +420,7 @@ GameObject:
   - component: {fileID: 4882938182728776}
   - component: {fileID: 114601192940057952}
   - component: {fileID: 54223184230201298}
+  - component: {fileID: 65041782698445660}
   m_Layer: 0
   m_Name: Bag_03
   m_TagString: Untagged
@@ -4353,6 +4354,18 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300014, guid: f346d368be98343bda72f31177c1daca, type: 3}
+--- !u!65 &65041782698445660
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1426455052820404}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.64373136, y: 0.07486224, z: 0.4745273}
+  m_Center: {x: -0.024902105, y: -0.07960737, z: 0.016435385}
 --- !u!65 &65126675116462438
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -4477,7 +4490,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c099429fc6cbe4df2bfed286f0c6bbaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
   interiorMaterial: {fileID: 0}
   contents: {fileID: 1142880318695860}
   actualBag: {fileID: 1898620067805308}
