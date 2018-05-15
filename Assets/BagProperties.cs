@@ -17,6 +17,9 @@ public class BagProperties : MonoBehaviour {
 	public GameObject[] initialColliders;
 	public float halfBagHeight;
 
+    public bool isOnConveyor = false;
+    public bool isOpen = false;
+
 	void Awake() {
         id = ++idCounter;
 	}
@@ -54,10 +57,15 @@ public class BagProperties : MonoBehaviour {
 			rigidbody.useGravity = false;
 			rigidbody.isKinematic = true;
 		}
-		foreach (Collider collider in contents.transform.GetComponentsInChildren<Collider> ()) {
-			collider.enabled = false;
-		}
+
+        enableContentColliders (false);
 	}
+
+    public void enableContentColliders (bool enable = true) {
+        foreach (Collider collider in contents.transform.GetComponentsInChildren<Collider> ()) {
+            collider.enabled = enable;
+        }
+    }
 
 	public void disableInitialColliders () {
 		foreach (GameObject colliderGameObject in initialColliders) {
@@ -66,7 +74,7 @@ public class BagProperties : MonoBehaviour {
 	}
 
     public void animateLidState (bool open = false) {
-        float currentRotationProgress = lidRotationObj.transform.rotation.eulerAngles.magnitude / lidRotationOpen.magnitude;
+        float currentRotationProgress = lidRotationObj.transform.localRotation.eulerAngles.magnitude / lidRotationOpen.magnitude;
         float time = 1f * (open ? 1f - currentRotationProgress : currentRotationProgress);
 
         Quaternion toRotation = open ? Quaternion.Euler(lidRotationOpen) : Quaternion.identity;
@@ -75,6 +83,7 @@ public class BagProperties : MonoBehaviour {
 
 	public void OnTriggerEnter (Collider collider) {
 		if (collider != null && collider.GetComponent<ConveyorObject> () != null) {
+            isOnConveyor = true;
 			setEnabledStateCollidersAndRigidbodies (false);
 		}
 	}

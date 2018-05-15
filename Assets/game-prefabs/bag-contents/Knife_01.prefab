@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 114212320578122518}
   - component: {fileID: 54778353503929302}
   - component: {fileID: 65920641662631618}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Knife_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1298,9 +1298,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1263675023285396}
-  m_LocalRotation: {x: -0, y: -0, z: 1, w: -0.0000001872535}
-  m_LocalPosition: {x: -0.124220386, y: 0.000699684, z: -0.021803841}
-  m_LocalScale: {x: 0.02, y: 0.02, z: 0.02}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.3937, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4113088439351968}
   m_RootOrder: 2

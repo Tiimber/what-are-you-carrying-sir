@@ -3,12 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityStandardAssets.ImageEffects;
 
 public class Misc {
 
@@ -863,7 +862,7 @@ public class Misc {
 
     private static Dictionary<string, Coroutine> rotationCoroutines = new Dictionary<string, Coroutine>();
     public static void AnimateRotationTo (string key, GameObject obj, Quaternion toRotation, float time = 0.3f) {
-        Quaternion fromRotation = obj.transform.rotation;
+        Quaternion fromRotation = obj.transform.localRotation;
         if (rotationCoroutines.ContainsKey(key)) {
             Singleton<SingletonInstance>.Instance.StopCoroutine (rotationCoroutines[key]);
             rotationCoroutines.Remove(key);
@@ -876,9 +875,69 @@ public class Misc {
 		while (t <= 1f) {
 			t += Time.unscaledDeltaTime / time;
 			Quaternion currentRotation = Quaternion.Slerp(from, to, t);
-            obj.transform.rotation = currentRotation;
+            obj.transform.localRotation = currentRotation;
 			yield return null;
 		}
         rotationCoroutines.Remove(key);
 	}
+
+    private static Dictionary<string, Coroutine> movementCoroutines = new Dictionary<string, Coroutine>();
+    public static void AnimateMovementTo (string key, GameObject obj, Vector3 toPosition, float time = 0.3f) {
+        Vector3 fromPosition = obj.transform.localPosition;
+        if (movementCoroutines.ContainsKey(key)) {
+            Singleton<SingletonInstance>.Instance.StopCoroutine (movementCoroutines[key]);
+            movementCoroutines.Remove(key);
+        }
+        movementCoroutines.Add(key, Singleton<SingletonInstance>.Instance.StartCoroutine (AnimateMovement(key, obj, fromPosition, toPosition, time)));
+    }
+
+    private static IEnumerator AnimateMovement (string key, GameObject obj, Vector3 from, Vector3 to, float time) {
+        float t = 0f;
+		while (t <= 1f) {
+			t += Time.unscaledDeltaTime / time;
+			Vector3 currentPosition = Vector3.Slerp(from, to, t);
+            obj.transform.localPosition = currentPosition;
+			yield return null;
+		}
+        movementCoroutines.Remove(key);
+	}
+
+    private static Dictionary<string, Coroutine> blurCoroutines = new Dictionary<string, Coroutine>();
+    public static void AnimateBlurTo (string key, BlurOptimized blurOptimized, int toDownsample, float toSize, int toIterations, float time = 0.3f) {
+        int fromDownsample = blurOptimized.downsample;
+        float fromSize = blurOptimized.blurSize;
+        int fromIterations = blurOptimized.blurIterations;
+        if (blurCoroutines.ContainsKey(key)) {
+            Singleton<SingletonInstance>.Instance.StopCoroutine (blurCoroutines[key]);
+            blurCoroutines.Remove(key);
+        }
+        blurCoroutines.Add(key, Singleton<SingletonInstance>.Instance.StartCoroutine (AnimateBlur(key, blurOptimized, fromDownsample, fromSize, fromIterations, toDownsample, toSize, toIterations, time)));
+    }
+
+    private static IEnumerator AnimateBlur (string key, BlurOptimized blurOptimized, int fromDownsample, float fromSize, int fromIterations, int toDownsample, float toSize, int toIterations, float time) {
+        float t = 0f;
+		while (t <= 1f) {
+			t += Time.unscaledDeltaTime / time;
+			float currentDownsample = Mathf.Lerp(fromDownsample, toDownsample, t);
+			float currentSize = Mathf.Lerp(fromSize, toSize, t);
+			float currentIterations = Mathf.Lerp(fromIterations, toIterations, t);
+
+            blurOptimized.downsample = Mathf.RoundToInt(currentDownsample);
+            blurOptimized.blurSize = currentSize;
+            blurOptimized.blurIterations = Mathf.RoundToInt(currentIterations);
+
+			yield return null;
+		}
+        blurCoroutines.Remove(key);
+	}
+
+    public static void AnimateBlurFromZero (string key, BlurOptimized blurOptimized) {
+		int blurOptimizedDownsample = blurOptimized.downsample;
+		float blurOptimizedBlurSize = blurOptimized.blurSize;
+		int blurIterations = blurOptimized.blurIterations;
+        blurOptimized.downsample = 0;
+        blurOptimized.blurSize = 0f;
+        blurOptimized.blurIterations = 1;
+		AnimateBlurTo(key, blurOptimized, blurOptimizedDownsample, blurOptimizedBlurSize, blurIterations);
+    }
 }

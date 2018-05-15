@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 54753843056070668}
   - component: {fileID: 65393210218669050}
   - component: {fileID: 114593580114787312}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Shirt_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}

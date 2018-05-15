@@ -320,7 +320,7 @@ GameObject:
   - component: {fileID: 114707350556925846}
   - component: {fileID: 54352795932169002}
   - component: {fileID: 136474304340399752}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: CocaCola
   m_TagString: Untagged
   m_Icon: {fileID: 0}
