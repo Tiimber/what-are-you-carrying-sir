@@ -1,0 +1,304 @@
+fileFormatVersion: 2
+guid: 0673bf5a0bd074f35aabfdb212c9c1a1
+timeCreated: 1526882036
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: _2D_Animal_Cat_Cleo
+    100002: Composant_1
+    100004: Composant_2
+    100006: Composant_3
+    100008: Composant_3 1
+    100010: Composant_4
+    100012: Composant_5
+    100014: Composant_6
+    100016: garbage_bag
+    100018: garbage_bag 1
+    100020: garbage_bag 2
+    100022: garbage_bag 3
+    100024: garbage_bag 4
+    100026: garbage_bag 5
+    100028: garbage_bag_1
+    100030: ID102
+    100032: ID118
+    100034: ID118 1
+    100036: ID133
+    100038: ID147
+    100040: ID155
+    100042: ID161
+    100044: ID165
+    100046: ID192
+    100048: ID208
+    100050: ID221
+    100052: ID234
+    100054: ID247
+    100056: ID260
+    100058: ID268
+    100060: ID281
+    100062: ID299
+    100064: ID38
+    100066: ID38 1
+    100068: ID38 2
+    100070: ID38 3
+    100072: ID38 4
+    100074: ID38 5
+    100076: ID57
+    100078: ID73
+    100080: ID81
+    100082: ID89
+    100084: instance_0
+    100086: instance_1
+    100088: instance_10
+    100090: instance_11
+    100092: instance_12
+    100094: instance_13
+    100096: instance_14
+    100098: instance_2
+    100100: instance_3
+    100102: instance_4
+    100104: instance_5
+    100106: instance_6
+    100108: instance_7
+    100110: instance_8
+    100112: instance_9
+    100114: skp_camera_Last_Saved_SketchUp_View
+    100116: //RootNode
+    400000: _2D_Animal_Cat_Cleo
+    400002: Composant_1
+    400004: Composant_2
+    400006: Composant_3
+    400008: Composant_3 1
+    400010: Composant_4
+    400012: Composant_5
+    400014: Composant_6
+    400016: garbage_bag
+    400018: garbage_bag 1
+    400020: garbage_bag 2
+    400022: garbage_bag 3
+    400024: garbage_bag 4
+    400026: garbage_bag 5
+    400028: garbage_bag_1
+    400030: ID102
+    400032: ID118
+    400034: ID118 1
+    400036: ID133
+    400038: ID147
+    400040: ID155
+    400042: ID161
+    400044: ID165
+    400046: ID192
+    400048: ID208
+    400050: ID221
+    400052: ID234
+    400054: ID247
+    400056: ID260
+    400058: ID268
+    400060: ID281
+    400062: ID299
+    400064: ID38
+    400066: ID38 1
+    400068: ID38 2
+    400070: ID38 3
+    400072: ID38 4
+    400074: ID38 5
+    400076: ID57
+    400078: ID73
+    400080: ID81
+    400082: ID89
+    400084: instance_0
+    400086: instance_1
+    400088: instance_10
+    400090: instance_11
+    400092: instance_12
+    400094: instance_13
+    400096: instance_14
+    400098: instance_2
+    400100: instance_3
+    400102: instance_4
+    400104: instance_5
+    400106: instance_6
+    400108: instance_7
+    400110: instance_8
+    400112: instance_9
+    400114: skp_camera_Last_Saved_SketchUp_View
+    400116: //RootNode
+    2000000: skp_camera_Last_Saved_SketchUp_View
+    2100000: material
+    2100002: DustbinLidMap01
+    2100004: DustbinSideMap01
+    2100006: DustbinLidMap01_2
+    2100008: DustbinLidMap01_3
+    2100010: DustbinLidMap01_4
+    2100012: DustbinLidMap01_5
+    2100014: DustbinLidMap01_6
+    2100016: DustbinLidMap01_7
+    2100018: DustbinLidMap01_0
+    2100020: Metal_Brushed
+    2100022: Color_G19
+    2100024: DustbinLidMap01_1
+    2100026: __Color_H13_1
+    2100028: __Charcoal_
+    2100030: __Khaki_
+    2100032: souris
+    2300000: _2D_Animal_Cat_Cleo
+    2300002: Composant_1
+    2300004: Composant_2
+    2300006: Composant_3
+    2300008: Composant_3 1
+    2300010: Composant_4
+    2300012: Composant_5
+    2300014: Composant_6
+    2300016: garbage_bag
+    2300018: garbage_bag 1
+    2300020: garbage_bag 2
+    2300022: garbage_bag 3
+    2300024: garbage_bag 4
+    2300026: garbage_bag 5
+    2300028: garbage_bag_1
+    2300030: ID147
+    2300032: ID208
+    2300034: ID221
+    2300036: ID234
+    2300038: ID247
+    2300040: ID260
+    2300042: ID268
+    2300044: ID281
+    2300046: ID73
+    2300048: ID81
+    2300050: ID89
+    2300052: //RootNode
+    3300000: _2D_Animal_Cat_Cleo
+    3300002: Composant_1
+    3300004: Composant_2
+    3300006: Composant_3
+    3300008: Composant_3 1
+    3300010: Composant_4
+    3300012: Composant_5
+    3300014: Composant_6
+    3300016: garbage_bag
+    3300018: garbage_bag 1
+    3300020: garbage_bag 2
+    3300022: garbage_bag 3
+    3300024: garbage_bag 4
+    3300026: garbage_bag 5
+    3300028: garbage_bag_1
+    3300030: ID147
+    3300032: ID208
+    3300034: ID221
+    3300036: ID234
+    3300038: ID247
+    3300040: ID260
+    3300042: ID268
+    3300044: ID281
+    3300046: ID73
+    3300048: ID81
+    3300050: ID89
+    3300052: //RootNode
+    4300000: SketchUp
+    4300002: ID208
+    4300004: ID221
+    4300006: ID234
+    4300008: ID247
+    4300010: ID260
+    4300012: ID268
+    4300014: ID281
+    4300016: Composant_1
+    4300018: garbage_bag
+    4300020: garbage_bag_1
+    4300022: Composant_2
+    4300024: ID73
+    4300026: ID81
+    4300028: ID89
+    4300030: Composant_3
+    4300032: Composant_5
+    4300034: _2D_Animal_Cat_Cleo
+    4300036: ID147
+    4300038: Composant_4
+    4300040: Composant_6
+    9500000: //RootNode
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: DustbinSideMap01
+    second: {fileID: 2100000, guid: 32039bcbfb45847b6a0b4879f7fd9b69, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 1
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -17,6 +17,8 @@ public class BagProperties : MonoBehaviour {
 	public GameObject[] initialColliders;
 	public float halfBagHeight;
 
+    public List<BagContentProperties> bagContents = new List<BagContentProperties>();
+
     public bool isOnConveyor = false;
     public bool isOpen = false;
 
@@ -26,7 +28,7 @@ public class BagProperties : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+
 	}
 	
 	// Update is called once per frame
@@ -48,17 +50,17 @@ public class BagProperties : MonoBehaviour {
 		rigidbody.isKinematic = !gravityOn;
 
 		foreach (MeshCollider meshCollider in actualBag.GetComponentsInChildren<MeshCollider>()) {
-			meshCollider.convex = true;
+			meshCollider.convex = gravityOn;
 		}
 	}
 
-	public void freezeContents () {
+	public void freezeContents (bool reverse = false) {
 		foreach (Rigidbody rigidbody in contents.transform.GetComponentsInChildren<Rigidbody> ()) {
-			rigidbody.useGravity = false;
-			rigidbody.isKinematic = true;
+			rigidbody.useGravity = reverse;
+			rigidbody.isKinematic = !reverse;
 		}
 
-        enableContentColliders (false);
+        enableContentColliders (reverse);
 	}
 
     public void enableContentColliders (bool enable = true) {
@@ -67,18 +69,22 @@ public class BagProperties : MonoBehaviour {
         }
     }
 
-	public void disableInitialColliders () {
+	public void disableInitialColliders (bool reverse = false) {
 		foreach (GameObject colliderGameObject in initialColliders) {
-			colliderGameObject.SetActive (false);
+			colliderGameObject.SetActive (reverse);
 		}
 	}
 
-    public void animateLidState (bool open = false) {
+    public void animateLidState (bool open = false, bool calculateSmartTime = true) {
         float currentRotationProgress = lidRotationObj.transform.localRotation.eulerAngles.magnitude / lidRotationOpen.magnitude;
-        float time = 1f * (open ? 1f - currentRotationProgress : currentRotationProgress);
+        float time = 0.5f * (open ? 1f - currentRotationProgress : currentRotationProgress);
 
         Quaternion toRotation = open ? Quaternion.Euler(lidRotationOpen) : Quaternion.identity;
-		Misc.AnimateRotationTo(gameObject.name + "_" + id, lidRotationObj, toRotation, time);
+        if (calculateSmartTime) {
+            Misc.AnimateRotationTo(gameObject.name + "_" + id, lidRotationObj, toRotation, time);
+        } else {
+            Misc.AnimateRotationTo(gameObject.name + "_" + id, lidRotationObj, toRotation);
+        }
     }
 
 	public void OnTriggerEnter (Collider collider) {
@@ -87,4 +93,27 @@ public class BagProperties : MonoBehaviour {
 			setEnabledStateCollidersAndRigidbodies (false);
 		}
 	}
+
+    public void putBackOkContent () {
+        List<BagContentProperties> okItems = bagContents.FindAll(item => item.actionTaken == InspectUIButton.INSPECT_TYPE.OK);
+        StartCoroutine(animateItemsAboveBagAndDrop(okItems));
+    }
+
+    private IEnumerator animateItemsAboveBagAndDrop (List<BagContentProperties> items) {
+		foreach (BagContentProperties item in items) {
+            item.animateToBag();
+            yield return new WaitForSeconds(0.05f);
+        }
+        // TODO - It would be nice if we could solve so that the items are dropped (with gravity) back into bag... for now, we animate it to its original spot
+        yield return new WaitForSeconds(BagContentProperties.TIME_ANIMATE_TO_DROP_POINT + BagContentProperties.TIME_TO_TARGET_POS);
+//        disableInitialColliders(true);
+//        freezeContents(true);
+        animateLidState(calculateSmartTime: false);
+
+        // Wait for lid to close
+        yield return new WaitForSeconds(Misc.DEFAULT_ANIMATION_TIME);
+
+        // Update current Bag state in BagHandler
+        BagHandler.instance.bagInspectFinalized();
+    }
 }

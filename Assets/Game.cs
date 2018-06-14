@@ -1,11 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Game : MonoBehaviour {
+public class Game : MonoBehaviour, IPubSub {
 
 //    const float CONVEYOR_SPEED = 0.005f;
     const float CONVEYOR_SPEED = 0.1f;
 	const float CONVEYOR_BACK_PCT_SPEED = 0.8f;
+
+    private const float CLICK_RELEASE_TIME = 0.2f;
+    private const float THRESHOLD_MAX_MOVE_TO_BE_CONSIDERED_CLICK = 30f;
 
     private BagHandler bagHandler;
 	public GameObject[] xrayMachines;
@@ -16,14 +20,22 @@ public class Game : MonoBehaviour {
 
     public static Game instance;
 
-    private bool zoomedOutState = true;
-    private int cameraXPos = 1;
+    public bool zoomedOutState = true;
+    public int cameraXPos = 1;
 
 	private XRayMachine currentXrayMachine;
+
+    bool enableLongPress = false;
+    float leftClickReleaseTimer = 0f;
+    Vector3 mouseDownPosition;
+    Vector3 prevMousePosition;
 
     void Awake () {
         Game.instance = this;
         CameraHandler.SetPerspectiveCamera(gameCamera);
+
+        // Last in line for click triggering
+        PubSub.subscribe("Click", this, Int32.MaxValue);
     }
 
     // Use this for initialization
@@ -39,19 +51,23 @@ public class Game : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if ((Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) && Input.GetKey (KeyCode.Space)) {
-			List<GameObject> bags = Misc.FindShallowStartsWith ("Bag_");
-			foreach (GameObject bag in bags) {
-                if (bag.GetComponent<BagProperties>().isOnConveyor) {
-                    bag.transform.position = new Vector3 (bag.transform.position.x - CONVEYOR_SPEED * CONVEYOR_BACK_PCT_SPEED, bag.transform.position.y, bag.transform.position.z);
+            if (BagHandler.instance.bagInspectState == BagHandler.BagInspectState.NOTHING) {
+                List<GameObject> bags = Misc.FindShallowStartsWith("Bag_");
+                foreach (GameObject bag in bags) {
+                    if (bag.GetComponent<BagProperties>().isOnConveyor) {
+                        bag.transform.position = new Vector3(bag.transform.position.x - CONVEYOR_SPEED * CONVEYOR_BACK_PCT_SPEED, bag.transform.position.y, bag.transform.position.z);
+                    }
                 }
-			}
+            }
 		} else if (Input.GetKey(KeyCode.Space)) {
-			List<GameObject> bags = Misc.FindShallowStartsWith ("Bag_");
-			foreach (GameObject bag in bags) {
-                if (bag.GetComponent<BagProperties>().isOnConveyor) {
-					bag.transform.position = new Vector3(bag.transform.position.x + CONVEYOR_SPEED, bag.transform.position.y, bag.transform.position.z);
-				}
-			}
+            if (BagHandler.instance.bagInspectState == BagHandler.BagInspectState.NOTHING) {
+                List<GameObject> bags = Misc.FindShallowStartsWith ("Bag_");
+                foreach (GameObject bag in bags) {
+                    if (bag.GetComponent<BagProperties>().isOnConveyor) {
+                        bag.transform.position = new Vector3(bag.transform.position.x + CONVEYOR_SPEED, bag.transform.position.y, bag.transform.position.z);
+                    }
+                }
+            }
 		}
 
 		// Create a new bag - disable lid
@@ -90,11 +106,44 @@ public class Game : MonoBehaviour {
             }
         }
 
-        if (Input.GetMouseButtonDown(0) && cameraXPos == 2 && !zoomedOutState) {
-            // TODO !!! click bag to open it, then enter "bag inspect mode". When click object, switch to inspector camera and move object towards camera
+        // Left mouse button
+        if (Input.GetMouseButton (0)) {
+            // Drag logic
+            bool firstFrame = Input.GetMouseButtonDown (0);
             Vector3 mousePosition = Input.mousePosition;
-            PubSub.publish ("Click", mousePosition);
+
+            if (!firstFrame) {
+                Vector3 diffMove = mousePosition - prevMousePosition;
+                if (BagHandler.instance.bagInspectState == BagHandler.BagInspectState.ITEM_INSPECT) {
+                    PubSub.publish("inspect_rotate", diffMove);
+                }
+                // More "mouse drag" actions when needed...
+            } else {
+                mouseDownPosition = mousePosition;
+            }
+            prevMousePosition = mousePosition;
+
+            // Click logic
+            if (firstFrame) {
+                leftClickReleaseTimer = CLICK_RELEASE_TIME;
+                enableLongPress = true;
+            } else {
+                leftClickReleaseTimer -= Time.deltaTime;
+            }
+
+//            if (leftClickReleaseTimer < -1f && enableLongPress) {
+//                // Debug.Log("Trigger long press");
+//                enableLongPress = false;
+//                PubSub.publish("LongPress", mouseDownPosition);
+//            }
+        } else if (leftClickReleaseTimer > 0f) {
+            // Button not pressed, and was pressed < 0.2s, accept as click if not moved too much
+            if (Misc.getDistance (mouseDownPosition, prevMousePosition) < THRESHOLD_MAX_MOVE_TO_BE_CONSIDERED_CLICK) {
+                PubSub.publish ("Click", mouseDownPosition);
+                leftClickReleaseTimer = 0f;
+            }
         }
+
 	}
 
     private bool canMoveCamera () {
@@ -143,4 +192,24 @@ public class Game : MonoBehaviour {
 	            break;
         }
 	}
+
+    public PROPAGATION onMessage(string message, object data) {
+        if (message == "Click") {
+            // No other subscriber have captured and kept this click for itself, raytrace the click, triggering any possible buttons beneath it
+            Vector3 position = (Vector3) data;
+
+            RaycastHit hit;
+            Ray ray = (BagHandler.instance.bagInspectState == BagHandler.BagInspectState.ITEM_INSPECT ? inspectCamera : gameCamera).ScreenPointToRay(position);
+
+            if (Physics.Raycast(ray, out hit)) {
+                if (hit.collider.isTrigger) {
+                    InspectUIButton inspectUIButton = hit.transform.GetComponent<InspectUIButton>();
+                    if (inspectUIButton) {
+                        inspectUIButton.trigger();
+                    }
+                }
+            }
+        }
+        return PROPAGATION.DEFAULT;
+    }
 }

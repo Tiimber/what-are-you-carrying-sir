@@ -5,7 +5,10 @@ using UnityStandardAssets.ImageEffects;
 
 public class BagHandler : MonoBehaviour, IPubSub {
 
+    public static BagHandler instance;
+
     private BagProperties currentBagPlacing;
+    private BagProperties currentBagInspect;
 
     public GameObject[] bags;
     public GameObject[] bagContents;
@@ -17,11 +20,14 @@ public class BagHandler : MonoBehaviour, IPubSub {
     public enum BagInspectState {
         NOTHING,
         BAG_OPEN,
-        ITEM_INSPECT
+        ITEM_INSPECT,
+        BUSY
     }
 
     // Use this for initialization
 	void Start() {
+        BagHandler.instance = this;
+
 		PubSub.subscribe("Click", this);
 
         BAG_CONTENTS_LAYER_MASK = LayerMask.GetMask(new string[]{"BagContentRootObject"});
@@ -43,7 +49,7 @@ public class BagHandler : MonoBehaviour, IPubSub {
     }
 
     public void placeItems () {
-        StartCoroutine (placeItemsInBag (currentBagPlacing, 20));
+        StartCoroutine (placeItemsInBag (currentBagPlacing, 3));
     }
 
     public void shuffleBag () {
@@ -66,46 +72,88 @@ public class BagHandler : MonoBehaviour, IPubSub {
 
 	public PROPAGATION onMessage(string message, object data) {
 		if (message == "Click") {
-            Vector3 position = (Vector3)data;
+            if (Game.instance.cameraXPos == 2 && !Game.instance.zoomedOutState) {
+                Vector3 position = (Vector3)data;
 
-            // Get camera
-            Camera camera = GetComponent<Game>().gameCamera;
-            RaycastHit hit;
-            Ray ray = camera.ScreenPointToRay(position);
+                // Get camera
+                Camera camera = GetComponent<Game>().gameCamera;
+                RaycastHit hit;
+                Ray ray = camera.ScreenPointToRay(position);
 
-            if (bagInspectState == BagInspectState.NOTHING) {
-                if (Physics.Raycast(ray, out hit)) {
-                    Debug.Log(hit.transform.gameObject.name);
+                if (bagInspectState == BagInspectState.NOTHING) {
+                    if (Physics.Raycast(ray, out hit)) {
+                        Debug.Log(hit.transform.gameObject.name);
 
-                    BagProperties clickedBagProperties = hit.transform.GetComponent<BagProperties>();
-                    if (clickedBagProperties != null && !clickedBagProperties.isOpen) {
-                        clickedBagProperties.animateLidState(true);
-                        clickedBagProperties.enableContentColliders(true);
-                        bagInspectState = BagInspectState.BAG_OPEN;
+                        BagProperties clickedBagProperties = hit.transform.GetComponent<BagProperties>();
+                        if (clickedBagProperties != null && !clickedBagProperties.isOpen) {
+                            clickedBagProperties.animateLidState(true);
+                            clickedBagProperties.enableContentColliders(true);
+                            currentBagInspect = clickedBagProperties;
+                            bagInspectState = BagInspectState.BAG_OPEN;
+                        }
                     }
-                }
-            } else if (bagInspectState == BagInspectState.BAG_OPEN) {
-                Debug.Log("Bag is open; " + BAG_CONTENTS_LAYER_MASK);
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity, BAG_CONTENTS_LAYER_MASK)) {
-                    Debug.Log(hit.transform.gameObject.name);
+                } else if (bagInspectState == BagInspectState.BAG_OPEN) {
+//                    Debug.Log("Bag is open; " + BAG_CONTENTS_LAYER_MASK);
+                    bool isBagEmpty = currentBagInspect.contents.transform.childCount == 0;
+                    if (!isBagEmpty) {
+                        if (Physics.Raycast(ray, out hit, Mathf.Infinity, BAG_CONTENTS_LAYER_MASK)) {
+                            Debug.Log(hit.transform.gameObject.name);
 
-                    BagContentProperties clickedBagContentProperties = hit.transform.GetComponent<BagContentProperties>();
-                    if (clickedBagContentProperties != null) {
-                        clickedBagContentProperties.inspect ();
-                        Misc.AnimateBlurFromZero("blurCamera", Game.instance.blurCamera.GetComponent<BlurOptimized>());
-                        bagInspectState = BagInspectState.ITEM_INSPECT;
+                            BagContentProperties clickedBagContentProperties = hit.transform.GetComponent<BagContentProperties>();
+                            if (clickedBagContentProperties != null) {
+
+                                switchToGameCamera (true);
+
+                                clickedBagContentProperties.inspect ();
+                                Misc.AnimateBlurTo("blurCamera", Game.instance.blurCamera.GetComponent<BlurOptimized>(), 1, 3f, 2);
+                                bagInspectState = BagInspectState.ITEM_INSPECT;
+                                PubSub.publish("inspect_active");
+                            }
+                        }
+                    } else {
+                        // Bag is empty, if clicked - close it and end inspect state
+                        if (Physics.Raycast(ray, out hit)) {
+//                        Debug.Log(hit.transform.gameObject.name);
+
+                            BagProperties clickedBagProperties = hit.transform.GetComponent<BagProperties>();
+                            if (clickedBagProperties == currentBagInspect) {
+                                bagInspectState = BagInspectState.BUSY;
+                                currentBagInspect.putBackOkContent();
+//                                clickedBagProperties.animateLidState(false);
+//                                clickedBagProperties.enableContentColliders(false);
+//                                currentBagInspect = null;
+                            }
+                        }
                     }
-                }
 
+                }
             }
-//            // Open bag
-//            currentBagPlacing.animateLidState(true);
-//            // Close bag
-//            currentBagPlacing.animateLidState(false);
-
         }
 
         return PROPAGATION.DEFAULT;
+    }
+
+    public void bagInspectItemEnded () {
+        bagInspectState = BagInspectState.BUSY;
+        Misc.AnimateBlurTo("blurCamera", Game.instance.blurCamera.GetComponent<BlurOptimized>(), 0, 0f, 1);
+        StartCoroutine(delayedInspectEndActions());
+    }
+
+    public void bagInspectFinalized () {
+        currentBagInspect.enableContentColliders(false);
+        bagInspectState = BagInspectState.NOTHING;
+    }
+
+    IEnumerator delayedInspectEndActions(float time = Misc.DEFAULT_ANIMATION_TIME, bool reverse = false) {
+        yield return new WaitForSeconds(time);
+        switchToGameCamera(reverse);
+        PubSub.publish("inspect_inactive");
+        bagInspectState = BagInspectState.BAG_OPEN;
+    }
+
+    private void switchToGameCamera (bool reverse = false) {
+        Game.instance.inspectCamera.gameObject.SetActive(reverse);
+        Game.instance.gameCamera.gameObject.SetActive(!reverse);
     }
 
     IEnumerator placeItemsInBag (BagProperties bagProperties, int amount) {
@@ -117,6 +165,7 @@ public class BagHandler : MonoBehaviour, IPubSub {
             BagContentProperties bagContentProperties = contentPiece.GetComponent<BagContentProperties> ();
             Vector3 objectSize = bagContentProperties.objectSize;
             contentPiece.transform.localPosition = new Vector3(Misc.randomPlusMinus(0f, (bagSize.x - objectSize.x) / 2f), bagProperties.halfBagHeight, Misc.randomPlusMinus(0f, (bagSize.z - objectSize.z) / 2f));
+            bagProperties.bagContents.Add(bagContentProperties);
             yield return new WaitForSeconds(0.1F);
         }
     }
