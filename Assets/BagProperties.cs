@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,8 +20,12 @@ public class BagProperties : MonoBehaviour {
 
     public List<BagContentProperties> bagContents = new List<BagContentProperties>();
 
+    public bool allowFurtherInspectionAction = true;
+
     public bool isOnConveyor = false;
     public bool isOpen = false;
+
+    public string bagDisplayName;
 
 	void Awake() {
         id = ++idCounter;
@@ -76,14 +81,16 @@ public class BagProperties : MonoBehaviour {
 	}
 
     public void animateLidState (bool open = false, bool calculateSmartTime = true) {
-        float currentRotationProgress = lidRotationObj.transform.localRotation.eulerAngles.magnitude / lidRotationOpen.magnitude;
-        float time = 0.5f * (open ? 1f - currentRotationProgress : currentRotationProgress);
+        if (lidRotationObj) {
+            float currentRotationProgress = lidRotationObj.transform.localRotation.eulerAngles.magnitude / lidRotationOpen.magnitude;
+            float time = 0.5f * (open ? 1f - currentRotationProgress : currentRotationProgress);
 
-        Quaternion toRotation = open ? Quaternion.Euler(lidRotationOpen) : Quaternion.identity;
-        if (calculateSmartTime) {
-            Misc.AnimateRotationTo(gameObject.name + "_" + id, lidRotationObj, toRotation, time);
-        } else {
-            Misc.AnimateRotationTo(gameObject.name + "_" + id, lidRotationObj, toRotation);
+            Quaternion toRotation = open ? Quaternion.Euler(lidRotationOpen) : Quaternion.identity;
+            if (calculateSmartTime) {
+                Misc.AnimateRotationTo(gameObject.name + "_" + id, lidRotationObj, toRotation, time);
+            } else {
+                Misc.AnimateRotationTo(gameObject.name + "_" + id, lidRotationObj, toRotation);
+            }
         }
     }
 
@@ -97,6 +104,7 @@ public class BagProperties : MonoBehaviour {
     public void putBackOkContent () {
         List<BagContentProperties> okItems = bagContents.FindAll(item => item.actionTaken == InspectUIButton.INSPECT_TYPE.OK);
         StartCoroutine(animateItemsAboveBagAndDrop(okItems));
+        separateTrayItems();
     }
 
     private IEnumerator animateItemsAboveBagAndDrop (List<BagContentProperties> items) {
@@ -115,5 +123,52 @@ public class BagProperties : MonoBehaviour {
 
         // Update current Bag state in BagHandler
         BagHandler.instance.bagInspectFinalized();
+    }
+
+    public void bagFinished () {
+        Debug.Log("Bag Finished!");
+        BagHandler.instance.bagFinished (this);
+        // For each item in bag, score point depending on action
+        int points = 0;
+        Debug.Log("Number of items: " + bagContents.Count);
+        bool personalWarningForBag = false;
+        foreach (BagContentProperties bagContentProperties in bagContents) {
+            Debug.Log("Check content for correct action: " + bagContentProperties.gameObject.name);
+            int pointsForItem = bagContentProperties.calculatePoints();
+            if (pointsForItem == 0) {
+                Debug.Log("Wrong action taken for: " + bagContentProperties.gameObject.name);
+                // Wrong action taken
+                personalWarningForBag = true;
+                Generic.CONSEQUENCE selectedConsequence = bagContentProperties.getConsequence();
+                Debug.Log(selectedConsequence);
+                string consequence = Generic.increaseConsequenceCount(selectedConsequence);
+                if (consequence != null) {
+                    // TODO - Do something with this
+                    Debug.Log("Consequence: " + consequence);
+                }
+            }
+            points += pointsForItem;
+        }
+        if (personalWarningForBag) {
+            // TODO - Do something with personal warning
+        }
+
+        // Clear GameObjects (bag + contents)
+        while (bagContents.Count > 0) {
+            Destroy(bagContents[0].gameObject);
+            bagContents.RemoveAt(0);
+        }
+        Destroy(this.gameObject);
+    }
+
+    public void separateTrayItems () {
+        List<BagContentProperties> manualInspectItems = bagContents.FindAll(item => item.actionTaken == InspectUIButton.INSPECT_TYPE.MANUAL_INSPECT || item.actionTaken == InspectUIButton.INSPECT_TYPE.MANUAL_INSPECT_NEW);
+        int lowestTrayIndex = int.MaxValue;
+        foreach (BagContentProperties item in manualInspectItems) {
+            lowestTrayIndex = Math.Min(item.manualInspectTrayNumber, lowestTrayIndex);
+        }
+        manualInspectItems = manualInspectItems.FindAll(item => item.manualInspectTrayNumber == lowestTrayIndex);
+        bagContents.RemoveAll(item => manualInspectItems.Contains(item));
+        BagHandler.instance.createTrayWithContents(Game.instance.getTrayDropPosition(), manualInspectItems);
     }
 }

@@ -3979,3 +3979,5 @@ MonoBehaviour:
   objectSize: {x: 0.19, y: 0.02, z: 0.125}
   acceptableActions: 04000000
   actionTaken: 0
+  consequences: 01000000
+  displayName: gun

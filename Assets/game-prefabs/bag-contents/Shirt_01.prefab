@@ -645,3 +645,5 @@ MonoBehaviour:
   objectSize: {x: 0.1923604, y: 0.01093238, z: 0.2574083}
   acceptableActions: 02000000
   actionTaken: 0
+  consequences: 
+  displayName: T-shirt

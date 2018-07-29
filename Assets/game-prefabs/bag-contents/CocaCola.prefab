@@ -1356,6 +1356,8 @@ MonoBehaviour:
   objectSize: {x: 0.0545716, y: 0.09197471, z: 0.05031586}
   acceptableActions: 0100000003000000
   actionTaken: 0
+  consequences: 010000000200000003000000
+  displayName: beverage
 --- !u!136 &136474304340399752
 CapsuleCollider:
   m_ObjectHideFlags: 1

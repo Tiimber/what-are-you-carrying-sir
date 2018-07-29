@@ -893,6 +893,20 @@ public class Misc {
         movementCoroutines.Add(key, Singleton<SingletonInstance>.Instance.StartCoroutine (AnimateMovement(key, obj, fromPosition, toPosition, time, straightMotion)));
     }
 
+    public static void AnimateRelativeMovement (string baseKey, List<GameObject> gameObjects, Vector3 movement, float time = DEFAULT_ANIMATION_TIME, bool straightMotion = false) {
+        int i = 0;
+        foreach (GameObject gameObject in gameObjects) {
+            string animationKey = baseKey + "_" + i;
+            Vector3 toPosition = gameObject.transform.localPosition + movement;
+            AnimateMovementTo(animationKey, gameObject, toPosition, time, straightMotion);
+            i++;
+        }
+    }
+
+    public static bool IsAnimationActive (string key) {
+        return movementCoroutines.ContainsKey(key);
+    }
+
     private static IEnumerator AnimateMovement (string key, GameObject obj, Vector3 from, Vector3 to, float time, bool straightMotion = false) {
         float t = 0f;
 		while (t <= 1f) {

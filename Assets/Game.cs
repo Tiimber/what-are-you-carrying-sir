@@ -51,6 +51,7 @@ public class Game : MonoBehaviour, IPubSub {
 	// Update is called once per frame
 	void Update () {
 		if ((Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) && Input.GetKey (KeyCode.Space)) {
+            // Backwards
             if (BagHandler.instance.bagInspectState == BagHandler.BagInspectState.NOTHING) {
                 List<GameObject> bags = Misc.FindShallowStartsWith("Bag_");
                 foreach (GameObject bag in bags) {
@@ -60,11 +61,18 @@ public class Game : MonoBehaviour, IPubSub {
                 }
             }
 		} else if (Input.GetKey(KeyCode.Space)) {
+            // Forwards
             if (BagHandler.instance.bagInspectState == BagHandler.BagInspectState.NOTHING) {
                 List<GameObject> bags = Misc.FindShallowStartsWith ("Bag_");
                 foreach (GameObject bag in bags) {
-                    if (bag.GetComponent<BagProperties>().isOnConveyor) {
-                        bag.transform.position = new Vector3(bag.transform.position.x + CONVEYOR_SPEED, bag.transform.position.y, bag.transform.position.z);
+                    BagProperties bagProperties = bag.GetComponent<BagProperties>();
+                    if (bagProperties.isOnConveyor) {
+                        float bagNewXPos = bag.transform.position.x + CONVEYOR_SPEED;
+                        if (bagNewXPos > currentXrayMachine.xPointOfNoReturn) {
+                            bagProperties.bagFinished();
+                        } else {
+                            bag.transform.position = new Vector3(bagNewXPos, bag.transform.position.y, bag.transform.position.z);
+                        }
                     }
                 }
             }
@@ -211,5 +219,11 @@ public class Game : MonoBehaviour, IPubSub {
             }
         }
         return PROPAGATION.DEFAULT;
+    }
+
+    public Vector3 getTrayDropPosition () {
+        Vector3 dropPositionRelativeXrayMachine = new Vector3(currentXrayMachine.xPointOfTrayInsertion, currentXrayMachine.bagDropPoint.y, currentXrayMachine.bagDropPoint.z);
+        Vector3 dropPosition = Misc.getWorldPosForParentRelativePos (dropPositionRelativeXrayMachine, currentXrayMachine.transform);
+        return dropPosition;
     }
 }

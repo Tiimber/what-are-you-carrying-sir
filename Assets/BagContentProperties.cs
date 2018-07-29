@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -7,6 +8,8 @@ public class BagContentProperties : MonoBehaviour, IPubSub {
     public const float TIME_ANIMATE_TO_DROP_POINT = 0.3f;
     public const float TIME_TO_TARGET_POS = 0.4f;
     private static float ROTATION_SPEED = 25f;
+
+    private const int POINTS_ALL_FINE_ACTION = 1000;
 
     private static int idCounter = 0;
     private int id;
@@ -22,6 +25,16 @@ public class BagContentProperties : MonoBehaviour, IPubSub {
     public InspectUIButton.INSPECT_TYPE[] acceptableActions;
 
     public InspectUIButton.INSPECT_TYPE actionTaken = InspectUIButton.INSPECT_TYPE.UNDEFINED;
+    public int manualInspectTrayNumber;
+
+    public Generic.CONSEQUENCE[] consequences;
+
+    public string displayName;
+
+    public static BagContentProperties currentInspectedItem;
+
+    public static int manualInspectTrayCounter = 0;
+
 
 	// Use this for initialization
 	void Start () {
@@ -46,6 +59,7 @@ public class BagContentProperties : MonoBehaviour, IPubSub {
     public void inspectDone () {
         PubSub.unsubscribe("inspect_rotate", this);
         PubSub.unsubscribe("inspect_action", this);
+        BagContentProperties.currentInspectedItem = null;
     }
 
     public void inspect () {
@@ -64,6 +78,7 @@ public class BagContentProperties : MonoBehaviour, IPubSub {
         Misc.AnimateMovementTo("content-zoom-"+id, this.gameObject, targetPosition);
 
         inspecting = true;
+        BagContentProperties.currentInspectedItem = this;
     }
 
     public void throwAway () {
@@ -80,11 +95,12 @@ public class BagContentProperties : MonoBehaviour, IPubSub {
         BagHandler.instance.bagInspectItemEnded();
     }
 
-    public void sendItemToManualInspect () {
+    public void sendItemToManualInspect (bool sameTray = true) {
         inspectDone();
+        // TODO - Animate to the clicked icon... right now it only looks correct for the big, single button (use the bool in arguments)
         Misc.AnimateMovementTo("manual_inspect_move_" + id, this.gameObject, InspectUI.instance.manualInspect.transform.localPosition);
         Misc.AnimateScaleTo("manual_inspect_scale_" + id, this.gameObject, Vector3.zero);
-        BagHandler.instance.bagInspectItemEnded();
+        BagHandler.instance.bagInspectItemEnded(!sameTray);
     }
 
     public void callPolice () {
@@ -112,7 +128,11 @@ public class BagContentProperties : MonoBehaviour, IPubSub {
             } else if (action == InspectUIButton.INSPECT_TYPE.OK) {
                 acceptItem();
             } else if (action == InspectUIButton.INSPECT_TYPE.MANUAL_INSPECT) {
+                manualInspectTrayNumber = BagContentProperties.manualInspectTrayCounter;
                 sendItemToManualInspect();
+            } else if (action == InspectUIButton.INSPECT_TYPE.MANUAL_INSPECT_NEW) {
+                manualInspectTrayNumber = ++BagContentProperties.manualInspectTrayCounter;
+                sendItemToManualInspect(false);
             } else if (action == InspectUIButton.INSPECT_TYPE.POLICE) {
                 callPolice();
             }
@@ -135,5 +155,20 @@ public class BagContentProperties : MonoBehaviour, IPubSub {
         yield return new WaitForSeconds(delay);
 
         Misc.AnimateMovementTo("put_back_move_" + id, this.gameObject, locationInBag, time, straightMotion: true);
+    }
+
+    public int calculatePoints () {
+        if (Array.IndexOf(acceptableActions, actionTaken) != -1) {
+            consequences = new Generic.CONSEQUENCE[0];
+            return POINTS_ALL_FINE_ACTION;
+        }
+        return 0;
+    }
+
+    public Generic.CONSEQUENCE getConsequence () {
+        if (consequences.Length > 0) {
+            return consequences[Misc.randomRange(0, consequences.Length)];
+        }
+        return Generic.CONSEQUENCE.NOTHING;
     }
 }

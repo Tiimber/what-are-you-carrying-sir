@@ -5,13 +5,13 @@ using UnityEngine;
 public class InspectUI : MonoBehaviour, IPubSub {
 
     // Bottom right
-    public GameObject objectOk;
+    public InspectUIButtonParent objectOk;
     // Top right
-    public GameObject throwAway;
+    public InspectUIButtonParent throwAway;
     // Top left
-    public GameObject manualInspect;
+    public InspectUIButtonParent manualInspect;
     // Bottom left
-    public GameObject callPolice;
+    public InspectUIButtonParent callPolice;
 
     private Vector3 objectOffsetLeft = Vector3.left * 0.5f;
     private Vector3 objectOffsetRight = Vector3.right * 0.5f;
@@ -34,29 +34,40 @@ public class InspectUI : MonoBehaviour, IPubSub {
         if (message == "inspect_active") {
             animateTrashcan();
             animateOK();
-            animateManualInspect();
+            if (BagHandler.instance.allowManualInspectOnCurrentBag()) {
+                animateManualInspect();
+            }
             animatePolice();
         } else if (message == "inspect_inactive") {
             animateTrashcan(false);
             animateOK(false);
-            animateManualInspect(false);
+            if (BagHandler.instance.allowManualInspectOnCurrentBag()) {
+                animateManualInspect(false);
+            }
             animatePolice(false);
         }
 		return PROPAGATION.DEFAULT;
 	}
 
-    private void animateInUiObj (GameObject obj, Vector3 offset, string animateKey) {
-        Vector3 throwAwayTargetPosition = obj.GetComponentInChildren<InspectUIButton>().getTargetPosition();
-        obj.transform.position = throwAwayTargetPosition + offset;
-        obj.SetActive(true);
-        Misc.AnimateMovementTo(animateKey, obj, throwAwayTargetPosition);
+    private void animateInUiObj (InspectUIButtonParent obj, Vector3 offset, string animateKey) {
+        // Safety check - are we currently animating the UI?
+        bool animatingUiInProgress = Misc.IsAnimationActive("inspect_police");
+        if (animatingUiInProgress) {
+            // UI is animating, and a will be hidden after a delay, cancel these delays
+            cancelUiDelay();
+        }
+
+        Vector3 currentButtonTargetPosition = obj.child.getTargetPosition();
+        obj.gameObject.SetActive(true);
+        obj.transform.position = currentButtonTargetPosition + offset;
+        Misc.AnimateMovementTo(animateKey, obj.gameObject, currentButtonTargetPosition);
     }
 
-    private void animateOutUiObj (GameObject obj, Vector3 offset, string animateKey) {
-        Vector3 throwAwayTargetPosition = obj.GetComponentInChildren<InspectUIButton>().getTargetPosition() + offset;
-        Misc.AnimateMovementTo(animateKey, obj, throwAwayTargetPosition);
-        StartCoroutine(setActiveAfterDelay(obj, false));
-
+    private Dictionary<string, Coroutine> currentUiDelays = new Dictionary<string, Coroutine>();
+    private void animateOutUiObj (InspectUIButtonParent obj, Vector3 offset, string animateKey) {
+        Vector3 throwAwayTargetPosition = obj.child.getTargetPosition() + offset;
+        Misc.AnimateMovementTo(animateKey, obj.gameObject, throwAwayTargetPosition);
+        currentUiDelays.Add(animateKey, StartCoroutine(setActiveUIButtonAfterDelay(obj.gameObject, false, animateKey)));
     }
 
     private void animateTrashcan (bool animateIn = true) {
@@ -77,13 +88,15 @@ public class InspectUI : MonoBehaviour, IPubSub {
 
     private void animateManualInspect (bool animateIn = true) {
         if (animateIn) {
+            UIButtonManualInspectLogic manualInspectLogic = manualInspect.GetComponent<UIButtonManualInspectLogic>();
+            manualInspectLogic.showCorrectButtons(BagHandler.instance.allowNewTrayForBagContent());
             animateInUiObj(manualInspect, objectOffsetLeft, "inspect_manual");
         } else {
             animateOutUiObj(manualInspect, objectOffsetLeft, "inspect_manual");
         }
     }
 
-    private void animatePolice(bool animateIn = true) {
+    private void animatePolice (bool animateIn = true) {
         if (animateIn) {
             animateInUiObj(callPolice, objectOffsetLeft, "inspect_police");
         } else {
@@ -91,9 +104,17 @@ public class InspectUI : MonoBehaviour, IPubSub {
         }
     }
 
-    private IEnumerator setActiveAfterDelay (GameObject gameObject, bool activeState, float time = Misc.DEFAULT_ANIMATION_TIME) {
+    private IEnumerator setActiveUIButtonAfterDelay(GameObject gameObject, bool activeState, string animateKey, float time = Misc.DEFAULT_ANIMATION_TIME) {
         yield return new WaitForSeconds(time);
         gameObject.SetActive(activeState);
+        currentUiDelays.Remove(animateKey);
+    }
+
+    private void cancelUiDelay () {
+        foreach (Coroutine uiDelayCoroutine in currentUiDelays.Values) {
+            StopCoroutine(uiDelayCoroutine);
+        }
+        currentUiDelays.Clear();
     }
 
 }

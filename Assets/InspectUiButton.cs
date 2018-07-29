@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class InspectUIButton : MonoBehaviour {
 
@@ -9,11 +7,13 @@ public class InspectUIButton : MonoBehaviour {
         TRASHCAN,
         OK,
         MANUAL_INSPECT,
+        MANUAL_INSPECT_NEW,
         POLICE,
     }
 
     public INSPECT_TYPE type;
     private Vector3 targetPosition = Vector3.zero;
+    public Transform parentTransform;
 
 	// Use this for initialization
 	void Start () {
@@ -26,7 +26,7 @@ public class InspectUIButton : MonoBehaviour {
 
     public Vector3 getTargetPosition () {
         if (targetPosition == Vector3.zero) {
-            targetPosition = transform.parent.position;
+            targetPosition = parentTransform.position;
         }
         return targetPosition;
     }

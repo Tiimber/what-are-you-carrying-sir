@@ -34,6 +34,9 @@ public class XRayMachine : MonoBehaviour {
     public Vector3 connectingConveyorLeftPos;
     public Vector3 connectingConveyorRightPos;
 
+    public float xPointOfNoReturn;
+    public float xPointOfTrayInsertion;
+
 	// Use this for initialization
 	void Start () {
 		
