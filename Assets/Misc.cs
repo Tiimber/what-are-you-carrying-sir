@@ -87,7 +87,7 @@ public class Misc {
 	}
 
     public static T pickRandom<T>(List<T> list) {
-		return list[Misc.randomRange(0, list.Count - 1)];
+		return list[Misc.randomRange(0, list.Count)];
 	}
 
 //	public static string pickRandom(List<string> strings) {
@@ -132,6 +132,12 @@ public class Misc {
 	public static bool isInside(Vector2 pos, Rect rect) {
 		return rect.Contains(pos);
 	}
+
+    public static bool isInside(Vector3 pos, Vector3 size, Vector3 parentContainerSize) {
+		Bounds objectBounds = new Bounds(pos, size);
+        Bounds containerBounds = new Bounds(Vector3.zero, parentContainerSize);
+        return containerBounds.Contains(objectBounds.min) && containerBounds.Contains(objectBounds.max);
+    }
 
 	public static long daysToTicks(int days) {
 		return (long) days * 24 * 60 * 60 * 1000 * 1000 * 10;

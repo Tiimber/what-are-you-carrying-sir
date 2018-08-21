@@ -17,6 +17,8 @@ public class RandomColor : MonoBehaviour, RandomInterface {
 	}
 
     public void run() {
-
+		foreach (ColorToRandomize colorToRandomize in colorsToRandomize) {
+            colorToRandomize.assign();
+        }
     }
 }

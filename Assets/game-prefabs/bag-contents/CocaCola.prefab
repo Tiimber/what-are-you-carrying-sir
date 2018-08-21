@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 4802580127036492}
   - component: {fileID: 33297399993356870}
   - component: {fileID: 23604664604246678}
+  - component: {fileID: 114852145624308000}
   m_Layer: 10
   m_Name: ID64
   m_TagString: Untagged
@@ -252,7 +253,7 @@ GameObject:
   - component: {fileID: 33201685714800646}
   - component: {fileID: 23775351387955838}
   m_Layer: 10
-  m_Name: CokeCan
+  m_Name: SodaCan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -303,7 +304,7 @@ GameObject:
   - component: {fileID: 33740422555445628}
   - component: {fileID: 23831736288484636}
   m_Layer: 9
-  m_Name: CokeCan
+  m_Name: SodaCan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -320,6 +321,7 @@ GameObject:
   - component: {fileID: 114707350556925846}
   - component: {fileID: 54352795932169002}
   - component: {fileID: 136474304340399752}
+  - component: {fileID: 114668098766476200}
   m_Layer: 11
   m_Name: CocaCola
   m_TagString: Untagged
@@ -669,7 +671,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 042c779c3bc4c4c8aa55ab7a1c4e0f86, type: 3}
+  - {fileID: 2100000, guid: 9488a9b67117d4e388c54cec6f818b1c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -704,7 +706,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 042c779c3bc4c4c8aa55ab7a1c4e0f86, type: 3}
+  - {fileID: 2100000, guid: 9488a9b67117d4e388c54cec6f818b1c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -739,7 +741,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 042c779c3bc4c4c8aa55ab7a1c4e0f86, type: 3}
+  - {fileID: 2100000, guid: 9488a9b67117d4e388c54cec6f818b1c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -809,7 +811,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 042c779c3bc4c4c8aa55ab7a1c4e0f86, type: 3}
+  - {fileID: 2100000, guid: 9488a9b67117d4e388c54cec6f818b1c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -949,7 +951,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 042c779c3bc4c4c8aa55ab7a1c4e0f86, type: 3}
+  - {fileID: 2100000, guid: 9488a9b67117d4e388c54cec6f818b1c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -984,8 +986,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100002, guid: 042c779c3bc4c4c8aa55ab7a1c4e0f86, type: 3}
-  - {fileID: 2100004, guid: 042c779c3bc4c4c8aa55ab7a1c4e0f86, type: 3}
+  - {fileID: 2100000, guid: bd274eab502f14646913a532d4215901, type: 2}
+  - {fileID: 2100000, guid: f9ed1cfe3d15c4eb1a7693a446c1f554, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1020,7 +1022,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 042c779c3bc4c4c8aa55ab7a1c4e0f86, type: 3}
+  - {fileID: 2100000, guid: 9488a9b67117d4e388c54cec6f818b1c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1125,7 +1127,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 042c779c3bc4c4c8aa55ab7a1c4e0f86, type: 3}
+  - {fileID: 2100000, guid: 9488a9b67117d4e388c54cec6f818b1c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1342,6 +1344,23 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &114668098766476200
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1886495735771624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2f2ec04182484e43b42ffc36817a6eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  texturesToRandomize:
+  - objectWithMaterial: {fileID: 114852145624308000}
+    materialIndex: 0
+    textures:
+    - {fileID: 2800000, guid: fc2743d65c148498f80b9eb48c965ec1, type: 3}
+    - {fileID: 2800000, guid: 8eae22c7fd3864e86a22cc3e294e0e22, type: 3}
 --- !u!114 &114707350556925846
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1356,8 +1375,22 @@ MonoBehaviour:
   objectSize: {x: 0.0545716, y: 0.09197471, z: 0.05031586}
   acceptableActions: 0100000003000000
   actionTaken: 0
+  manualInspectTrayNumber: 0
   consequences: 010000000200000003000000
   displayName: beverage
+--- !u!114 &114852145624308000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1153283891575620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43510af06da6e417aac5e77ef5268f47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  texture: {fileID: 0}
+  materialIndex: 0
 --- !u!136 &136474304340399752
 CapsuleCollider:
   m_ObjectHideFlags: 1

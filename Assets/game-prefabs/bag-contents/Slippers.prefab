@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 4895565876301034}
   - component: {fileID: 33646807906115818}
   - component: {fileID: 23336973941741366}
+  - component: {fileID: 114686003078356774}
   m_Layer: 10
   m_Name: instance_1
   m_TagString: Untagged
@@ -216,6 +217,7 @@ GameObject:
   - component: {fileID: 65064996427316816}
   - component: {fileID: 65138960379655278}
   - component: {fileID: 114925668617015338}
+  - component: {fileID: 114188542691311380}
   m_Layer: 11
   m_Name: Slippers
   m_TagString: Untagged
@@ -712,6 +714,40 @@ MonoBehaviour:
   manualInspectTrayNumber: 0
   consequences: 
   displayName: Slippers
+--- !u!114 &114188542691311380
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1873141104481846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb374c9b971224e049c750a927c7b760, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  possibleScales:
+  - {x: 0.977, y: 1, z: 0.977}
+  - {x: 0.953, y: 1, z: 0.953}
+  - {x: 0.93, y: 1, z: 0.93}
+  - {x: 0.907, y: 1, z: 0.907}
+  - {x: 0.884, y: 1, z: 0.884}
+  - {x: 0.86, y: 1, z: 0.86}
+  - {x: 1, y: 1, z: 1}
+  - {x: 1.02, y: 1, z: 1.02}
+  - {x: 1.05, y: 1, z: 1.05}
+  - {x: 1.07, y: 1, z: 1.07}
+--- !u!114 &114686003078356774
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1262892172159394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06c99df5001b24268ad4dd25320abc04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &114925668617015338
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -723,3 +759,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1215ca0d6c39479f9ff6c73f2581566, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colorsToRandomize:
+  - objectWithMaterial: {fileID: 114686003078356774}
+    colors:
+    - {r: 0.3160377, g: 0.55285186, b: 1, a: 0}
+    - {r: 0.9581572, g: 1, b: 0.3176471, a: 0}
+    - {r: 1, g: 0.3176471, b: 0.96500826, a: 0}

@@ -17,6 +17,7 @@ public class BagProperties : MonoBehaviour {
 	public GameObject placingCube;
 	public GameObject[] initialColliders;
 	public float halfBagHeight;
+    public GameObject contentsTriggerCube;
 
     public List<BagContentProperties> bagContents = new List<BagContentProperties>();
 
@@ -123,6 +124,7 @@ public class BagProperties : MonoBehaviour {
 
         // Update current Bag state in BagHandler
         BagHandler.instance.bagInspectFinalized();
+        showItems(false);
     }
 
     public void bagFinished () {
@@ -170,5 +172,11 @@ public class BagProperties : MonoBehaviour {
         manualInspectItems = manualInspectItems.FindAll(item => item.manualInspectTrayNumber == lowestTrayIndex);
         bagContents.RemoveAll(item => manualInspectItems.Contains(item));
         BagHandler.instance.createTrayWithContents(Game.instance.getTrayDropPosition(), manualInspectItems);
+    }
+
+    public void showItems (bool show = true) {
+        if (lid != null) {
+            contents.SetActive(show);
+        }
     }
 }

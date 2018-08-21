@@ -30,9 +30,29 @@ public class Game : MonoBehaviour, IPubSub {
     Vector3 mouseDownPosition;
     Vector3 prevMousePosition;
 
+    TKSwipeRecognizer swipeRecognizer;
+
+    enum Direction {
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT,
+
+        NONE
+    }
+
     void Awake () {
+
+        // Set framerate only for edito - Should do based on device later?!
+#if UNITY_EDITOR
+        QualitySettings.vSyncCount = 0;  // VSync must be disabled
+        Application.targetFrameRate = 90;
+#endif
+
         Game.instance = this;
         CameraHandler.SetPerspectiveCamera(gameCamera);
+
+        swipeRecognizer = new TKSwipeRecognizer();
 
         // Last in line for click triggering
         PubSub.subscribe("Click", this, Int32.MaxValue);
@@ -46,72 +66,116 @@ public class Game : MonoBehaviour, IPubSub {
 		GameObject xrayMachineGameObject = Instantiate(xrayMachines[0], xrayMachines[0].transform.position, Quaternion.identity);
 		currentXrayMachine = xrayMachineGameObject.GetComponent<XRayMachine> ();
         currentXrayMachine.attachConenctingConveyors();
-	}
+
+//        // when using in conjunction with a pinch or rotation recognizer setting the min touches to 2 smoothes movement greatly
+//        if( Application.platform == RuntimePlatform.IPhonePlayer ) {
+//            recognizer.minimumNumberOfTouches = 2;
+//        }
+
+        // continuous gestures have a complete event so that we know when they are done recognizing
+        swipeRecognizer.gestureRecognizedEvent += swipeGestureDetected;
+
+        TouchKit.addGestureRecognizer(swipeRecognizer);
+    }
+
+    void swipeGestureDetected (TKSwipeRecognizer r) {
+        TKSwipeDirection direction = r.completedSwipeDirection;
+        switch (direction) {
+            case TKSwipeDirection.Up:
+                moveCamera(Direction.UP);
+                break;
+            case TKSwipeDirection.Down:
+                moveCamera(Direction.DOWN);
+                break;
+            case TKSwipeDirection.Left:
+                moveCamera(Direction.LEFT);
+                break;
+            case TKSwipeDirection.Right:
+                moveCamera(Direction.RIGHT);
+                break;
+            case TKSwipeDirection.UpLeft:
+                moveCamera(Direction.UP, Direction.LEFT);
+                break;
+            case TKSwipeDirection.UpRight:
+                moveCamera(Direction.UP, Direction.RIGHT);
+                break;
+            case TKSwipeDirection.DownLeft:
+                moveCamera(Direction.DOWN, Direction.LEFT);
+                break;
+            case TKSwipeDirection.DownRight:
+                moveCamera(Direction.DOWN, Direction.RIGHT);
+                break;
+            default:
+                break;
+        }
+//        Debug.Log("swipe gesture complete: " + direction);
+    }
+
+    private void moveCamera (Direction dir1, Direction dir2 = Direction.NONE) {
+        List<Direction> directions = new List<Direction>(){
+            dir1
+        };
+        if (dir2 != Direction.NONE) {
+            directions.Add(dir2);
+        }
+
+        foreach (Direction dir in directions) {
+            switch (dir) {
+                case Direction.UP:
+                    if (zoomedOutState && canMoveCamera()) {
+                        zoomedOutState = false;
+                        animateCameraChange();
+                    }
+                    break;
+                case Direction.DOWN:
+                    if (!zoomedOutState && canMoveCamera()) {
+                        zoomedOutState = true;
+                        animateCameraChange();
+                    }
+                    break;
+                case Direction.LEFT:
+                    if (cameraXPos != 0 && canMoveCamera()) {
+                        cameraXPos--;
+                        animateCameraChange();
+                    }
+                    break;
+                case Direction.RIGHT:
+                    if (cameraXPos != 2 && canMoveCamera()) {
+                        cameraXPos++;
+                        animateCameraChange();
+                    }
+                    break;
+                case Direction.NONE:
+                default:
+                    break;
+            }
+        }
+    }
 
 	// Update is called once per frame
 	void Update () {
 		if ((Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) && Input.GetKey (KeyCode.Space)) {
             // Backwards
-            if (BagHandler.instance.bagInspectState == BagHandler.BagInspectState.NOTHING) {
-                List<GameObject> bags = Misc.FindShallowStartsWith("Bag_");
-                foreach (GameObject bag in bags) {
-                    if (bag.GetComponent<BagProperties>().isOnConveyor) {
-                        bag.transform.position = new Vector3(bag.transform.position.x - CONVEYOR_SPEED * CONVEYOR_BACK_PCT_SPEED, bag.transform.position.y, bag.transform.position.z);
-                    }
-                }
-            }
+            BagHandler.instance.moveConveyor(- CONVEYOR_SPEED * CONVEYOR_BACK_PCT_SPEED, currentXrayMachine);
 		} else if (Input.GetKey(KeyCode.Space)) {
             // Forwards
-            if (BagHandler.instance.bagInspectState == BagHandler.BagInspectState.NOTHING) {
-                List<GameObject> bags = Misc.FindShallowStartsWith ("Bag_");
-                foreach (GameObject bag in bags) {
-                    BagProperties bagProperties = bag.GetComponent<BagProperties>();
-                    if (bagProperties.isOnConveyor) {
-                        float bagNewXPos = bag.transform.position.x + CONVEYOR_SPEED;
-                        if (bagNewXPos > currentXrayMachine.xPointOfNoReturn) {
-                            bagProperties.bagFinished();
-                        } else {
-                            bag.transform.position = new Vector3(bagNewXPos, bag.transform.position.y, bag.transform.position.z);
-                        }
-                    }
-                }
-            }
+            BagHandler.instance.moveConveyor(CONVEYOR_SPEED, currentXrayMachine);
 		}
 
 		// Create a new bag - disable lid
 		if (Input.GetKeyDown (KeyCode.Alpha1)) {
-			Vector3 bagDropPositionRelativeXrayMachine = currentXrayMachine.bagDropPoint;
-			Vector3 bagDropPosition = Misc.getWorldPosForParentRelativePos (bagDropPositionRelativeXrayMachine, currentXrayMachine.transform);
+            Vector3 bagDropPositionRelativeXrayMachine = currentXrayMachine.bagDropPoint;
+            Vector3 bagDropPosition = Misc.getWorldPosForParentRelativePos (bagDropPositionRelativeXrayMachine, currentXrayMachine.transform);
 
-            bagHandler.createBag(bagDropPosition);
-		} else if (Input.GetKeyDown (KeyCode.Alpha2)) {
-            bagHandler.placeItems();
-		} else if (Input.GetKeyDown (KeyCode.Alpha3)) {
-            bagHandler.shuffleBag();
-		} else if (Input.GetKeyDown (KeyCode.Alpha4)) {
-            bagHandler.closeLid();
-		} else if (Input.GetKeyDown (KeyCode.Alpha5)) {
-            bagHandler.dropBag();
+            bagHandler.packBagAndDropIt(bagDropPosition);
 		} else if (Input.GetKeyDown(KeyCode.UpArrow)) {
-            if (zoomedOutState && canMoveCamera()) {
-                zoomedOutState = false;
-                animateCameraChange();
-            }
+            moveCamera(Direction.UP);
 		} else if (Input.GetKeyDown(KeyCode.DownArrow)) {
-            if (!zoomedOutState && canMoveCamera()) {
-               zoomedOutState = true;
-                animateCameraChange();
-            }
+            moveCamera(Direction.DOWN);
 		} else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-            if (cameraXPos != 0 && canMoveCamera()) {
-                cameraXPos--;
-                animateCameraChange();
-            }
+            moveCamera(Direction.LEFT);
 		} else if (Input.GetKeyDown(KeyCode.RightArrow)) {
-            if (cameraXPos != 2 && canMoveCamera()) {
-                cameraXPos++;
-                animateCameraChange();
-            }
+            moveCamera(Direction.RIGHT);
         }
 
         // Left mouse button

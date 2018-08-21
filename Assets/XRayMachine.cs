@@ -37,9 +37,18 @@ public class XRayMachine : MonoBehaviour {
     public float xPointOfNoReturn;
     public float xPointOfTrayInsertion;
 
+    public GameObject scanAreaCube;
+
+    [HideInInspector]
+    public float scanLeft;
+    [HideInInspector]
+    public float scanRight;
+
 	// Use this for initialization
 	void Start () {
-		
+        float scanCenter = transform.position.x + scanAreaCube.transform.localPosition.x;
+        scanRight = scanCenter + scanAreaCube.transform.localScale.x / 2f;
+        scanLeft = scanCenter - scanAreaCube.transform.localScale.x / 2f;
 	}
 	
 	// Update is called once per frame

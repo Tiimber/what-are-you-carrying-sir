@@ -20,6 +20,10 @@ public class BagHandler : MonoBehaviour, IPubSub {
     public BagInspectState bagInspectState = BagInspectState.NOTHING;
 
     private static int BAG_CONTENTS_LAYER_MASK = -1;
+    private static Vector3 INIT_BAG_POINT = new Vector3(0f, 0f, 30f);
+
+    // TODO - Decide time for calculation cycles
+    const float MAX_ITEM_PLACE_CYCLE_SECONDS = 0.005f;
 
     private GUIStyle currentInspectStateStyle;
 
@@ -64,6 +68,10 @@ public class BagHandler : MonoBehaviour, IPubSub {
 
         if (bagInspectStateString != null) {
             GUI.Label(new Rect(0, Screen.height - 50, Screen.width, 50), bagInspectStateString, currentInspectStateStyle);
+
+            if (GUI.Button(new Rect(Screen.width / 2f - 50f, Screen.height - 100f, 100f, 50), "Finish bag!")) {
+                inspectBagDone();
+            }
         }
     }
 
@@ -96,23 +104,28 @@ public class BagHandler : MonoBehaviour, IPubSub {
         }
     }
 
-    public void placeItems () {
-        StartCoroutine (placeItemsInBag (currentBagPlacing, 3));
+    public Coroutine placeItems () {
+        return StartCoroutine (placeItemsInBag (currentBagPlacing, 150));
     }
 
-    public void shuffleBag () {
+    public Coroutine shuffleBag () {
         // Shake/rotate
-        StartCoroutine (shakeAndRotateBag(currentBagPlacing));
+        return StartCoroutine (shakeAndRotateBag(currentBagPlacing));
     }
 
-    public void closeLid () {
+    public Coroutine closeLid () {
         GameObject lid = currentBagPlacing.lid;
         float bagLidMovement = 2f * currentBagPlacing.halfBagHeight;
-        StartCoroutine (positionLid (lid, bagLidMovement, 0.5f));
+        return StartCoroutine (positionLid (lid, bagLidMovement, 0.5f));
         // TODO - 3 - Check collision, remove collision objects, make sure special substances are still in (if any)
     }
 
-    public void dropBag () {
+    public void dropBag (Vector3 bagDropPosition) {
+
+        if (bagDropPosition != Vector3.zero) {
+            currentBagPlacing.transform.position = new Vector3 (bagDropPosition.x, bagDropPosition.y + currentBagPlacing.halfBagHeight, bagDropPosition.z);
+        }
+
         currentBagPlacing.disableInitialColliders ();
         currentBagPlacing.freezeContents();
         currentBagPlacing.setGravity(true);
@@ -138,6 +151,7 @@ public class BagHandler : MonoBehaviour, IPubSub {
 //                        if (clickedBagProperties == null) {}
 
                         if (clickedBagProperties != null && !clickedBagProperties.isOpen) {
+                            clickedBagProperties.showItems(true);
                             clickedBagProperties.animateLidState(true);
                             clickedBagProperties.enableContentColliders(true);
                             currentBagInspect = clickedBagProperties;
@@ -169,11 +183,7 @@ public class BagHandler : MonoBehaviour, IPubSub {
 
                             BagProperties clickedBagProperties = hit.transform.GetComponent<BagProperties>();
                             if (clickedBagProperties == currentBagInspect) {
-                                bagInspectState = BagInspectState.BUSY;
-                                currentBagInspect.putBackOkContent();
-//                                clickedBagProperties.animateLidState(false);
-//                                clickedBagProperties.enableContentColliders(false);
-//                                currentBagInspect = null;
+                                inspectBagDone();
                             }
                         }
                     }
@@ -183,6 +193,11 @@ public class BagHandler : MonoBehaviour, IPubSub {
         }
 
         return PROPAGATION.DEFAULT;
+    }
+
+    public void inspectBagDone() {
+        bagInspectState = BagInspectState.BUSY;
+        currentBagInspect.putBackOkContent();
     }
 
     public void bagInspectItemEnded (bool separateTrayItems = false) {
@@ -239,6 +254,15 @@ public class BagHandler : MonoBehaviour, IPubSub {
             string groupMovementId = "move_aside_for_tray_" + BagContentProperties.manualInspectTrayCounter;
             Vector3 moveVector = new Vector3(-movementNeeded, 0, 0);
             Misc.AnimateRelativeMovement(groupMovementId, bagsToMoveObjects, moveVector, 0.7f, true);
+            StartCoroutine(showItemsAfterDelay(bagsToMoveObjects, false, 0.7f));
+        }
+    }
+
+    IEnumerator showItemsAfterDelay(List<GameObject> bags, bool show, float delay) {
+        yield return delay;
+        List<BagProperties> allBags = bags.Select<GameObject, BagProperties>(bag => bag.GetComponent<BagProperties>()).ToList();
+        foreach (BagProperties oneBag in allBags) {
+            oneBag.showItems(show);
         }
     }
 
@@ -255,35 +279,61 @@ public class BagHandler : MonoBehaviour, IPubSub {
         }
 
         yield return new WaitForSeconds(0.6f);
-        dropBag();
+        dropBag(Vector3.zero);
     }
 
     IEnumerator placeItemsInBag (BagProperties bagProperties, int amount) {
+        float lastCycleStart = Time.realtimeSinceStartup;
         Vector3 bagSize = bagProperties.placingCube.transform.localScale;
+        bagProperties.placingCube.SetActive(true);
+        Bounds bagBounds = bagProperties.placingCube.GetComponent<Collider>().bounds;
+        bagProperties.placingCube.SetActive(false);
+//        Debug.Log(bagBounds);
         for (int i = 0; i < amount; i++) {
             int pickedBagContentNumber = Misc.randomRange(0, bagContents.Length);
             GameObject contentPiece = Instantiate (bagContents [pickedBagContentNumber]);
             contentPiece.transform.parent = bagProperties.contents.transform;
-            BagContentProperties bagContentProperties = contentPiece.GetComponent<BagContentProperties> ();
-            Vector3 objectSize = bagContentProperties.objectSize;
-            contentPiece.transform.localPosition = new Vector3(Misc.randomPlusMinus(0f, (bagSize.x - objectSize.x) / 2f), bagProperties.halfBagHeight, Misc.randomPlusMinus(0f, (bagSize.z - objectSize.z) / 2f));
-            bagProperties.bagContents.Add(bagContentProperties);
+            // Randomly rotate 90°-angle
+            // TODO - When rotation turned on, objects seem to fall outside bag
+//            contentPiece.transform.localRotation = Quaternion.Euler(0f, 90f * Misc.random.Next(), 0f);
 
-            // Trigger "random"-funnctions on it
-            RandomInterface[] randomInterfaces = contentPiece.GetComponents<RandomInterface>();
-            foreach (RandomInterface randomInterface in randomInterfaces) {
-                randomInterface.run();
+            BagContentProperties bagContentProperties = contentPiece.GetComponent<BagContentProperties> ();
+
+            // Randomize place in bag
+            bool itemFitsInBag = findPlaceForItemInBag(bagContentProperties, bagProperties, 10);
+
+            if (itemFitsInBag) {
+                bagProperties.bagContents.Add(bagContentProperties);
+
+                // Trigger "random"-functions on it
+                RandomInterface[] randomInterfaces = contentPiece.GetComponents<RandomInterface>();
+                foreach (RandomInterface randomInterface in randomInterfaces) {
+                    randomInterface.run();
+                }
+            } else {
+                Debug.Log("Item removed: " + contentPiece);
+                contentPiece.transform.parent = null;
+                Destroy(contentPiece);
             }
 
-            yield return new WaitForSeconds(0.1f);
+            if (lastCycleStart + MAX_ITEM_PLACE_CYCLE_SECONDS < Time.realtimeSinceStartup) {
+                Debug.Log("YIELD");
+                yield return null;
+                // TODO - Compact items by code (move downwards)
+                yield return null;
+                lastCycleStart = Time.realtimeSinceStartup;
+            }
         }
+        Debug.Log("Items in bag: " + bagProperties.bagContents.Count());
+//        Debug.Break();
+        yield return null;
     }
 
-    IEnumerator shakeAndRotateBag (BagProperties bagProperties, float time = 2f) {
+    IEnumerator shakeAndRotateBag (BagProperties bagProperties, float time = 1f) {
         GameObject bag = bagProperties.gameObject;
         Quaternion startRotation = bag.transform.rotation;
-        Quaternion endRotation1 = Quaternion.Euler(0f, 0f, 30f)  * startRotation;
-        Quaternion endRotation2 = Quaternion.Euler(0f, 0f, -30f)  * startRotation;
+        Quaternion endRotation1 = Quaternion.Euler(0f, 0f, 20f)  * startRotation;
+        Quaternion endRotation2 = Quaternion.Euler(0f, 0f, -20f)  * startRotation;
         float startTime = Time.time;
         float endTime1 = (time / 4f) * 1f;
         float endTime2 = (time / 4f) * 3f;
@@ -337,6 +387,111 @@ public class BagHandler : MonoBehaviour, IPubSub {
 
     public void bagFinished(BagProperties bagProperties) {
         activeBags.Remove(bagProperties);
+    }
+
+    public void packBagAndDropIt (Vector3 bagDropPosition) {
+        StartCoroutine(packAndDropBag(bagDropPosition));
+    }
+
+    public IEnumerator packAndDropBag (Vector3 bagDropPosition) {
+        createBag(INIT_BAG_POINT);
+        yield return placeItems();
+        yield return shuffleBag();
+        yield return closeLid();
+        currentBagPlacing.showItems(false);
+        dropBag(bagDropPosition);
+    }
+
+    private bool findPlaceForItemInBag(BagContentProperties item, BagProperties bagProperties, int tries = 10) {
+        Vector3 bagSize = bagProperties.placingCube.transform.localScale;
+        Vector3 objectSize = item.transform.localRotation * item.objectSize;
+
+        bool objectsCollide = true;
+
+        List<Collider> allOtherColliders = bagProperties.bagContents.Aggregate(new List<Collider>(), (accumulator, otherItem) => {
+            accumulator.AddRange(otherItem.GetComponents<Collider>().ToList());
+            return accumulator;
+        });
+
+
+        // Try to position object in bag for a number of times
+        while (objectsCollide && tries-- > 0) {
+            bool haveAdjustedPos = false;
+            // Randomize position for object
+            item.transform.localPosition = new Vector3(Misc.randomPlusMinus(0f, (bagSize.x - objectSize.x) / 2f), Misc.randomPlusMinus(0f, (bagSize.y - objectSize.y) / 2f), Misc.randomPlusMinus(0f, (bagSize.z - objectSize.z) / 2f));
+
+            while (true) {
+                List<Collider> bagContentColliders = item.GetComponents<Collider>().ToList();
+                Vector3 direction = Vector3.zero;
+                float distance = 0f;
+
+                objectsCollide = bagContentColliders.Find(ownCollider => {
+                    return allOtherColliders.Find(otherCollider => {
+                        return Physics.ComputePenetration(ownCollider, item.transform.localPosition, item.transform.localRotation, otherCollider, otherCollider.gameObject.transform.localPosition, otherCollider.gameObject.transform.localRotation, out direction, out distance);
+                    }) != null;
+                }) != null;
+
+                if (objectsCollide) {
+                    if (haveAdjustedPos) {
+                        break;
+                    }
+                    // Move this object a bit and try again
+                    item.transform.localPosition += direction * distance;
+                    // Make sure we are still in the bag
+                    if (Misc.isInside(item.transform.localPosition, objectSize, bagSize)) {
+                        haveAdjustedPos = true;
+                    } else {
+                        break;
+                    }
+                } else {
+                    goto afterCollideDetection;
+                }
+            }
+        }
+
+        afterCollideDetection:
+
+        if (objectsCollide) {
+            Debug.Log(item + ", NOK");
+        }
+
+        return !objectsCollide;
+    }
+
+    public void moveConveyor (float movement, XRayMachine xRayMachine) {
+        if (bagInspectState == BagHandler.BagInspectState.NOTHING) {
+            float xrayScanRight = xRayMachine.scanRight;
+            float xrayScanLeft = xRayMachine.scanLeft;
+            List<GameObject> bags = Misc.FindShallowStartsWith ("Bag_");
+            foreach (GameObject bag in bags) {
+                BagProperties bagProperties = bag.GetComponent<BagProperties>();
+                if (bagProperties.isOnConveyor) {
+                    float bagNewXPos =  bag.transform.position.x + movement;
+
+                    GameObject triggerCube = bagProperties.contentsTriggerCube;
+                    float centerOfTriggerCube = bag.transform.position.x + triggerCube.transform.localPosition.x;
+                    float bagRightmostPos = centerOfTriggerCube + triggerCube.transform.localScale.x / 2f;
+                    float bagLeftmostPos = centerOfTriggerCube - triggerCube.transform.localScale.x / 2f;
+
+                    if (movement > 0 && bagRightmostPos < xrayScanLeft && bagRightmostPos + movement >= xrayScanLeft) {
+                        bagProperties.showItems(true);
+                    } else if (movement > 0 && bagLeftmostPos < xrayScanRight && bagLeftmostPos + movement >= xrayScanRight) {
+                        bagProperties.showItems(false);
+                    } else if (movement < 0 && bagLeftmostPos >= xrayScanRight && bagLeftmostPos + movement < xrayScanRight) {
+                        bagProperties.showItems(true);
+                    } else if (movement < 0 && bagRightmostPos >= xrayScanLeft && bagRightmostPos + movement < xrayScanLeft) {
+                        bagProperties.showItems(false);
+                    }
+
+                    if (movement > 0 && bagNewXPos > xRayMachine.xPointOfNoReturn) {
+                        bagProperties.bagFinished();
+                    } else {
+                        bag.transform.position = new Vector3(bag.transform.position.x + movement, bag.transform.position.y, bag.transform.position.z);
+                    }
+                }
+            }
+
+        }
     }
 
 }

@@ -1,7 +1,5 @@
 fileFormatVersion: 2
 guid: 042c779c3bc4c4c8aa55ab7a1c4e0f86
-timeCreated: 1520490943
-licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -54,7 +52,22 @@ ModelImporter:
     4300012: ID56
     4300014: ID64
     9500000: //RootNode
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metal_Aluminum_Anodized
+    second: {fileID: 2100000, guid: 9488a9b67117d4e388c54cec6f818b1c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metal_Seamed
+    second: {fileID: 2100000, guid: f9ed1cfe3d15c4eb1a7693a446c1f554, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cokecan
+    second: {fileID: 2100000, guid: bd274eab502f14646913a532d4215901, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -73,6 +86,7 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
