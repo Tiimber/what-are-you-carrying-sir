@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InspectUIButtonParent : MonoBehaviour {
 
-    public InspectUIButtonNew child;
+    public InspectUIButton child;
 
 	// Use this for initialization
 	void Start () {
