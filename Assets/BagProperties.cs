@@ -103,7 +103,7 @@ public class BagProperties : MonoBehaviour {
 	}
 
     public void putBackOkContent () {
-        List<BagContentProperties> okItems = bagContents.FindAll(item => item.actionTaken == InspectUIButton.INSPECT_TYPE.OK);
+        List<BagContentProperties> okItems = bagContents.FindAll(item => item.actionTaken == InspectUIButtonNew.INSPECT_TYPE.OK);
         StartCoroutine(animateItemsAboveBagAndDrop(okItems));
         separateTrayItems();
     }
@@ -164,7 +164,7 @@ public class BagProperties : MonoBehaviour {
     }
 
     public void separateTrayItems () {
-        List<BagContentProperties> manualInspectItems = bagContents.FindAll(item => item.actionTaken == InspectUIButton.INSPECT_TYPE.MANUAL_INSPECT || item.actionTaken == InspectUIButton.INSPECT_TYPE.MANUAL_INSPECT_NEW);
+        List<BagContentProperties> manualInspectItems = bagContents.FindAll(item => item.actionTaken == InspectUIButtonNew.INSPECT_TYPE.MANUAL_INSPECT || item.actionTaken == InspectUIButtonNew.INSPECT_TYPE.MANUAL_INSPECT_NEW);
         int lowestTrayIndex = int.MaxValue;
         foreach (BagContentProperties item in manualInspectItems) {
             lowestTrayIndex = Math.Min(item.manualInspectTrayNumber, lowestTrayIndex);

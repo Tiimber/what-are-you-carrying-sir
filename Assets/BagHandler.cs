@@ -382,7 +382,7 @@ public class BagHandler : MonoBehaviour, IPubSub {
     }
 
     public bool allowNewTrayForBagContent() {
-        return currentBagInspect.bagContents.FindIndex(item => item.actionTaken == InspectUIButton.INSPECT_TYPE.MANUAL_INSPECT) != -1;
+        return currentBagInspect.bagContents.FindIndex(item => item.actionTaken == InspectUIButtonNew.INSPECT_TYPE.MANUAL_INSPECT) != -1;
     }
 
     public void bagFinished(BagProperties bagProperties) {

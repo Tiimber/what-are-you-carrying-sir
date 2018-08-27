@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class InspectUIButton : MonoBehaviour {
+public class InspectUIButtonNew : MonoBehaviour {
 
     public enum INSPECT_TYPE {
         UNDEFINED,

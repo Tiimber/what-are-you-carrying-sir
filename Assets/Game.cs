@@ -312,7 +312,7 @@ public class Game : MonoBehaviour, IPubSub {
 
             if (Physics.Raycast(ray, out hit)) {
                 if (hit.collider.isTrigger) {
-                    InspectUIButton inspectUIButton = hit.transform.GetComponent<InspectUIButton>();
+                    InspectUIButtonNew inspectUIButton = hit.transform.GetComponent<InspectUIButtonNew>();
                     if (inspectUIButton) {
                         inspectUIButton.trigger();
                     }

@@ -22,9 +22,9 @@ public class BagContentProperties : MonoBehaviour, IPubSub {
     private Quaternion rotationInBag;
     private Transform parentBag;
 
-    public InspectUIButton.INSPECT_TYPE[] acceptableActions;
+    public InspectUIButtonNew.INSPECT_TYPE[] acceptableActions;
 
-    public InspectUIButton.INSPECT_TYPE actionTaken = InspectUIButton.INSPECT_TYPE.UNDEFINED;
+    public InspectUIButtonNew.INSPECT_TYPE actionTaken = InspectUIButtonNew.INSPECT_TYPE.UNDEFINED;
     public int manualInspectTrayNumber;
 
     public Generic.CONSEQUENCE[] consequences;
@@ -121,19 +121,19 @@ public class BagContentProperties : MonoBehaviour, IPubSub {
             transform.Rotate(Game.instance.gameCamera.transform.rotation * Vector3.up, -rotX, Space.World);
             transform.Rotate(Vector3.right, rotY, Space.World);
         } else if (message == "inspect_action") {
-            InspectUIButton.INSPECT_TYPE action = (InspectUIButton.INSPECT_TYPE) data;
+            InspectUIButtonNew.INSPECT_TYPE action = (InspectUIButtonNew.INSPECT_TYPE) data;
             actionTaken = action;
-            if (action == InspectUIButton.INSPECT_TYPE.TRASHCAN) {
+            if (action == InspectUIButtonNew.INSPECT_TYPE.TRASHCAN) {
                 throwAway();
-            } else if (action == InspectUIButton.INSPECT_TYPE.OK) {
+            } else if (action == InspectUIButtonNew.INSPECT_TYPE.OK) {
                 acceptItem();
-            } else if (action == InspectUIButton.INSPECT_TYPE.MANUAL_INSPECT) {
+            } else if (action == InspectUIButtonNew.INSPECT_TYPE.MANUAL_INSPECT) {
                 manualInspectTrayNumber = BagContentProperties.manualInspectTrayCounter;
                 sendItemToManualInspect();
-            } else if (action == InspectUIButton.INSPECT_TYPE.MANUAL_INSPECT_NEW) {
+            } else if (action == InspectUIButtonNew.INSPECT_TYPE.MANUAL_INSPECT_NEW) {
                 manualInspectTrayNumber = ++BagContentProperties.manualInspectTrayCounter;
                 sendItemToManualInspect(false);
-            } else if (action == InspectUIButton.INSPECT_TYPE.POLICE) {
+            } else if (action == InspectUIButtonNew.INSPECT_TYPE.POLICE) {
                 callPolice();
             }
         }
