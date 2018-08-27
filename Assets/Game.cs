@@ -31,6 +31,9 @@ public class Game : MonoBehaviour, IPubSub {
     Vector3 prevMousePosition;
 
     TKSwipeRecognizer swipeRecognizer;
+    TKTapRecognizer twoTapRecognizer; // TODO - Only for debug
+    TKTapRecognizer tapRecognizer;
+    TKContinousHoldRecognizer continousHoldRecognizer;
 
     enum Direction {
         UP,
@@ -44,15 +47,18 @@ public class Game : MonoBehaviour, IPubSub {
     void Awake () {
 
         // Set framerate only for edito - Should do based on device later?!
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
         QualitySettings.vSyncCount = 0;  // VSync must be disabled
         Application.targetFrameRate = 90;
-#endif
+//#endif
 
         Game.instance = this;
         CameraHandler.SetPerspectiveCamera(gameCamera);
 
         swipeRecognizer = new TKSwipeRecognizer();
+        twoTapRecognizer = new TKTapRecognizer();
+        tapRecognizer = new TKTapRecognizer();
+        continousHoldRecognizer = new TKContinousHoldRecognizer();
 
         // Last in line for click triggering
         PubSub.subscribe("Click", this, Int32.MaxValue);
@@ -74,8 +80,36 @@ public class Game : MonoBehaviour, IPubSub {
 
         // continuous gestures have a complete event so that we know when they are done recognizing
         swipeRecognizer.gestureRecognizedEvent += swipeGestureDetected;
+		TouchKit.addGestureRecognizer(swipeRecognizer);
 
-        TouchKit.addGestureRecognizer(swipeRecognizer);
+        twoTapRecognizer.numberOfTouchesRequired = 2;
+        twoTapRecognizer.gestureRecognizedEvent += twoTapDetected;
+		TouchKit.addGestureRecognizer(twoTapRecognizer);
+
+#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBPLAYER
+        tapRecognizer.numberOfTouchesRequired = 1;
+        tapRecognizer.gestureRecognizedEvent += tapDetected;
+        TouchKit.addGestureRecognizer(tapRecognizer);
+#endif
+
+        continousHoldRecognizer.gestureHoldingEvent += touchHoldActive;
+        TouchKit.addGestureRecognizer(continousHoldRecognizer);
+    }
+
+    void touchHoldActive(TKContinousHoldRecognizer r) {
+        if (r.touchCount == 2) {
+            BagHandler.instance.moveConveyor(- CONVEYOR_SPEED * CONVEYOR_BACK_PCT_SPEED, currentXrayMachine);
+        } else {
+            BagHandler.instance.moveConveyor(CONVEYOR_SPEED, currentXrayMachine);
+        }
+    }
+
+    void tapDetected(TKTapRecognizer r) {
+        PubSub.publish("Click", r.touchLocation());
+    }
+
+    void twoTapDetected(TKTapRecognizer r) {
+        createNewBag();
     }
 
     void swipeGestureDetected (TKSwipeRecognizer r) {
@@ -88,27 +122,34 @@ public class Game : MonoBehaviour, IPubSub {
                 moveCamera(Direction.DOWN);
                 break;
             case TKSwipeDirection.Left:
-                moveCamera(Direction.LEFT);
-                break;
-            case TKSwipeDirection.Right:
                 moveCamera(Direction.RIGHT);
                 break;
-            case TKSwipeDirection.UpLeft:
-                moveCamera(Direction.UP, Direction.LEFT);
+            case TKSwipeDirection.Right:
+                moveCamera(Direction.LEFT);
                 break;
-            case TKSwipeDirection.UpRight:
+            case TKSwipeDirection.UpLeft:
                 moveCamera(Direction.UP, Direction.RIGHT);
                 break;
+            case TKSwipeDirection.UpRight:
+                moveCamera(Direction.UP, Direction.LEFT);
+                break;
             case TKSwipeDirection.DownLeft:
-                moveCamera(Direction.DOWN, Direction.LEFT);
+                moveCamera(Direction.DOWN, Direction.RIGHT);
                 break;
             case TKSwipeDirection.DownRight:
-                moveCamera(Direction.DOWN, Direction.RIGHT);
+                moveCamera(Direction.DOWN, Direction.LEFT);
                 break;
             default:
                 break;
         }
 //        Debug.Log("swipe gesture complete: " + direction);
+    }
+
+    private void createNewBag() {
+        Vector3 bagDropPositionRelativeXrayMachine = currentXrayMachine.bagDropPoint;
+        Vector3 bagDropPosition = Misc.getWorldPosForParentRelativePos(bagDropPositionRelativeXrayMachine, currentXrayMachine.transform);
+
+        bagHandler.packBagAndDropIt(bagDropPosition);
     }
 
     private void moveCamera (Direction dir1, Direction dir2 = Direction.NONE) {
@@ -164,10 +205,7 @@ public class Game : MonoBehaviour, IPubSub {
 
 		// Create a new bag - disable lid
 		if (Input.GetKeyDown (KeyCode.Alpha1)) {
-            Vector3 bagDropPositionRelativeXrayMachine = currentXrayMachine.bagDropPoint;
-            Vector3 bagDropPosition = Misc.getWorldPosForParentRelativePos (bagDropPositionRelativeXrayMachine, currentXrayMachine.transform);
-
-            bagHandler.packBagAndDropIt(bagDropPosition);
+            createNewBag();
 		} else if (Input.GetKeyDown(KeyCode.UpArrow)) {
             moveCamera(Direction.UP);
 		} else if (Input.GetKeyDown(KeyCode.DownArrow)) {
@@ -268,8 +306,7 @@ public class Game : MonoBehaviour, IPubSub {
     public PROPAGATION onMessage(string message, object data) {
         if (message == "Click") {
             // No other subscriber have captured and kept this click for itself, raytrace the click, triggering any possible buttons beneath it
-            Vector3 position = (Vector3) data;
-
+            Vector3 position = data.GetType() == typeof(Vector2) ? new Vector3(((Vector2)data).x, ((Vector2)data).y) : (Vector3) data;
             RaycastHit hit;
             Ray ray = (BagHandler.instance.bagInspectState == BagHandler.BagInspectState.ITEM_INSPECT ? inspectCamera : gameCamera).ScreenPointToRay(position);
 
