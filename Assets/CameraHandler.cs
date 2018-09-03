@@ -44,11 +44,15 @@ public class CameraHandler {
     }
 
     public static void SetRestoreState () {
-		MAIN_RESTORE_POSITION = main.transform.position;
-        MAIN_RESTORE_SIZE_ORTHOGRAPHIC = main.orthographicSize;
+        if (main != null) {
+			MAIN_RESTORE_POSITION = main.transform.position;
+			MAIN_RESTORE_SIZE_ORTHOGRAPHIC = main.orthographicSize;
+        }
 
-        RESTORE_POSITION_PERSPECTIVE = perspectiveCamera.transform.position;
-        RESTORE_FIELD_OF_VIEW_PERSPECTIVE = perspectiveCamera.fieldOfView;
+        if (perspectiveCamera != null) {
+            RESTORE_POSITION_PERSPECTIVE = perspectiveCamera.transform.position;
+            RESTORE_FIELD_OF_VIEW_PERSPECTIVE = perspectiveCamera.fieldOfView;
+        }
     }
 
     public static void Restore () {
@@ -260,16 +264,17 @@ public class CameraHandler {
 
     // New *generic* methods
 
-    private static Coroutine currentZoomEnumerator;
-    private static Coroutine currentMoveEnumerator;
-    private static Coroutine currentRotateEnumerator;
+    private static Coroutine currentZoomCoroutine;
+    private static Coroutine currentMoveCoroutine;
+    private static Coroutine currentRotateCoroutine;
+    private static Coroutine currentWaitForGyroCoroutine;
 
 	public static void ZoomPerspectiveCameraTo(float targetZoom, float time = 0.3f) {
         float fromZoom = perspectiveCamera.fieldOfView;
-        if (currentZoomEnumerator != null) {
-            Singleton<SingletonInstance>.Instance.StopCoroutine (currentZoomEnumerator);
+        if (currentZoomCoroutine != null) {
+            Singleton<SingletonInstance>.Instance.StopCoroutine (currentZoomCoroutine);
         }
-        currentZoomEnumerator = Singleton<SingletonInstance>.Instance.StartCoroutine (AnimatePerspectiveFieldOfView(fromZoom, targetZoom, time));
+        currentZoomCoroutine = Singleton<SingletonInstance>.Instance.StartCoroutine (AnimatePerspectiveFieldOfView(fromZoom, targetZoom, time));
 	}
 
     public static void MovePerspectiveCameraBy(Vector3 moveVector, float time = 0.3f) {
@@ -279,20 +284,26 @@ public class CameraHandler {
 
     public static void MovePerspectiveCameraTo(Vector3 toPosition, float time = 0.3f) {
         Vector3 fromPosition = perspectiveCamera.gameObject.transform.position;
-        if (currentMoveEnumerator != null) {
-            Singleton<SingletonInstance>.Instance.StopCoroutine (currentMoveEnumerator);
+        if (currentMoveCoroutine != null) {
+            Singleton<SingletonInstance>.Instance.StopCoroutine (currentMoveCoroutine);
         }
-        currentMoveEnumerator = Singleton<SingletonInstance>.Instance.StartCoroutine (AnimatePerspectiveMove(fromPosition, toPosition, time));
+        currentMoveCoroutine = Singleton<SingletonInstance>.Instance.StartCoroutine (AnimatePerspectiveMove(fromPosition, toPosition, time));
     }
 
     public static void RotatePerspectiveCameraTo(Quaternion toRotation, float time = 0.3f) {
         Quaternion fromRotation = perspectiveCamera.gameObject.transform.rotation;
-        if (currentRotateEnumerator != null) {
-            Singleton<SingletonInstance>.Instance.StopCoroutine (currentRotateEnumerator);
+        if (currentRotateCoroutine != null) {
+            Singleton<SingletonInstance>.Instance.StopCoroutine (currentRotateCoroutine);
         }
-        currentRotateEnumerator = Singleton<SingletonInstance>.Instance.StartCoroutine (AnimatePerspectiveRotate(fromRotation, toRotation, time));
+        currentRotateCoroutine = Singleton<SingletonInstance>.Instance.StartCoroutine (AnimatePerspectiveRotate(fromRotation, toRotation, time));
     }
 
+    public static void SetGyroEnabledAfterDelay(float time = 0.3f) {
+        if (currentWaitForGyroCoroutine != null) {
+            Singleton<SingletonInstance>.Instance.StopCoroutine (currentWaitForGyroCoroutine);
+        }
+        currentWaitForGyroCoroutine = Singleton<SingletonInstance>.Instance.StartCoroutine (EnableGyroScopeAfterDelay(time));
+    }
 
 
 
@@ -310,7 +321,7 @@ public class CameraHandler {
             perspectiveCamera.fieldOfView = to;
             yield return time;
         }
-        currentZoomEnumerator = null;
+        currentZoomCoroutine = null;
     }
 
     private static IEnumerator AnimatePerspectiveMove (Vector3 from, Vector3 to, float time, bool doAnimate = true) {
@@ -326,7 +337,7 @@ public class CameraHandler {
             perspectiveCamera.gameObject.transform.position = to;
             yield return time;
         }
-        currentMoveEnumerator = null;
+        currentMoveCoroutine = null;
     }
 
     private static IEnumerator AnimatePerspectiveRotate (Quaternion from, Quaternion to, float time, bool doAnimate = true) {
@@ -342,8 +353,17 @@ public class CameraHandler {
             perspectiveCamera.gameObject.transform.rotation = to;
             yield return time;
         }
-        currentRotateEnumerator = null;
+        currentRotateCoroutine = null;
     }
 
+    private static IEnumerator EnableGyroScopeAfterDelay (float time) {
+        SetRestoreState();
+        yield return time;
+#if !(UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBPLAYER)
+        perspectiveCamera.gameObject.GetComponent<GyroInput>().enabled = true;
+#endif
+        currentWaitForGyroCoroutine = null;
+
+    }
 
 }
