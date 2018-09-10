@@ -7452,8 +7452,8 @@ MonoBehaviour:
   scanPointZoomInPos: {x: 0, y: 1.12, z: -10}
   scanPointZoomInRotation: {x: 0, y: 0, z: 0}
   scanPointZoomInZoom: 4
-  checkPointZoomInPos: {x: 0.95, y: 3, z: -2}
-  checkPointZoomInRotation: {x: 57, y: 0, z: 0}
+  checkPointZoomInPos: {x: 0.95, y: 3.255, z: -0.431}
+  checkPointZoomInRotation: {x: 91.082, y: 0, z: 0}
   checkPointZoomInZoom: 20
   conveyor: {fileID: 1089981686736626, guid: 59c52a1803bc845eeb97dfa96a33c25e, type: 2}
   connectingConveyorLeftPos: {x: -2.913, y: 0, z: 0}

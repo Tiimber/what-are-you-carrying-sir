@@ -15,7 +15,7 @@ public class GyroInput : MonoBehaviour
 
     void Update () {
 //        this.transform.rotation = offset * GyroToUnity(Input.gyro.attitude);
-        this.transform.rotation *= Quaternion.Euler(Input.gyro.rotationRate * 30f * Time.deltaTime);
+        this.transform.rotation *= Quaternion.Euler(-Input.gyro.rotationRate * 20f * Time.deltaTime);
     }
 
     private static Quaternion GyroToUnity(Quaternion q) {

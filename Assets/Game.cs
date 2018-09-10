@@ -287,7 +287,7 @@ public class Game : MonoBehaviour, IPubSub {
         CameraHandler.MovePerspectiveCameraTo(moveTo);
         CameraHandler.RotatePerspectiveCameraTo(rotateTo);
         if (!zoomedOutState && cameraXPos == 2) {
-            CameraHandler.SetGyroEnabledAfterDelay();
+//            CameraHandler.SetGyroEnabledAfterDelay();
         }
     }
 
