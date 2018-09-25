@@ -2137,8 +2137,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1626516060112238}
   m_LocalRotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: -1.45, y: 0, z: 0}
-  m_LocalScale: {x: 0.03, y: 0.03, z: 0.03}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.54, y: 0.54, z: 0.54}
   m_Children:
   - {fileID: 4003184080890660}
   - {fileID: 4686961987509698}
@@ -2260,7 +2260,7 @@ Transform:
   m_GameObject: {fileID: 1448762311348292}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.85, y: 0.55, z: 0.07}
+  m_LocalScale: {x: 15.3, y: 9.9, z: 1.26}
   m_Children: []
   m_Father: {fileID: 4331091006048004}
   m_RootOrder: 0
@@ -2488,7 +2488,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1680147865695774}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 1.869, z: -0.49}
+  m_LocalPosition: {x: 26.9, y: 25, z: -8.59}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4363267378011772}
@@ -2582,7 +2582,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1486927501561798}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.097, z: -0.934}
+  m_LocalPosition: {x: 26, y: 19.6, z: -16.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4108634287349680}
@@ -3333,8 +3333,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1523293230002240}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: -0.04}
-  m_LocalScale: {x: 0.083, y: 1, z: 0.054}
+  m_LocalPosition: {x: 0, y: 0, z: -0.7}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 0.972}
   m_Children: []
   m_Father: {fileID: 4331091006048004}
   m_RootOrder: 1
@@ -3439,7 +3439,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1808961900406086}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.05, z: 0}
+  m_LocalPosition: {x: -18, y: 0.46, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4048440697325294}
@@ -3514,8 +3514,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1718280763510166}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.009, y: 1.096, z: -0.493}
-  m_LocalScale: {x: 1.0843948, y: 0.7130034, z: 0.96181}
+  m_LocalPosition: {x: 25.9, y: 19.728, z: -8.874}
+  m_LocalScale: {x: 19.51911, y: 12.834062, z: 17.31258}
   m_Children: []
   m_Father: {fileID: 4730057482074494}
   m_RootOrder: 3
@@ -3888,7 +3888,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 44.2
+  field of view: 70
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -7387,8 +7387,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.9284277, y: 0.7592685, z: 0.98348576}
-  m_Center: {x: -0.012634993, y: 0.36928356, z: -0.49034902}
+  m_Size: {x: 52.711704, y: 13.666833, z: 17.702744}
+  m_Center: {x: 26, y: 6.6471047, z: -8.826282}
 --- !u!81 &81835061274243662
 AudioListener:
   m_ObjectHideFlags: 1
@@ -7436,30 +7436,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eedff7df0ae60490a934dcc746e924d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bagDropPoint: {x: -3.85, y: 0.9, z: -0.52}
-  dropPointZoomOutPos: {x: -1.17, y: 0.99, z: -10}
+  bagDropPoint: {x: -42.2, y: 20, z: -8.3}
+  dropPointZoomOutPos: {x: -15.28, y: 17.7, z: -135}
   dropPointZoomOutRotation: {x: 0, y: 0, z: 0}
   dropPointZoomOutZoom: 20
-  scanPointZoomOutPos: {x: 0, y: 0.99, z: -10}
+  scanPointZoomOutPos: {x: 5.835, y: 17.7, z: -135}
   scanPointZoomOutRotation: {x: 0, y: 0, z: 0}
   scanPointZoomOutZoom: 20
-  checkPointZoomOutPos: {x: 0.95, y: 0.99, z: -10}
+  checkPointZoomOutPos: {x: 26, y: 17.7, z: -135}
   checkPointZoomOutRotation: {x: 0, y: 0, z: 0}
   checkPointZoomOutZoom: 20
-  dropPointZoomInPos: {x: -1.17, y: 1.12, z: -10}
+  dropPointZoomInPos: {x: -15.28, y: 17.7, z: -135}
   dropPointZoomInRotation: {x: 0, y: 0, z: 0}
-  dropPointZoomInZoom: 4
-  scanPointZoomInPos: {x: 0, y: 1.12, z: -10}
+  dropPointZoomInZoom: 5.5
+  scanPointZoomInPos: {x: 8, y: 19.75, z: -135}
   scanPointZoomInRotation: {x: 0, y: 0, z: 0}
-  scanPointZoomInZoom: 4
-  checkPointZoomInPos: {x: 0.95, y: 3.255, z: -0.431}
+  scanPointZoomInZoom: 5.5
+  checkPointZoomInPos: {x: 26, y: 60.8, z: -7.7}
   checkPointZoomInRotation: {x: 91.082, y: 0, z: 0}
   checkPointZoomInZoom: 20
   conveyor: {fileID: 1089981686736626, guid: 59c52a1803bc845eeb97dfa96a33c25e, type: 2}
-  connectingConveyorLeftPos: {x: -2.913, y: 0, z: 0}
-  connectingConveyorRightPos: {x: 2.88, y: 0, z: 0}
-  xPointOfNoReturn: 2.9
-  xPointOfTrayInsertion: -1.17
+  connectingConveyorLeftPos: {x: -74.69, y: 0, z: 0}
+  connectingConveyorRightPos: {x: 29.4, y: 0, z: 0}
+  xPointOfNoReturn: 78
+  xPointOfTrayInsertion: 9
   scanAreaCube: {fileID: 1718280763510166}
   scanLeft: 0
   scanRight: 0

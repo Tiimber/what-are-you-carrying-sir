@@ -13,8 +13,8 @@ public class InspectUI : MonoBehaviour, IPubSub {
     // Bottom left
     public InspectUIButtonParent callPolice;
 
-    private Vector3 objectOffsetLeft = Vector3.left * 0.5f;
-    private Vector3 objectOffsetRight = Vector3.right * 0.5f;
+    private Vector3 objectOffsetLeft = Vector3.left * 9f;
+    private Vector3 objectOffsetRight = Vector3.right * 9f;
 
     public static InspectUI instance;
 
@@ -60,6 +60,7 @@ public class InspectUI : MonoBehaviour, IPubSub {
         Vector3 currentButtonTargetPosition = obj.child.getTargetPosition();
         obj.gameObject.SetActive(true);
         obj.transform.position = currentButtonTargetPosition + offset;
+        Debug.Log(animateKey + ": " + obj.transform.position + " - " + currentButtonTargetPosition);
         Misc.AnimateMovementTo(animateKey, obj.gameObject, currentButtonTargetPosition);
     }
 

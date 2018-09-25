@@ -20,7 +20,7 @@ public class BagHandler : MonoBehaviour, IPubSub {
     public BagInspectState bagInspectState = BagInspectState.NOTHING;
 
     private static int BAG_CONTENTS_LAYER_MASK = -1;
-    private static Vector3 INIT_BAG_POINT = new Vector3(0f, 0f, 30f);
+    private static Vector3 INIT_BAG_POINT = new Vector3(0f, 20f, 100f);
 
     // TODO - Decide time for calculation cycles
     const float MAX_ITEM_PLACE_CYCLE_SECONDS = 0.005f;

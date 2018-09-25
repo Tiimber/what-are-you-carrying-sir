@@ -73,7 +73,7 @@ public class BagContentProperties : MonoBehaviour, IPubSub {
         enableShadows(false); // TODO - When action is taken, don't forget to enable shadows again
 
         // Target object position
-        Vector3 targetPosition = Game.instance.gameCamera.transform.position + Game.instance.gameCamera.transform.rotation * Vector3.forward;
+        Vector3 targetPosition = Game.instance.gameCamera.transform.position + Game.instance.gameCamera.transform.rotation * (Vector3.forward * 18f);
         this.transform.parent = null;
         Misc.AnimateMovementTo("content-zoom-"+id, this.gameObject, targetPosition);
 

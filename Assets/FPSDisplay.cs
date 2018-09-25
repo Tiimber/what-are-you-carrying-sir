@@ -4,11 +4,6 @@ using System.Collections;
 public class FPSDisplay : MonoBehaviour
 {
 	float deltaTime = 0.0f;
-    int randomNumber;
-
-    void Awake () {
-		randomNumber = Misc.randomRange(1000, 9999);
-    }
 
 	void Update() {
 		deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
@@ -26,7 +21,7 @@ public class FPSDisplay : MonoBehaviour
 		style.normal.textColor = new Color (0.0f, 0.0f, 0.0f, 1.0f);
 		float msec = deltaTime * 1000.0f;
 		float fps = 1.0f / deltaTime;
-		string text = string.Format ("v. {0:0} | {1:0.0} ms ({2:0.} fps)", randomNumber, msec, fps);
+		string text = string.Format ("{0:0.0} ms ({1:0.} fps)", msec, fps);
 		GUI.Label (rect, text, style);
 	}
 }

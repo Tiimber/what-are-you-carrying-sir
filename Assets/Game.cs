@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Game : MonoBehaviour, IPubSub {
 
-//    const float CONVEYOR_SPEED = 0.005f;
-    const float CONVEYOR_SPEED = 0.1f;
+//    const float CONVEYOR_SPEED = 0.2f;
+    const float CONVEYOR_SPEED = 2.0f;
 	const float CONVEYOR_BACK_PCT_SPEED = 0.8f;
 
     private const float CLICK_RELEASE_TIME = 0.2f;
