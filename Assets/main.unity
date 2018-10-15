@@ -889,6 +889,7 @@ MonoBehaviour:
   - {fileID: 1082491465557578, guid: 5704adf3f75d445ed91f3ebda9ba8f3a, type: 2}
   - {fileID: 1773830338224380, guid: d2e808cfcd4a14d22bc1be7da7080525, type: 2}
   - {fileID: 1873141104481846, guid: 680c81601664444fdb7152047524f86e, type: 2}
+  - {fileID: 1528865860478216, guid: fb0d9c5149b2446b1aec790e27fa2be4, type: 2}
   bagInspectState: 0
 --- !u!114 &1350434892
 MonoBehaviour:

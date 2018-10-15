@@ -1,0 +1,190 @@
+fileFormatVersion: 2
+guid: 498786dd0b1b54acbad10288d89b2c96
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: jeans_pile_1376_button
+    100004: jeans_pile_1376_jeans1
+    100006: jeans_pile_1376_jeans10
+    100008: jeans_pile_1376_jeans11
+    100010: jeans_pile_1376_jeans12
+    100012: jeans_pile_1376_jeans13
+    100014: jeans_pile_1376_jeans2
+    100016: jeans_pile_1376_jeans3
+    100018: jeans_pile_1376_jeans4
+    100020: jeans_pile_1376_jeans5
+    100022: jeans_pile_1376_jeans6
+    100024: jeans_pile_1376_jeans7
+    100026: jeans_pile_1376_jeans8
+    100028: jeans_pile_1376_jeans9
+    400000: //RootNode
+    400002: jeans_pile_1376_button
+    400004: jeans_pile_1376_jeans1
+    400006: jeans_pile_1376_jeans10
+    400008: jeans_pile_1376_jeans11
+    400010: jeans_pile_1376_jeans12
+    400012: jeans_pile_1376_jeans13
+    400014: jeans_pile_1376_jeans2
+    400016: jeans_pile_1376_jeans3
+    400018: jeans_pile_1376_jeans4
+    400020: jeans_pile_1376_jeans5
+    400022: jeans_pile_1376_jeans6
+    400024: jeans_pile_1376_jeans7
+    400026: jeans_pile_1376_jeans8
+    400028: jeans_pile_1376_jeans9
+    2100000: jeans_pile_1376_button_MatSG
+    2100002: jeans_pile_1376_jeans1_MatSG
+    2100004: jeans_pile_1376_jeans3_MatSG
+    2100006: jeans_pile_1376_jeans4_MatSG
+    2100008: jeans_pile_1376_jeans2_MatSG
+    2300000: jeans_pile_1376_button
+    2300002: jeans_pile_1376_jeans1
+    2300004: jeans_pile_1376_jeans10
+    2300006: jeans_pile_1376_jeans11
+    2300008: jeans_pile_1376_jeans12
+    2300010: jeans_pile_1376_jeans13
+    2300012: jeans_pile_1376_jeans2
+    2300014: jeans_pile_1376_jeans3
+    2300016: jeans_pile_1376_jeans4
+    2300018: jeans_pile_1376_jeans5
+    2300020: jeans_pile_1376_jeans6
+    2300022: jeans_pile_1376_jeans7
+    2300024: jeans_pile_1376_jeans8
+    2300026: jeans_pile_1376_jeans9
+    3300000: jeans_pile_1376_button
+    3300002: jeans_pile_1376_jeans1
+    3300004: jeans_pile_1376_jeans10
+    3300006: jeans_pile_1376_jeans11
+    3300008: jeans_pile_1376_jeans12
+    3300010: jeans_pile_1376_jeans13
+    3300012: jeans_pile_1376_jeans2
+    3300014: jeans_pile_1376_jeans3
+    3300016: jeans_pile_1376_jeans4
+    3300018: jeans_pile_1376_jeans5
+    3300020: jeans_pile_1376_jeans6
+    3300022: jeans_pile_1376_jeans7
+    3300024: jeans_pile_1376_jeans8
+    3300026: jeans_pile_1376_jeans9
+    4300000: jeans_pile_1376_button
+    4300002: jeans_pile_1376_jeans1
+    4300004: jeans_pile_1376_jeans10
+    4300006: jeans_pile_1376_jeans11
+    4300008: jeans_pile_1376_jeans12
+    4300010: jeans_pile_1376_jeans13
+    4300012: jeans_pile_1376_jeans2
+    4300014: jeans_pile_1376_jeans3
+    4300016: jeans_pile_1376_jeans4
+    4300018: jeans_pile_1376_jeans5
+    4300020: jeans_pile_1376_jeans6
+    4300022: jeans_pile_1376_jeans7
+    4300024: jeans_pile_1376_jeans8
+    4300026: jeans_pile_1376_jeans9
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: jeans_pile_1376_button_MatSG
+    second: {fileID: 2100000, guid: 219b168419d3e4133b5b5d0f1f775e36, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: jeans_pile_1376_jeans1_MatSG
+    second: {fileID: 2100000, guid: b5184bf79746e418fba8acccb7d7807f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: jeans_pile_1376_jeans2_MatSG
+    second: {fileID: 2100000, guid: cb490c642b6cc43d88c086ca76383252, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: jeans_pile_1376_jeans3_MatSG
+    second: {fileID: 2100000, guid: 9632d75ba829040c8a114774210df9f7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: jeans_pile_1376_jeans4_MatSG
+    second: {fileID: 2100000, guid: 764527996b8c442958d631d851b40050, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 2
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 0
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
