@@ -93,14 +93,26 @@ public class Game : MonoBehaviour, IPubSub {
 #endif
 
         continousHoldRecognizer.gestureHoldingEvent += touchHoldActive;
+        continousHoldRecognizer.gestureHoldingEventEnded += touchHoldEnded;
         TouchKit.addGestureRecognizer(continousHoldRecognizer);
+    }
+
+    void touchHoldEnded(TKContinousHoldRecognizer r) {
+        if (r.touchCount == 1) {
+            BagHandler.instance.zoomInspectItem(false);
+        }
     }
 
     void touchHoldActive(TKContinousHoldRecognizer r) {
         if (r.touchCount == 2) {
             BagHandler.instance.moveConveyor(- CONVEYOR_SPEED * CONVEYOR_BACK_PCT_SPEED, currentXrayMachine);
-        } else {
+        } else if (r.touchCount == 1) {
             BagHandler.instance.moveConveyor(CONVEYOR_SPEED, currentXrayMachine);
+            if (r.firstFrame) {
+                BagHandler.instance.zoomInspectItem(true, r.maxTouchMovement);
+            } else {
+                BagHandler.instance.potentiallyStopZoomInspectItem(r.maxTouchMovement);
+            }
         }
     }
 

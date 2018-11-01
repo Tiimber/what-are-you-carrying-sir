@@ -108,6 +108,19 @@ public class Misc {
         return default(K);
 	}
 
+    public static GameObject pickRandomWithWeights(List<int> weights, List<GameObject> gameObjects) {
+        int weightSum = weights.Sum();
+        int random = Misc.randomRange(0, weightSum);
+        int index;
+        int accumulatedSum;
+        for (index = 0, accumulatedSum = 0; index <= weights.Count; accumulatedSum += weights[index], index++) {
+            if (accumulatedSum + weights[index] > random) {
+                break;
+            }
+        }
+        return gameObjects[index];
+    }
+
 	public static Texture2D MakeTex(int width, int height, Color col) {
 		Color[] pix = new Color[width * height];
 		for (int i = 0; i < pix.Length; ++i) {
@@ -973,4 +986,32 @@ public class Misc {
 		}
         blurCoroutines.Remove(key);
 	}
+
+    private static Dictionary<string, Coroutine> fovCoroutines = new Dictionary<string, Coroutine>();
+    public static void AnimateFOVTo (string key, Camera camera, float toFOV, float time = DEFAULT_ANIMATION_TIME) {
+        float fromFOV = camera.fieldOfView;
+        StopAnimateFOV(key);
+        fovCoroutines.Add(key, Singleton<SingletonInstance>.Instance.StartCoroutine (AnimateFOVFromTo(key, camera, fromFOV, toFOV, time)));
+    }
+
+    private static IEnumerator AnimateFOVFromTo (string key, Camera camera, float fromFOV, float toFOV, float time) {
+        float t = 0f;
+		while (t <= 1f) {
+			t += Time.unscaledDeltaTime / time;
+			float currentFOV = Mathf.Lerp(fromFOV, toFOV, t);
+
+            camera.fieldOfView = currentFOV;
+
+			yield return null;
+		}
+        fovCoroutines.Remove(key);
+	}
+
+    public static void StopAnimateFOV (string key) {
+        if (fovCoroutines.ContainsKey(key)) {
+            Singleton<SingletonInstance>.Instance.StopCoroutine (fovCoroutines[key]);
+            fovCoroutines.Remove(key);
+        }
+    }
+
 }

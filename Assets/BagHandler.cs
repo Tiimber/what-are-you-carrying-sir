@@ -13,7 +13,7 @@ public class BagHandler : MonoBehaviour, IPubSub {
 
     public GameObject[] bags;
     public GameObject tray;
-    public GameObject[] bagContents;
+    public BagContentType[] bagContentTypes;
 
     private List<BagProperties> activeBags = new List<BagProperties>();
 
@@ -290,8 +290,10 @@ public class BagHandler : MonoBehaviour, IPubSub {
         bagProperties.placingCube.SetActive(false);
 //        Debug.Log(bagBounds);
         for (int i = 0; i < amount; i++) {
-            int pickedBagContentNumber = Misc.randomRange(0, bagContents.Length);
-            GameObject contentPiece = Instantiate (bagContents [pickedBagContentNumber]);
+            List<int> weights = bagContentTypes.Select(obj => obj.frequency).ToList();
+            List<GameObject> gameObjects = bagContentTypes.Select(obj => obj.contentObj).ToList();
+            GameObject randomGameObject = Misc.pickRandomWithWeights(weights, gameObjects);
+            GameObject contentPiece = Instantiate (randomGameObject);
             contentPiece.transform.parent = bagProperties.contents.transform;
             // Randomly rotate 90°-angle
             // TODO - When rotation turned on, objects seem to fall outside bag
@@ -491,6 +493,27 @@ public class BagHandler : MonoBehaviour, IPubSub {
                 }
             }
 
+        }
+    }
+
+    private const float INTERRUPT_ZOOM_THRESHOLD_MAGNITUDE = 0.05f;
+    public void potentiallyStopZoomInspectItem(float movement) {
+        if (movement >= INTERRUPT_ZOOM_THRESHOLD_MAGNITUDE) {
+            Misc.StopAnimateFOV("zoom-item-inspect");
+        }
+    }
+
+    public void zoomInspectItem(bool zoomIn, float movement = 0f) {
+        if (bagInspectState == BagHandler.BagInspectState.ITEM_INSPECT) {
+            // Inspect camera -> FOV 10
+            // Release quicker to 20
+            if (zoomIn) {
+                if (movement < INTERRUPT_ZOOM_THRESHOLD_MAGNITUDE) {
+                    Misc.AnimateFOVTo("zoom-item-inspect", Game.instance.inspectCamera, 10.0f, 0.75f);
+                }
+            } else {
+                Misc.AnimateFOVTo("zoom-item-inspect", Game.instance.inspectCamera, 20.0f, 0.15f);
+            }
         }
     }
 
