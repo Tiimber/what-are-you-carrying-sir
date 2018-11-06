@@ -643,58 +643,6 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 136251251}
   m_Script: {fileID: 11500000, guid: 48c35bd3816744931a639972873a3a10, type: 3}
---- !u!1001 &1044990196
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4245746862386934, guid: be2211b8cb1ac412b9710f30e65e771b, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4245746862386934, guid: be2211b8cb1ac412b9710f30e65e771b, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4245746862386934, guid: be2211b8cb1ac412b9710f30e65e771b, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4245746862386934, guid: be2211b8cb1ac412b9710f30e65e771b, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4245746862386934, guid: be2211b8cb1ac412b9710f30e65e771b, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4245746862386934, guid: be2211b8cb1ac412b9710f30e65e771b, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4245746862386934, guid: be2211b8cb1ac412b9710f30e65e771b, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4245746862386934, guid: be2211b8cb1ac412b9710f30e65e771b, type: 2}
-      propertyPath: m_RootOrder
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 114105398749812888, guid: be2211b8cb1ac412b9710f30e65e771b,
-        type: 2}
-      propertyPath: pillsContainer
-      value: 
-      objectReference: {fileID: 1044990197}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: be2211b8cb1ac412b9710f30e65e771b, type: 2}
-  m_IsPrefabAsset: 0
---- !u!1 &1044990197 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1796355066818790, guid: be2211b8cb1ac412b9710f30e65e771b,
-    type: 2}
-  m_PrefabInternal: {fileID: 1044990196}
 --- !u!1001 &1063313137
 Prefab:
   m_ObjectHideFlags: 0

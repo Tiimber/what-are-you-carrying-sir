@@ -320,6 +320,10 @@ public class Misc {
 		return Misc.random.Next(min, max);
 	}
 
+	public static bool randomBool() {
+		return Misc.random.NextDouble() < 0.5d;
+	}
+
 	public static object randomTime() {
 		return Misc.randomRange(0, 23) + ":" + Misc.randomRange(0, 59);
 	}
