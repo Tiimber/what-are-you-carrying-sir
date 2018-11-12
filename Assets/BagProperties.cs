@@ -16,6 +16,7 @@ public class BagProperties : MonoBehaviour {
     public Vector3 lidRotationOpen;
 	public GameObject placingCube;
 	public GameObject[] initialColliders;
+	public Collider bottomCollider;
 	public float halfBagHeight;
     public GameObject contentsTriggerCube;
 
@@ -99,7 +100,15 @@ public class BagProperties : MonoBehaviour {
 		if (collider != null && collider.GetComponent<ConveyorObject> () != null) {
             isOnConveyor = true;
 			setEnabledStateCollidersAndRigidbodies (false);
-		}
+
+            // Calculate how much "up-force" we should apply on bag to move it on top of conveyor
+            Vector3 pushBackDirection;
+            float pushBackDistance;
+            bool intersecting = Physics.ComputePenetration(bottomCollider, transform.position, transform.rotation, collider, collider.gameObject.transform.position, collider.gameObject.transform.rotation, out pushBackDirection, out pushBackDistance);
+            if (intersecting) {
+                transform.position += pushBackDistance * pushBackDirection;
+            }
+        }
 	}
 
     public void putBackOkContent () {

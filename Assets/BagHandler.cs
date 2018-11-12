@@ -84,7 +84,9 @@ public class BagHandler : MonoBehaviour, IPubSub {
 
         currentBagPlacing = bagProperties;
         activeBags.Add(bagProperties);
-        bagProperties.lid.SetActive (false);
+        if (bagProperties.lid != null) {
+            bagProperties.lid.SetActive (false);
+        }
     }
 
     public void createTrayWithContents (Vector3 dropPosition, List<BagContentProperties> items) {
@@ -360,6 +362,9 @@ public class BagHandler : MonoBehaviour, IPubSub {
     }
 
     IEnumerator positionLid (GameObject lid, float yDistance, float animationTime) {
+        if (lid == null) {
+            yield break;
+        }
         lid.transform.position = new Vector3 (lid.transform.position.x, lid.transform.position.y + yDistance, lid.transform.position.z);
         lid.SetActive (true);
         yield return null;

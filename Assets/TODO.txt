@@ -1,11 +1,9 @@
-Pillerburk
 Piller i blister
 Underkläder (kvinnliga och manliga)
 Dator (borde ligga i tray)
 
 ---
 
-Fixa tray (ligger inte på bandet
 Fästa olagliga objekt på/i klädesplagg
 Ångra alla OK objekt - för att kunna inspektera igen
 Byggd app visar inte blur i inspect-läget

@@ -3927,7 +3927,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!64 &64023952663734602
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -4626,6 +4626,7 @@ MonoBehaviour:
   - {fileID: 1453142577915086}
   - {fileID: 1999319239978558}
   - {fileID: 1120381275101606}
+  bottomCollider: {fileID: 65041782698445660}
   halfBagHeight: 2.7
   contentsTriggerCube: {fileID: 1166142122082266}
   bagContents: []

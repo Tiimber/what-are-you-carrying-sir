@@ -24,8 +24,6 @@ public class PillsToRandomize {
     public bool organic;
     public bool liquid;
 
-    // TODO - Implement liquid
-
     public void assign(GameObject pillBottle, PerRendererShaderTexture objectWithMaterial, int materialIndex, GameObject pillsContainer, GameObject pillsContainerXray, GameObject liquidContainer, GameObject liquidContainerXray, Material organicMaterialXray) {
         objectWithMaterial.texture = texture;
         objectWithMaterial.materialIndex = materialIndex;
