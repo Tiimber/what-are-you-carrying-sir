@@ -60,6 +60,14 @@ public class BagContentProperties : MonoBehaviour, IPubSub {
         PubSub.unsubscribe("inspect_rotate", this);
         PubSub.unsubscribe("inspect_action", this);
         BagContentProperties.currentInspectedItem = null;
+
+        // Special method to run when starting inspection on this object
+        ActionOnInspect[] actionOnInspects = GetComponents<ActionOnInspect>();
+        foreach (ActionOnInspect actionOnInspect in actionOnInspects) {
+            if (actionOnInspect != null) {
+                actionOnInspect.run(true);
+            }
+        }
     }
 
     public void inspect () {
@@ -76,6 +84,14 @@ public class BagContentProperties : MonoBehaviour, IPubSub {
         Vector3 targetPosition = Game.instance.gameCamera.transform.position + Game.instance.gameCamera.transform.rotation * (Vector3.forward * 18f);
         this.transform.parent = null;
         Misc.AnimateMovementTo("content-zoom-"+id, this.gameObject, targetPosition);
+
+        // Special method to run when starting inspection on this object
+        ActionOnInspect[] actionOnInspects = GetComponents<ActionOnInspect>();
+        foreach (ActionOnInspect actionOnInspect in actionOnInspects) {
+            if (actionOnInspect != null) {
+                actionOnInspect.run();
+            }
+        }
 
         inspecting = true;
         BagContentProperties.currentInspectedItem = this;

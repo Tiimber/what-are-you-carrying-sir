@@ -136,7 +136,13 @@ public class BagHandler : MonoBehaviour, IPubSub {
 	public PROPAGATION onMessage(string message, object data) {
 		if (message == "Click") {
             if (Game.instance.cameraXPos == 2 && !Game.instance.zoomedOutState) {
-                Vector3 position = (Vector3)data;
+                Vector3 position = Vector3.zero;
+                if (data.GetType() == typeof(Vector2)) {
+                    Vector2 posV2 = (Vector2)data;
+                    position = new Vector3(posV2.x, posV2.y);
+                } else {
+                    position = (Vector3)data;
+                }
 
                 // Get camera
                 Camera camera = GetComponent<Game>().gameCamera;

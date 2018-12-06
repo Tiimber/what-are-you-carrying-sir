@@ -86,7 +86,7 @@ public class Game : MonoBehaviour, IPubSub {
         twoTapRecognizer.gestureRecognizedEvent += twoTapDetected;
 		TouchKit.addGestureRecognizer(twoTapRecognizer);
 
-#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBPLAYER
+#if UNITY_IOS || UNITY_ANDROID
         tapRecognizer.numberOfTouchesRequired = 1;
         tapRecognizer.gestureRecognizedEvent += tapDetected;
         TouchKit.addGestureRecognizer(tapRecognizer);

@@ -113,6 +113,42 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &108151482
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 108151484}
+  - component: {fileID: 108151483}
+  m_Layer: 0
+  m_Name: AudioListener
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!81 &108151483
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 108151482}
+  m_Enabled: 1
+--- !u!4 &108151484
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 108151482}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.835, y: 17.7, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &136251251
 Prefab:
   m_ObjectHideFlags: 0
@@ -225,7 +261,6 @@ GameObject:
   - component: {fileID: 553381946}
   - component: {fileID: 553381949}
   - component: {fileID: 553381948}
-  - component: {fileID: 553381947}
   - component: {fileID: 553381950}
   m_Layer: 0
   m_Name: Blurred background
@@ -247,13 +282,6 @@ Transform:
   m_Father: {fileID: 1710677107}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!81 &553381947
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 553381945}
-  m_Enabled: 1
 --- !u!124 &553381948
 Behaviour:
   m_ObjectHideFlags: 0
@@ -995,6 +1023,9 @@ MonoBehaviour:
   - contentObj: {fileID: 1829317634330666, guid: be2211b8cb1ac412b9710f30e65e771b,
       type: 2}
     frequency: 2
+  - contentObj: {fileID: 1579494305668360, guid: c5496f9d8e79e4925ba2cc4c6c8da735,
+      type: 2}
+    frequency: 10
   bagInspectState: 0
 --- !u!114 &1350434892
 MonoBehaviour:
