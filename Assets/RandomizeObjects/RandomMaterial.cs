@@ -17,7 +17,9 @@ public class RandomMaterial : MonoBehaviour, RandomInterface {
 	}
 
     public void run() {
+//        Debug.Log("RANDOM MATERIAL: " + name + ", " + materialsToRandomize.Length);
 		foreach (MaterialToRandomize materialToRandomize in materialsToRandomize) {
+//            Debug.Log("random assign!");
             materialToRandomize.assign();
         }
     }

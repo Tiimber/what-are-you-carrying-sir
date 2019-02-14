@@ -9,7 +9,7 @@ public class BagHandler : MonoBehaviour, IPubSub {
     public static BagHandler instance;
 
     private BagProperties currentBagPlacing;
-    private BagProperties currentBagInspect;
+    public BagProperties currentBagInspect;
 
     public GameObject[] bags;
     public GameObject tray;
@@ -89,13 +89,15 @@ public class BagHandler : MonoBehaviour, IPubSub {
         }
     }
 
-    public void createTrayWithContents (Vector3 dropPosition, List<BagContentProperties> items) {
+    public void createTrayWithContents (Vector3 dropPosition, List<BagContentProperties> items, PersonBagDefinition bagDefinition) {
         if (items != null && items.Count > 0) {
             GameObject bagGameObject = Instantiate (tray, dropPosition, Quaternion.identity);
             BagProperties bagProperties = bagGameObject.GetComponent<BagProperties> ();
             bagGameObject.transform.position = new Vector3 (dropPosition.x, dropPosition.y + bagProperties.halfBagHeight, dropPosition.z);
 
             currentBagPlacing = bagProperties;
+            bagProperties.bagType = BagProperties.TYPE.TRAY_AFTER_INSPECT;
+            bagDefinition.bags.Add(bagProperties);
 
             moveBagsAsideForTray (bagGameObject.GetComponent<BagProperties>());
             StartCoroutine (placeItemsInBagAndDrop (currentBagPlacing, items));
@@ -106,8 +108,8 @@ public class BagHandler : MonoBehaviour, IPubSub {
         }
     }
 
-    public Coroutine placeItems () {
-        return StartCoroutine (placeItemsInBag (currentBagPlacing, 150));
+    public Coroutine placeItems (List<BagContentProperties> toBePlacedInTrays, int personId) {
+        return StartCoroutine (placeItemsInBag (currentBagPlacing, 150, toBePlacedInTrays, personId));
     }
 
     public Coroutine shuffleBag () {
@@ -290,7 +292,7 @@ public class BagHandler : MonoBehaviour, IPubSub {
         dropBag(Vector3.zero);
     }
 
-    IEnumerator placeItemsInBag (BagProperties bagProperties, int amount) {
+    IEnumerator placeItemsInBag (BagProperties bagProperties, int amount, List<BagContentProperties> toBePlacedInTrays, int personId) {
         float lastCycleStart = Time.realtimeSinceStartup;
         Vector3 bagSize = bagProperties.placingCube.transform.localScale;
         bagProperties.placingCube.SetActive(true);
@@ -301,6 +303,16 @@ public class BagHandler : MonoBehaviour, IPubSub {
             List<int> weights = bagContentTypes.Select(obj => obj.frequency).ToList();
             List<GameObject> gameObjects = bagContentTypes.Select(obj => obj.contentObj).ToList();
             GameObject randomGameObject = Misc.pickRandomWithWeights(weights, gameObjects);
+
+            // Check if item should be in tray, or not instantiated by any other reason (eg. not place 3 guns in bag...)
+            bool acceptItem = true;
+            // TODO - Do this!
+//            bool acceptItem = randomGameObject.GetComponent<BagContentInstantiationRules>()(toBePlacedInTrays, personId);
+            if (!acceptItem) {
+                i--;
+                continue;
+            }
+
             GameObject contentPiece = Instantiate (randomGameObject);
             contentPiece.transform.parent = bagProperties.contents.transform;
             // Randomly rotate 90°-angle
@@ -402,16 +414,21 @@ public class BagHandler : MonoBehaviour, IPubSub {
         activeBags.Remove(bagProperties);
     }
 
-    public void packBagAndDropIt (Vector3 bagDropPosition) {
-        StartCoroutine(packAndDropBag(bagDropPosition));
+    public Coroutine packBagAndDropIt (Vector3 bagDropPosition, PersonBagDefinition bagDefinition, List<BagContentProperties> toBePlacedInTrays, int personId) {
+        return StartCoroutine(packAndDropBag(bagDropPosition, bagDefinition, toBePlacedInTrays, personId));
     }
 
-    public IEnumerator packAndDropBag (Vector3 bagDropPosition) {
+    public IEnumerator packAndDropBag (Vector3 bagDropPosition, PersonBagDefinition bagDefinition, List<BagContentProperties> toBePlacedInTrays, int personId) {
         createBag(INIT_BAG_POINT);
-        yield return placeItems();
+        yield return placeItems(toBePlacedInTrays, personId);
         yield return shuffleBag();
         yield return closeLid();
         currentBagPlacing.showItems(false);
+
+        currentBagPlacing.bagDefinition = bagDefinition;
+        currentBagPlacing.bagType = BagProperties.TYPE.DEFAULT;
+        bagDefinition.bags.Add(currentBagPlacing);
+
         dropBag(bagDropPosition);
     }
 

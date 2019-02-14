@@ -12,6 +12,7 @@ public class Game : MonoBehaviour, IPubSub {
     private const float THRESHOLD_MAX_MOVE_TO_BE_CONSIDERED_CLICK = 30f;
 
     private BagHandler bagHandler;
+    public Person personPrefab;
 	public GameObject[] xrayMachines;
 
     public Camera gameCamera;
@@ -121,7 +122,7 @@ public class Game : MonoBehaviour, IPubSub {
     }
 
     void twoTapDetected(TKTapRecognizer r) {
-        createNewBag();
+        createNewPerson();
     }
 
     void swipeGestureDetected (TKSwipeRecognizer r) {
@@ -157,11 +158,14 @@ public class Game : MonoBehaviour, IPubSub {
 //        Debug.Log("swipe gesture complete: " + direction);
     }
 
-    private void createNewBag() {
+    private void createNewPerson() {
+
+        Person newPerson = Instantiate(personPrefab);
+
         Vector3 bagDropPositionRelativeXrayMachine = currentXrayMachine.bagDropPoint;
         Vector3 bagDropPosition = Misc.getWorldPosForParentRelativePos(bagDropPositionRelativeXrayMachine, currentXrayMachine.transform);
 
-        bagHandler.packBagAndDropIt(bagDropPosition);
+        newPerson.startPlaceBags(bagHandler, bagDropPosition);
     }
 
     private void moveCamera (Direction dir1, Direction dir2 = Direction.NONE) {
@@ -217,7 +221,7 @@ public class Game : MonoBehaviour, IPubSub {
 
 		// Create a new bag - disable lid
 		if (Input.GetKeyDown (KeyCode.Alpha1)) {
-            createNewBag();
+            createNewPerson();
 		} else if (Input.GetKeyDown(KeyCode.UpArrow)) {
             moveCamera(Direction.UP);
 		} else if (Input.GetKeyDown(KeyCode.DownArrow)) {

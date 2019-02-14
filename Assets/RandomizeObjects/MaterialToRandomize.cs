@@ -11,7 +11,8 @@ public class MaterialToRandomize {
     public Material[] materials;
 
     public void assign() {
-        objectToSetMaterial.material = Misc.pickRandom(materials.ToList());
+        Material picked = Misc.pickRandom(materials.ToList());
+        objectToSetMaterial.material = picked;
         objectToSetMaterial.materialIndex = materialIndex;
     }
 }

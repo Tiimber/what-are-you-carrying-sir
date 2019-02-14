@@ -9,6 +9,8 @@ public class AssignMaterialToObject : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        gameObject.GetComponent<Renderer>().materials[materialIndex] = material;
+        Material[] materials = gameObject.GetComponent<Renderer>().materials;
+        materials[materialIndex] = material;
+        gameObject.GetComponent<Renderer>().materials = materials;
 	}
 }

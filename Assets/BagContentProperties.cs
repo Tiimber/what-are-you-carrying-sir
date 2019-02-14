@@ -139,7 +139,9 @@ public class BagContentProperties : MonoBehaviour, IPubSub {
         } else if (message == "inspect_action") {
             InspectUIButton.INSPECT_TYPE action = (InspectUIButton.INSPECT_TYPE) data;
             actionTaken = action;
+            PersonBagDefinition currentBagDefinition = BagHandler.instance.currentBagInspect.bagDefinition;
             if (action == InspectUIButton.INSPECT_TYPE.TRASHCAN) {
+                currentBagDefinition.removedItems.Add(currentInspectedItem);
                 throwAway();
             } else if (action == InspectUIButton.INSPECT_TYPE.OK) {
                 acceptItem();
@@ -150,6 +152,7 @@ public class BagContentProperties : MonoBehaviour, IPubSub {
                 manualInspectTrayNumber = ++BagContentProperties.manualInspectTrayCounter;
                 sendItemToManualInspect(false);
             } else if (action == InspectUIButton.INSPECT_TYPE.POLICE) {
+                currentBagDefinition.removedItems.Add(currentInspectedItem);
                 callPolice();
             }
         }

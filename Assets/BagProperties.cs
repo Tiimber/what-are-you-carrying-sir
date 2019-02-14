@@ -29,7 +29,17 @@ public class BagProperties : MonoBehaviour {
 
     public string bagDisplayName;
 
-	void Awake() {
+    public PersonBagDefinition bagDefinition;
+
+    public TYPE bagType;
+
+    public enum TYPE {
+        DEFAULT,
+        TRAY_AFTER_INSPECT,
+        TRAY_PLACED_BY_PERSON,
+    };
+
+    void Awake() {
         id = ++idCounter;
 	}
 
@@ -166,10 +176,12 @@ public class BagProperties : MonoBehaviour {
 
         // Clear GameObjects (bag + contents)
         while (bagContents.Count > 0) {
+            // TODO - Report removal of item to "person"
             Destroy(bagContents[0].gameObject);
             bagContents.RemoveAt(0);
         }
         Destroy(this.gameObject);
+        // TODO - Report results of bag to "person"
     }
 
     public void separateTrayItems () {
@@ -180,7 +192,7 @@ public class BagProperties : MonoBehaviour {
         }
         manualInspectItems = manualInspectItems.FindAll(item => item.manualInspectTrayNumber == lowestTrayIndex);
         bagContents.RemoveAll(item => manualInspectItems.Contains(item));
-        BagHandler.instance.createTrayWithContents(Game.instance.getTrayDropPosition(), manualInspectItems);
+        BagHandler.instance.createTrayWithContents(Game.instance.getTrayDropPosition(), manualInspectItems, bagDefinition);
     }
 
     public void showItems (bool show = true) {
