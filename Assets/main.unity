@@ -1081,6 +1081,9 @@ MonoBehaviour:
   - contentObj: {fileID: 3749869878923238448, guid: fbf2a64634eef436d8eac93d433dc29c,
       type: 3}
     frequency: 20
+  - contentObj: {fileID: 8297490848007574543, guid: 0142819c1d5e444d0bd38a2a85af216f,
+      type: 3}
+    frequency: 8
   bagInspectState: 0
 --- !u!114 &1350434892
 MonoBehaviour:

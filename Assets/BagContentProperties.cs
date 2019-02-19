@@ -88,6 +88,7 @@ public class BagContentProperties : MonoBehaviour, IPubSub {
         // Special method to run when starting inspection on this object
         ActionOnInspect[] actionOnInspects = GetComponents<ActionOnInspect>();
         foreach (ActionOnInspect actionOnInspect in actionOnInspects) {
+            Debug.Log(actionOnInspect);
             if (actionOnInspect != null) {
                 actionOnInspect.run();
             }

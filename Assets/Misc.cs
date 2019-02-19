@@ -892,8 +892,27 @@ public class Misc {
             Singleton<SingletonInstance>.Instance.StopCoroutine (rotationCoroutines[key]);
             rotationCoroutines.Remove(key);
         }
-        rotationCoroutines.Add(key, Singleton<SingletonInstance>.Instance.StartCoroutine (AnimateRotation(key, obj, fromRotation, toRotation, time)));
+		rotationCoroutines.Add(key, Singleton<SingletonInstance>.Instance.StartCoroutine (AnimateRotation(key, obj, fromRotation, toRotation, time)));
     }
+
+    public static void AnimateRotationFromTo (string key, GameObject obj, Vector3 fromRotation, Vector3 toRotation, float time = DEFAULT_ANIMATION_TIME) {
+        if (rotationCoroutines.ContainsKey(key)) {
+            Singleton<SingletonInstance>.Instance.StopCoroutine (rotationCoroutines[key]);
+            rotationCoroutines.Remove(key);
+        }
+		rotationCoroutines.Add(key, Singleton<SingletonInstance>.Instance.StartCoroutine (AnimateRotation(key, obj, fromRotation, toRotation, time)));
+    }
+
+    private static IEnumerator AnimateRotation (string key, GameObject obj, Vector3 from, Vector3 to, float time) {
+		float t = 0f;
+		while (t <= 1f) {
+			t += Time.unscaledDeltaTime / time;
+			Vector3 currentRotation = Vector3.Slerp(from, to, t);
+			obj.transform.localRotation = Quaternion.Euler(currentRotation);
+			yield return null;
+		}
+		rotationCoroutines.Remove(key);
+	}
 
     private static IEnumerator AnimateRotation (string key, GameObject obj, Quaternion from, Quaternion to, float time) {
         float t = 0f;

@@ -13,9 +13,9 @@ public class RotateObjectInspectAction : MonoBehaviour, ActionOnInspect {
             RotationDefinition rotationDefinition = rotationDefinitions[i];
             float time = rotationDefinition.animationTime > 0 ? rotationDefinition.animationTime : Misc.DEFAULT_ANIMATION_TIME;
             if (!reverse) {
-                Misc.AnimateRotationTo("rotate_inspect_item_"+i, rotationDefinition.gameObject, Quaternion.Euler(rotationDefinition.startInspectRotation), time);
+                Misc.AnimateRotationFromTo("rotate_inspect_item_"+i, rotationDefinition.gameObject, rotationDefinition.endInspectRotation, rotationDefinition.startInspectRotation, time);
             } else if (rotationDefinition.animateReverse) {
-                Misc.AnimateRotationTo("rotate_inspect_item_end_"+i, rotationDefinition.gameObject, Quaternion.Euler(rotationDefinition.endInspectRotation), time);
+                Misc.AnimateRotationFromTo("rotate_inspect_item_end_"+i, rotationDefinition.gameObject, rotationDefinition.startInspectRotation, rotationDefinition.endInspectRotation, time);
             }
         }
 	}
