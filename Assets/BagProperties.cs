@@ -6,7 +6,7 @@ using UnityEngine;
 public class BagProperties : MonoBehaviour {
 
     private static int idCounter = 0;
-    private int id;
+    public int id;
 
     public Material interiorMaterial;
 	public GameObject contents;
@@ -198,6 +198,13 @@ public class BagProperties : MonoBehaviour {
     public void showItems (bool show = true) {
         if (lid != null) {
             contents.SetActive(show);
+        }
+    }
+
+    public void resetActionOnItems() {
+        List<BagContentProperties> allOKItems = bagContents.FindAll(item => item.actionTaken == InspectUIButton.INSPECT_TYPE.OK);
+        foreach (BagContentProperties item in allOKItems) {
+            item.actionTaken = InspectUIButton.INSPECT_TYPE.UNDEFINED;
         }
     }
 }

@@ -160,7 +160,10 @@ public class Game : MonoBehaviour, IPubSub {
 
     private void createNewPerson() {
 
-        Person newPerson = Instantiate(personPrefab);
+        Vector3 startPoint = currentXrayMachine.bagDropPoint + currentXrayMachine.transform.position;
+        startPoint.z = 5;
+        Person newPerson = Instantiate(personPrefab, startPoint, Quaternion.identity);
+        newPerson.greetingPositionX = currentXrayMachine.scanRight;
 
         Vector3 bagDropPositionRelativeXrayMachine = currentXrayMachine.bagDropPoint;
         Vector3 bagDropPosition = Misc.getWorldPosForParentRelativePos(bagDropPositionRelativeXrayMachine, currentXrayMachine.transform);

@@ -69,6 +69,7 @@ MonoBehaviour:
   manualInspectTrayNumber: 0
   consequences: 
   displayName: Men underwear
+  category: underwear
 --- !u!54 &7315073656762745810
 Rigidbody:
   m_ObjectHideFlags: 0

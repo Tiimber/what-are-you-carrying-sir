@@ -9,13 +9,14 @@ public class PlayVideoInspectAction : MonoBehaviour, ActionOnInspect {
     public VideoPlayer videoPlayer;
     public VideoClip[] videoClips;
     private bool chosenVideoClip = false;
+    private bool running = false;
 
     AudioSource audioSource;
 
 	public void run(bool reverse) {
         if (!reverse) {
+            videoPlayer.playOnAwake = true;
             if (!chosenVideoClip) {
-                videoPlayer.playOnAwake = true;
 
                 // Duplicate the material of the screen
                 GameObject videoPlayerGameObject = videoPlayer.gameObject;
@@ -47,11 +48,10 @@ public class PlayVideoInspectAction : MonoBehaviour, ActionOnInspect {
                 chosenVideoClip = true;
             }
 
+            running = true;
             StartCoroutine(playWhenReady());
-//            videoPlayer.Stop();
-//            videoPlayer.Play();
-//            audioSource.Play();
         } else {
+            running = false;
             videoPlayer.Stop();
             audioSource.Stop();
         }
@@ -60,13 +60,17 @@ public class PlayVideoInspectAction : MonoBehaviour, ActionOnInspect {
     public IEnumerator playWhenReady() {
         videoPlayer.Prepare();
 
-        while (!videoPlayer.isPrepared)
+        while (!videoPlayer.isPrepared && running)
         {
             yield return null;
         }
 
-        videoPlayer.Play();
-        audioSource.Play();
+        if (running) {
+            videoPlayer.Play();
+            audioSource.Play();
+            running = false;
+            videoPlayer.playOnAwake = false;
+        }
     }
 
 }

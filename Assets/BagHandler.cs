@@ -96,8 +96,9 @@ public class BagHandler : MonoBehaviour, IPubSub {
             bagGameObject.transform.position = new Vector3 (dropPosition.x, dropPosition.y + bagProperties.halfBagHeight, dropPosition.z);
 
             currentBagPlacing = bagProperties;
+            bagProperties.bagDefinition = bagDefinition;
             bagProperties.bagType = BagProperties.TYPE.TRAY_AFTER_INSPECT;
-            bagDefinition.bags.Add(bagProperties);
+            bagDefinition.addBag(bagProperties);
 
             moveBagsAsideForTray (bagGameObject.GetComponent<BagProperties>());
             StartCoroutine (placeItemsInBagAndDrop (currentBagPlacing, items));
@@ -166,6 +167,7 @@ public class BagHandler : MonoBehaviour, IPubSub {
                             clickedBagProperties.enableContentColliders(true);
                             currentBagInspect = clickedBagProperties;
                             bagInspectState = BagInspectState.BAG_OPEN;
+                            clickedBagProperties.resetActionOnItems();
                         }
                     }
                 } else if (bagInspectState == BagInspectState.BAG_OPEN) {
@@ -184,6 +186,7 @@ public class BagHandler : MonoBehaviour, IPubSub {
                                 Misc.AnimateBlurTo("blurCamera", Game.instance.blurCamera.GetComponent<BlurOptimized>(), 1, 3f, 2);
                                 bagInspectState = BagInspectState.ITEM_INSPECT;
                                 PubSub.publish("inspect_active");
+                                PubSub.publish("bag_inspect_item", new InspectActionBag(currentBagInspect.id, clickedBagContentProperties, InspectUIButton.INSPECT_TYPE.UNDEFINED));
                             }
                         }
                     } else {
@@ -206,8 +209,10 @@ public class BagHandler : MonoBehaviour, IPubSub {
     }
 
     public void inspectBagDone() {
-        bagInspectState = BagInspectState.BUSY;
-        currentBagInspect.putBackOkContent();
+        if (bagInspectState == BagInspectState.BAG_OPEN) {
+            bagInspectState = BagInspectState.BUSY;
+            currentBagInspect.putBackOkContent();
+        }
     }
 
     public void bagInspectItemEnded (bool separateTrayItems = false) {
@@ -427,7 +432,7 @@ public class BagHandler : MonoBehaviour, IPubSub {
 
         currentBagPlacing.bagDefinition = bagDefinition;
         currentBagPlacing.bagType = BagProperties.TYPE.DEFAULT;
-        bagDefinition.bags.Add(currentBagPlacing);
+        bagDefinition.addBag(currentBagPlacing);
 
         dropBag(bagDropPosition);
     }
@@ -520,7 +525,7 @@ public class BagHandler : MonoBehaviour, IPubSub {
                     }
                 }
             }
-
+            PubSub.publish("belt_movement", movement);
         }
     }
 

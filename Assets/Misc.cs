@@ -87,7 +87,10 @@ public class Misc {
 	}
 
     public static T pickRandom<T>(List<T> list) {
-		return list[Misc.randomRange(0, list.Count)];
+		if (list.Count > 0) {
+			return list[Misc.randomRange(0, list.Count)];
+		}
+		return default(T);
 	}
 
 //	public static string pickRandom(List<string> strings) {
@@ -1036,5 +1039,22 @@ public class Misc {
             fovCoroutines.Remove(key);
         }
     }
+
+	private static Dictionary<string, Coroutine> genericCoroutines = new Dictionary<string, Coroutine>();
+	public static void SetCoroutine (string key, Coroutine coroutine) {
+		Misc.StopCoroutine(key);
+		genericCoroutines.Add(key, coroutine);
+	}
+
+	public static bool HasCoroutine (string key) {
+		return genericCoroutines.ContainsKey(key);
+	}
+
+	public static void StopCoroutine (string key) {
+		if (genericCoroutines.ContainsKey(key)) {
+			Singleton<SingletonInstance>.Instance.StopCoroutine (genericCoroutines[key]);
+			genericCoroutines.Remove(key);
+		}
+	}
 
 }

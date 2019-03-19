@@ -1455,6 +1455,7 @@ MonoBehaviour:
   manualInspectTrayNumber: 0
   consequences: 
   displayName: Lipstick
+  category: lipstick
 --- !u!114 &7757857775803599524
 MonoBehaviour:
   m_ObjectHideFlags: 0

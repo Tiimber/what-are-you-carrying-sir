@@ -12,7 +12,7 @@ public class BagContentProperties : MonoBehaviour, IPubSub {
     private const int POINTS_ALL_FINE_ACTION = 1000;
 
     private static int idCounter = 0;
-    private int id;
+    public int id;
 
     private bool inspecting = false;
 
@@ -30,6 +30,7 @@ public class BagContentProperties : MonoBehaviour, IPubSub {
     public Generic.CONSEQUENCE[] consequences;
 
     public string displayName;
+    public string category;
 
     public static BagContentProperties currentInspectedItem;
 
@@ -141,6 +142,10 @@ public class BagContentProperties : MonoBehaviour, IPubSub {
             InspectUIButton.INSPECT_TYPE action = (InspectUIButton.INSPECT_TYPE) data;
             actionTaken = action;
             PersonBagDefinition currentBagDefinition = BagHandler.instance.currentBagInspect.bagDefinition;
+
+            // Send signal about action taken for this istem
+            PubSub.publish("bag_inspect_item", new InspectActionBag(BagHandler.instance.currentBagInspect.id, BagContentProperties.currentInspectedItem, action));
+
             if (action == InspectUIButton.INSPECT_TYPE.TRASHCAN) {
                 currentBagDefinition.removedItems.Add(currentInspectedItem);
                 throwAway();
