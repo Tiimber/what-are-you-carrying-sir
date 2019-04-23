@@ -737,8 +737,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f455d6ab405214ad086529f5e56bd75e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
   objectSize: {x: 4.434509, y: 0.3240495, z: 0.79661465}
-  acceptableActions: 04000000
+  acceptableActions: 05000000
   actionTaken: 0
   manualInspectTrayNumber: 0
   consequences: 01000000

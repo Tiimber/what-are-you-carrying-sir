@@ -151,15 +151,14 @@ public class BagProperties : MonoBehaviour {
         BagHandler.instance.bagFinished (this);
         // For each item in bag, score point depending on action
         int points = 0;
-        Debug.Log("Number of items: " + bagContents.Count);
-        bool personalWarningForBag = false;
+//        Debug.Log("Number of items: " + bagContents.Count);
         foreach (BagContentProperties bagContentProperties in bagContents) {
-            Debug.Log("Check content for correct action: " + bagContentProperties.gameObject.name);
+//            Debug.Log("Check content for correct action: " + bagContentProperties.gameObject.name);
             int pointsForItem = bagContentProperties.calculatePoints();
             if (pointsForItem == 0) {
                 Debug.Log("Wrong action taken for: " + bagContentProperties.gameObject.name);
+                bagDefinition.person.registerWrongAction(bagContentProperties);
                 // Wrong action taken
-                personalWarningForBag = true;
                 Generic.CONSEQUENCE selectedConsequence = bagContentProperties.getConsequence();
                 Debug.Log(selectedConsequence);
                 string consequence = Generic.increaseConsequenceCount(selectedConsequence);
@@ -170,8 +169,11 @@ public class BagProperties : MonoBehaviour {
             }
             points += pointsForItem;
         }
-        if (personalWarningForBag) {
+        string worstMistake = bagDefinition.person.getWorstMistake();
+        if (worstMistake == "warning") {
             // TODO - Do something with personal warning
+        } else if (worstMistake != "none") {
+            Game.instance.registerMistake(worstMistake);
         }
 
         // Clear GameObjects (bag + contents)

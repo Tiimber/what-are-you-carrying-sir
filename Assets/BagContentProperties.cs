@@ -183,6 +183,10 @@ public class BagContentProperties : MonoBehaviour, IPubSub {
     }
 
     public int calculatePoints () {
+        if (actionTaken == InspectUIButton.INSPECT_TYPE.UNDEFINED) {
+            actionTaken = InspectUIButton.INSPECT_TYPE.OK;
+        }
+
         if (Array.IndexOf(acceptableActions, actionTaken) != -1) {
             consequences = new Generic.CONSEQUENCE[0];
             return POINTS_ALL_FINE_ACTION;

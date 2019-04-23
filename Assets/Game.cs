@@ -18,6 +18,7 @@ public class Game : MonoBehaviour, IPubSub {
     public Camera gameCamera;
     public Camera inspectCamera;
     public Camera blurCamera;
+    public LoudspeakerLogic loudspeaker;
 
     public static Game instance;
 
@@ -25,6 +26,8 @@ public class Game : MonoBehaviour, IPubSub {
     public int cameraXPos = 1;
 
 	private XRayMachine currentXrayMachine;
+
+    private Dictionary<string, int> mistakeSeverity = new Dictionary<string, int>();
 
     bool enableLongPress = false;
     float leftClickReleaseTimer = 0f;
@@ -348,5 +351,13 @@ public class Game : MonoBehaviour, IPubSub {
         Vector3 dropPositionRelativeXrayMachine = new Vector3(currentXrayMachine.xPointOfTrayInsertion, currentXrayMachine.bagDropPoint.y, currentXrayMachine.bagDropPoint.z);
         Vector3 dropPosition = Misc.getWorldPosForParentRelativePos (dropPositionRelativeXrayMachine, currentXrayMachine.transform);
         return dropPosition;
+    }
+
+    public void registerMistake(string mistake) {
+        if (!mistakeSeverity.ContainsKey(mistake)) {
+            mistakeSeverity.Add(mistake, 0);
+        }
+        mistakeSeverity[mistake]++;
+        loudspeaker.putMessageOnQueue(mistake, mistakeSeverity[mistake], Misc.randomRange(7f, 15f));
     }
 }

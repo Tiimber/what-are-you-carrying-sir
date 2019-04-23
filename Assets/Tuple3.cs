@@ -1,8 +1,8 @@
 ﻿public class Tuple3<T1, T2, T3>
 {
-	public T1 First { get; private set; }
-	public T2 Second { get; private set; }
-	public T3 Third { get; private set; }
+	public T1 First { get; set; }
+	public T2 Second { get; set; }
+	public T3 Third { get; set; }
 	internal Tuple3(T1 first, T2 second, T3 third)
 	{
 		First = first;

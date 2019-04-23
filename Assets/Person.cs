@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -18,6 +19,11 @@ public class Person : MonoBehaviour, IPubSub {
     private AudioClip greeting;
     public float greetingPositionX;
 
+    private string worstMistake = "none";
+    private static List<string> WORST_MISTAKES = new List<string>(){
+        "gun", "knife", "drugs", "warning", "none"
+    };
+
     private List<AudioClip> clips;
 
     void Awake() {
@@ -26,7 +32,7 @@ public class Person : MonoBehaviour, IPubSub {
         voice = "robot1"; // TODO - Decide voice
 
         // Load information on audio clips
-        clips = Resources.LoadAll<AudioClip>("voice/robot1").ToList();
+        clips = Resources.LoadAll<AudioClip>("voice/" + voice).ToList();
         // Greeting
         // Some people don't say greeting - in those cases, pretend we've already greeted
 //        haveSaidGreeting = Misc.randomBool(); // TODO
@@ -159,5 +165,21 @@ public class Person : MonoBehaviour, IPubSub {
             // throw away/ok/manual_inspect/police
         }
         return default(PROPAGATION);
+    }
+
+    public void registerWrongAction(BagContentProperties item) {
+        if (Array.IndexOf(item.acceptableActions, item.actionTaken) == -1) {
+            string newMistake = "warning";
+            if (item.acceptableActions.Contains(InspectUIButton.INSPECT_TYPE.POLICE)) {
+                newMistake = item.category;
+            }
+            if (WORST_MISTAKES.IndexOf(worstMistake) > WORST_MISTAKES.IndexOf(newMistake)) {
+                worstMistake = newMistake;
+            }
+        }
+    }
+
+    public string getWorstMistake() {
+        return worstMistake;
     }
 }
