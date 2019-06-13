@@ -11,6 +11,8 @@ public class Game : MonoBehaviour, IPubSub {
     private const float CLICK_RELEASE_TIME = 0.2f;
     private const float THRESHOLD_MAX_MOVE_TO_BE_CONSIDERED_CLICK = 30f;
 
+    private const float TV_SCROLL_MOVEMENT_SPEED = 7f;
+
     private BagHandler bagHandler;
     public Person personPrefab;
 	public GameObject[] xrayMachines;
@@ -19,6 +21,7 @@ public class Game : MonoBehaviour, IPubSub {
     public Camera inspectCamera;
     public Camera blurCamera;
     public LoudspeakerLogic loudspeaker;
+    public Room room;
 
     public static Game instance;
 
@@ -38,6 +41,8 @@ public class Game : MonoBehaviour, IPubSub {
     TKTapRecognizer twoTapRecognizer; // TODO - Only for debug
     TKTapRecognizer tapRecognizer;
     TKContinousHoldRecognizer continousHoldRecognizer;
+
+    public static bool paused = false;
 
     enum Direction {
         UP,
@@ -76,6 +81,7 @@ public class Game : MonoBehaviour, IPubSub {
 		GameObject xrayMachineGameObject = Instantiate(xrayMachines[0], xrayMachines[0].transform.position, Quaternion.identity);
 		currentXrayMachine = xrayMachineGameObject.GetComponent<XRayMachine> ();
         currentXrayMachine.attachConenctingConveyors();
+        room.GetComponent<Room>().setLocation("se", "mma");
 
 //        // when using in conjunction with a pinch or rotation recognizer setting the min touches to 2 smoothes movement greatly
 //        if( Application.platform == RuntimePlatform.IPhonePlayer ) {
@@ -174,6 +180,24 @@ public class Game : MonoBehaviour, IPubSub {
         newPerson.startPlaceBags(bagHandler, bagDropPosition);
     }
 
+    private void pauseGame () {
+        Game.paused = !Game.paused;
+        PubSub.publish("pause", Game.paused);
+        animateCameraChange();
+    }
+
+    private void scrollTV (Direction dir) {
+        float amount = 0f;
+        if (dir == Direction.UP) {
+            amount = TV_SCROLL_MOVEMENT_SPEED;
+        } else if (dir == Direction.DOWN) {
+            amount = -TV_SCROLL_MOVEMENT_SPEED;
+        }
+        if (amount != 0f) {
+            PubSub.publish("scrollvertical", amount);
+        }
+    }
+
     private void moveCamera (Direction dir1, Direction dir2 = Direction.NONE) {
         List<Direction> directions = new List<Direction>(){
             dir1
@@ -188,12 +212,16 @@ public class Game : MonoBehaviour, IPubSub {
                     if (zoomedOutState && canMoveCamera()) {
                         zoomedOutState = false;
                         animateCameraChange();
+                    } else if (Game.paused) {
+                        scrollTV(Direction.UP);
                     }
                     break;
                 case Direction.DOWN:
                     if (!zoomedOutState && canMoveCamera()) {
                         zoomedOutState = true;
                         animateCameraChange();
+                    } else if (Game.paused) {
+                        scrollTV(Direction.DOWN);
                     }
                     break;
                 case Direction.LEFT:
@@ -226,20 +254,30 @@ public class Game : MonoBehaviour, IPubSub {
 		}
 
 		// Create a new bag - disable lid
-		if (Input.GetKeyDown (KeyCode.Alpha1)) {
+		if (!Game.paused && Input.GetKeyDown (KeyCode.Alpha1)) {
             createNewPerson();
+        } else if (Input.GetKeyDown(KeyCode.Escape)) {
+            pauseGame();
 		} else if (Input.GetKeyDown(KeyCode.UpArrow)) {
-            moveCamera(Direction.UP);
+            if (!Game.paused) {
+                moveCamera(Direction.UP);
+            } else {
+                scrollTV(Direction.UP);
+            }
 		} else if (Input.GetKeyDown(KeyCode.DownArrow)) {
-            moveCamera(Direction.DOWN);
-		} else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
+            if (!Game.paused) {
+                moveCamera(Direction.DOWN);
+            } else {
+                scrollTV(Direction.DOWN);
+            }
+		} else if (!Game.paused && Input.GetKeyDown(KeyCode.LeftArrow)) {
             moveCamera(Direction.LEFT);
-		} else if (Input.GetKeyDown(KeyCode.RightArrow)) {
+		} else if (!Game.paused && Input.GetKeyDown(KeyCode.RightArrow)) {
             moveCamera(Direction.RIGHT);
         }
 
         // Left mouse button
-        if (Input.GetMouseButton (0)) {
+        if (!Game.paused && Input.GetMouseButton (0)) {
             // Drag logic
             bool firstFrame = Input.GetMouseButtonDown (0);
             Vector3 mousePosition = Input.mousePosition;
@@ -271,7 +309,9 @@ public class Game : MonoBehaviour, IPubSub {
         } else if (leftClickReleaseTimer > 0f) {
             // Button not pressed, and was pressed < 0.2s, accept as click if not moved too much
             if (Misc.getDistance (mouseDownPosition, prevMousePosition) < THRESHOLD_MAX_MOVE_TO_BE_CONSIDERED_CLICK) {
-                PubSub.publish ("Click", mouseDownPosition);
+                if (!Game.paused) {
+                    PubSub.publish ("Click", mouseDownPosition);
+                }
                 leftClickReleaseTimer = 0f;
             }
         }
@@ -279,30 +319,36 @@ public class Game : MonoBehaviour, IPubSub {
 	}
 
     private bool canMoveCamera () {
-        return bagHandler.bagInspectState == BagHandler.BagInspectState.NOTHING;
+        return !Game.paused && bagHandler.bagInspectState == BagHandler.BagInspectState.NOTHING;
     }
 
     private void animateCameraChange() {
         float zoomTo;
         Vector3 moveTo;
         Vector3 rotateToVector;
-        switch (cameraXPos) {
-            case 0:
-            	zoomTo = zoomedOutState ? currentXrayMachine.dropPointZoomOutZoom : currentXrayMachine.dropPointZoomInZoom;
-                moveTo = zoomedOutState ? currentXrayMachine.dropPointZoomOutPos : currentXrayMachine.dropPointZoomInPos;
-                rotateToVector = zoomedOutState ? currentXrayMachine.dropPointZoomOutRotation : currentXrayMachine.dropPointZoomInRotation;
-            	break;
-            case 2:
-            	zoomTo = zoomedOutState ? currentXrayMachine.checkPointZoomOutZoom : currentXrayMachine.checkPointZoomInZoom;
-                moveTo = zoomedOutState ? currentXrayMachine.checkPointZoomOutPos : currentXrayMachine.checkPointZoomInPos;
-                rotateToVector = zoomedOutState ? currentXrayMachine.checkPointZoomOutRotation : currentXrayMachine.checkPointZoomInRotation;
-            	break;
-            case 1:
-			default:
-            	zoomTo = zoomedOutState ? currentXrayMachine.scanPointZoomOutZoom : currentXrayMachine.scanPointZoomInZoom;
-                moveTo = zoomedOutState ? currentXrayMachine.scanPointZoomOutPos : currentXrayMachine.scanPointZoomInPos;
-                rotateToVector = zoomedOutState ? currentXrayMachine.scanPointZoomOutRotation : currentXrayMachine.scanPointZoomInRotation;
-            	break;
+        if (Game.paused) {
+            zoomTo = room.pauseScreenZoom;
+            moveTo = room.pauseScreenPos;
+            rotateToVector = room.pauseScreenRotation;
+        } else {
+            switch (cameraXPos) {
+                case 0:
+                    zoomTo = zoomedOutState ? currentXrayMachine.dropPointZoomOutZoom : currentXrayMachine.dropPointZoomInZoom;
+                    moveTo = zoomedOutState ? currentXrayMachine.dropPointZoomOutPos : currentXrayMachine.dropPointZoomInPos;
+                    rotateToVector = zoomedOutState ? currentXrayMachine.dropPointZoomOutRotation : currentXrayMachine.dropPointZoomInRotation;
+                    break;
+                case 2:
+                    zoomTo = zoomedOutState ? currentXrayMachine.checkPointZoomOutZoom : currentXrayMachine.checkPointZoomInZoom;
+                    moveTo = zoomedOutState ? currentXrayMachine.checkPointZoomOutPos : currentXrayMachine.checkPointZoomInPos;
+                    rotateToVector = zoomedOutState ? currentXrayMachine.checkPointZoomOutRotation : currentXrayMachine.checkPointZoomInRotation;
+                    break;
+                case 1:
+                default:
+                    zoomTo = zoomedOutState ? currentXrayMachine.scanPointZoomOutZoom : currentXrayMachine.scanPointZoomInZoom;
+                    moveTo = zoomedOutState ? currentXrayMachine.scanPointZoomOutPos : currentXrayMachine.scanPointZoomInPos;
+                    rotateToVector = zoomedOutState ? currentXrayMachine.scanPointZoomOutRotation : currentXrayMachine.scanPointZoomInRotation;
+                    break;
+            }
         }
         Quaternion rotateTo = Quaternion.Euler(rotateToVector);
         CameraHandler.ZoomPerspectiveCameraTo(zoomTo);
@@ -313,6 +359,7 @@ public class Game : MonoBehaviour, IPubSub {
         }
     }
 
+/*
     private void moveCameraToXPos() {
 		switch (cameraXPos) {
             case 0:
@@ -327,6 +374,7 @@ public class Game : MonoBehaviour, IPubSub {
 	            break;
         }
 	}
+*/
 
     public PROPAGATION onMessage(string message, object data) {
         if (message == "Click") {

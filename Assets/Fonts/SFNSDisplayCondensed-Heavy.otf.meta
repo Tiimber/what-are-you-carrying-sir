@@ -1,0 +1,27 @@
+fileFormatVersion: 2
+guid: c89bcdc92d057460aa3bea40fd1f6f16
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: .SF NS Display Condensed
+  fontNames:
+  - .SF NS Display Condensed
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 66c8347225779459bbbbe8a5370b4bd5, type: 3}
+  - {fileID: 12800000, guid: 9196961b2986f45339d342ac72c607ef, type: 3}
+  - {fileID: 12800000, guid: 6b80913bef1ae4fe2a9eb0465389880c, type: 3}
+  - {fileID: 12800000, guid: 7ca1d47b159044b769bb8cd16483a447, type: 3}
+  - {fileID: 12800000, guid: 919dc4db09b6449d0a6f8da26521cbd7, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

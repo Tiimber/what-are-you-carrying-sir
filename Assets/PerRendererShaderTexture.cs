@@ -15,7 +15,7 @@ public class PerRendererShaderTexture : MonoBehaviour {
         _propBlock = new MaterialPropertyBlock();
         _renderer = GetComponent<Renderer>();
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
         // Get the current value of the material properties in the renderer.
@@ -24,6 +24,5 @@ public class PerRendererShaderTexture : MonoBehaviour {
         _propBlock.SetTexture("_MainTex", texture);
         // Apply the edited values to the renderer.
         _renderer.SetPropertyBlock(_propBlock, materialIndex);
-
     }
 }
