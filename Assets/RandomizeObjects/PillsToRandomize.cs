@@ -39,11 +39,11 @@ public class PillsToRandomize {
         // Random "wrongness" - pill type
         int randomType = Misc.randomRange(0, 100);
         if (randomType <= FACTOR_FOR_WRONG_PILL_TYPE) {
-            bool wrongSubbstanceLiquid = Misc.randomBool();
-            if (wrongSubbstanceLiquid && !specifiedAsLiquid) {
+            bool wrongSubstanceLiquid = Misc.randomBool();
+            if (wrongSubstanceLiquid && !specifiedAsLiquid) {
                 amount = 0;
                 liquid = true;
-            } else if (wrongSubbstanceLiquid && specifiedAsLiquid) {
+            } else if (wrongSubstanceLiquid && specifiedAsLiquid) {
                 liquid = false;
             } else {
                 organic = !specifiedAsOrganic;
@@ -71,11 +71,13 @@ public class PillsToRandomize {
                     pillsContainerXray.transform.GetChild(i).GetComponent<Renderer>().material = organicMaterialXray;
                 }
             }
+
+            // Remove pills from gameObject
+            GameObject.Destroy(liquidContainer);
+            GameObject.Destroy(liquidContainerXray);
         } else {
-            pillsContainer.SetActive(false);
-            pillsContainerXray.SetActive(false);
-            liquidContainer.SetActive(true);
-            liquidContainerXray.SetActive(true);
+            GameObject.Destroy(pillsContainer);
+            GameObject.Destroy(pillsContainerXray);
         }
     }
 }

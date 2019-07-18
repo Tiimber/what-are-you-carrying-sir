@@ -31,6 +31,7 @@ public class BagContentProperties : MonoBehaviour, IPubSub {
 
     public string displayName;
     public string category;
+    public GameObject[] xrayMaterialObjects;
 
     public static BagContentProperties currentInspectedItem;
 
@@ -199,5 +200,16 @@ public class BagContentProperties : MonoBehaviour, IPubSub {
             return consequences[Misc.randomRange(0, consequences.Length)];
         }
         return Generic.CONSEQUENCE.NOTHING;
+    }
+
+    public void setVisibleXrayState() {
+        Debug.Log("Set Xray stuff");
+        foreach (GameObject xrayMaterialObject in xrayMaterialObjects) {
+            if (xrayMaterialObject != null) {
+                string materialName = xrayMaterialObject.GetComponent<Renderer>().material.name;
+                ToggleButtons.ToggleMaterial shaderMaterial = ToggleButtons.GetToggleMaterialForString(materialName);
+                xrayMaterialObject.SetActive(ToggleButtons.XRAY_MATERIALS_VISIBLE.Contains(shaderMaterial));
+            }
+        }
     }
 }

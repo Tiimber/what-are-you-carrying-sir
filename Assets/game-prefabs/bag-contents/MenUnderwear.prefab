@@ -63,6 +63,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f455d6ab405214ad086529f5e56bd75e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
   objectSize: {x: 4.51359, y: 0.605099, z: 3.310514}
   acceptableActions: 02000000
   actionTaken: 0
@@ -70,6 +71,8 @@ MonoBehaviour:
   consequences: 
   displayName: Men underwear
   category: underwear
+  xrayMaterialObjects:
+  - {fileID: 2093022407519976139}
 --- !u!54 &7315073656762745810
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -281,6 +284,12 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 7b01eae5cfa794f789ab48c4280b9278, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 416f3a900d2854af1877a5c08c537af5, type: 3}
+--- !u!1 &2093022407519976139 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: 416f3a900d2854af1877a5c08c537af5,
+    type: 3}
+  m_PrefabInstance: {fileID: 2093022407519943787}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2093022407520331499 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 416f3a900d2854af1877a5c08c537af5,

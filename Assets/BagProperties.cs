@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BagProperties : MonoBehaviour {
+public class BagProperties : MonoBehaviour, IPubSub {
 
     private static int idCounter = 0;
     public int id;
@@ -201,6 +201,18 @@ public class BagProperties : MonoBehaviour {
         if (lid != null) {
             contents.SetActive(show);
         }
+        if (show) {
+            PubSub.subscribe("xray_button_toggle", this);
+            setVisibleXrayItems();
+        } else {
+            PubSub.unsubscribe("xray_button_toggle", this);
+        }
+    }
+
+    public void setVisibleXrayItems() {
+        foreach (BagContentProperties bagContentProperties in bagContents) {
+            bagContentProperties.setVisibleXrayState();
+        }
     }
 
     public void resetActionOnItems() {
@@ -209,4 +221,12 @@ public class BagProperties : MonoBehaviour {
             item.actionTaken = InspectUIButton.INSPECT_TYPE.UNDEFINED;
         }
     }
+
+    public PROPAGATION onMessage(string message, object data) {
+        if (message == "xray_button_toggle") {
+            setVisibleXrayItems();
+        }
+        return default(PROPAGATION);
+    }
+
 }

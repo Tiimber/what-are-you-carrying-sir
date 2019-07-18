@@ -1449,6 +1449,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f455d6ab405214ad086529f5e56bd75e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
   objectSize: {x: 0.3357705, y: 0.9882262, z: 0.3287643}
   acceptableActions: 0300000004000000
   actionTaken: 0
@@ -1456,6 +1457,14 @@ MonoBehaviour:
   consequences: 
   displayName: Lipstick
   category: lipstick
+  xrayMaterialObjects:
+  - {fileID: 2750019160351929343}
+  - {fileID: 8509191973720810325}
+  - {fileID: 4584038965499545696}
+  - {fileID: 6164272394580891965}
+  - {fileID: 696097774336784059}
+  - {fileID: 942947868674689903}
+  - {fileID: 412459451671315873}
 --- !u!114 &7757857775803599524
 MonoBehaviour:
   m_ObjectHideFlags: 0
