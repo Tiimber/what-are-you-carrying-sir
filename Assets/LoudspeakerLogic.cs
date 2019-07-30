@@ -9,7 +9,10 @@ public class LoudspeakerLogic : MonoBehaviour {
     private List<AudioClip> clips;
 
     private List<Tuple2<float, AudioClip>> queue = new List<Tuple2<float, AudioClip>>();
+
     private string GENERIC_ANNOUNCEMENT_PREFIX = "generic-announcement-";
+    const float MIN_SECONDS_BETWEEN_LOUDSPEAKER_ANNOUNCEMENTS = 40f;
+    const float MAX_SECONDS_BETWEEN_LOUDSPEAKER_ANNOUNCEMENTS = 80f;
 
     public SpawningSoundObject loudspeaker;
 
@@ -70,7 +73,7 @@ public class LoudspeakerLogic : MonoBehaviour {
     }
 
     private void addGenericAnnouncementAfterDelay() {
-        queue.Add(new Tuple2<float, AudioClip>(Misc.randomRange(4f, 8f), Misc.pickRandom(clips.FindAll(i => i.name.StartsWith(GENERIC_ANNOUNCEMENT_PREFIX)))));
+        queue.Add(new Tuple2<float, AudioClip>(Misc.randomRange(MIN_SECONDS_BETWEEN_LOUDSPEAKER_ANNOUNCEMENTS, MAX_SECONDS_BETWEEN_LOUDSPEAKER_ANNOUNCEMENTS), Misc.pickRandom(clips.FindAll(i => i.name.StartsWith(GENERIC_ANNOUNCEMENT_PREFIX)))));
     }
 
     private List<AudioClip> getAdditionalPartsForAudioClip(AudioClip firstClip) {

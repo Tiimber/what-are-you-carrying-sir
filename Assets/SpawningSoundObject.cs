@@ -9,8 +9,9 @@ public class SpawningSoundObject : MonoBehaviour, IPubSub {
     }
 
     public Coroutine spawn(AudioClip clip, List<AudioClip> additionalParts = null) {
-        GameObject voiceObj = Instantiate(this.gameObject, transform);
+        GameObject voiceObj = Instantiate(this.gameObject);
         voiceObj.transform.parent = null;
+        voiceObj.transform.position = this.gameObject.transform.position;
         SpawningSoundObject instantiatedSpawningSoundObject = voiceObj.GetComponent<SpawningSoundObject>();
         instantiatedSpawningSoundObject.subscribeToInterruption();
         return instantiatedSpawningSoundObject.playAndDestroy(clip, additionalParts);

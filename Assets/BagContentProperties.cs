@@ -203,7 +203,6 @@ public class BagContentProperties : MonoBehaviour, IPubSub {
     }
 
     public void setVisibleXrayState() {
-        Debug.Log("Set Xray stuff");
         foreach (GameObject xrayMaterialObject in xrayMaterialObjects) {
             if (xrayMaterialObject != null) {
                 string materialName = xrayMaterialObject.GetComponent<Renderer>().material.name;

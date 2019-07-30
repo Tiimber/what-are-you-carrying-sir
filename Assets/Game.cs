@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Game : MonoBehaviour, IPubSub {
 
-//    const float CONVEYOR_SPEED = 0.2f;
-    const float CONVEYOR_SPEED = 2.0f;
+    const float CONVEYOR_SPEED = 0.2f;
+//    const float CONVEYOR_SPEED = 2.0f;
 	const float CONVEYOR_BACK_PCT_SPEED = 0.8f;
 
     private const float CLICK_RELEASE_TIME = 0.2f;
@@ -15,6 +15,7 @@ public class Game : MonoBehaviour, IPubSub {
 
     private BagHandler bagHandler;
     public Person personPrefab;
+    public WalkingMan walkingMan;
 	public GameObject[] xrayMachines;
 
     public Camera gameCamera;
@@ -173,6 +174,13 @@ public class Game : MonoBehaviour, IPubSub {
         startPoint.z = 5;
         Person newPerson = Instantiate(personPrefab, startPoint, Quaternion.identity);
         newPerson.greetingPositionX = currentXrayMachine.scanRight;
+
+        float walkingManStartPositionRelativePersonCube = 20f;
+        Vector3 walkingManStartPoint = new Vector3(startPoint.x - walkingManStartPositionRelativePersonCube, 0, startPoint.z + 12);
+        WalkingMan newWalkingMan = Instantiate(walkingMan, walkingManStartPoint, walkingMan.transform.rotation);
+        newWalkingMan.person = newPerson;
+        newPerson.walkingMan = newWalkingMan;
+        newPerson.soundObject = newWalkingMan.spawningSoundObject;
 
         Vector3 bagDropPositionRelativeXrayMachine = currentXrayMachine.bagDropPoint;
         Vector3 bagDropPosition = Misc.getWorldPosForParentRelativePos(bagDropPositionRelativeXrayMachine, currentXrayMachine.transform);

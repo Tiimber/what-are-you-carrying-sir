@@ -18,6 +18,7 @@ public class Person : MonoBehaviour, IPubSub {
     private bool haveSaidGreeting = false;
     private AudioClip greeting;
     public float greetingPositionX;
+    public WalkingMan walkingMan;
 
     private string worstMistake = "none";
     private static List<string> WORST_MISTAKES = new List<string>(){
@@ -46,6 +47,8 @@ public class Person : MonoBehaviour, IPubSub {
 
         bagDefinition.person = this;
         currentX = this.transform.position.x;
+        walkingMan.reportPositionX(currentX);
+
         PubSub.subscribe("belt_movement", this);
 
         // Subscribe to inspection on items in own bags
@@ -138,6 +141,7 @@ public class Person : MonoBehaviour, IPubSub {
                     float leftMostBagPositionX = leftmostBag.gameObject.transform.position.x;
                     if (currentX < leftMostBagPositionX) {
                         currentX = leftMostBagPositionX;
+                        walkingMan.reportPositionX(currentX);
                         transform.position = new Vector3(leftMostBagPositionX, transform.position.y, transform.position.z);
 
                         // Check if we move past a certain point, to say our greeting
@@ -148,6 +152,7 @@ public class Person : MonoBehaviour, IPubSub {
                     }
                 } else {
                     finishPerson();
+                    walkingMan.reportPositionX(float.PositiveInfinity);
                 }
             }
         } else if (message == "bag_inspect_item") {
