@@ -48,6 +48,8 @@ MonoBehaviour:
   soundObject: {fileID: 0}
   greetingPositionX: 0
   walkingMan: {fileID: 0}
+  passportPrefab: {fileID: -6870142066822820582, guid: 98ac70426299b4a4099f5e2f4b6f184e,
+    type: 3}
 --- !u!1 &6918806447322462210
 GameObject:
   m_ObjectHideFlags: 0
@@ -114,6 +116,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

@@ -21,4 +21,18 @@ public class PersonBagDefinition {
         bags.Add(bag);
     }
 
+    public BagProperties getLeftmostBag() {
+        BagProperties leftmostBag = null;
+        foreach(BagProperties bag in bags) {
+            if (leftmostBag == null || leftmostBag.gameObject.transform.position.x > bag.gameObject.transform.position.x) {
+                leftmostBag = bag;
+            }
+        }
+        return leftmostBag;
+    }
+
+    public BagProperties getRightmostBag() {
+        return bags[0];
+    }
+
 }

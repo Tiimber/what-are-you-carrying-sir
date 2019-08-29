@@ -51,7 +51,7 @@ public class InspectUI : MonoBehaviour, IPubSub {
 
     private void animateInUiObj (InspectUIButtonParent obj, Vector3 offset, string animateKey) {
         // Safety check - are we currently animating the UI?
-        bool animatingUiInProgress = Misc.IsAnimationActive("inspect_police");
+        bool animatingUiInProgress = Misc.IsMovementAnimationActive("inspect_police");
         if (animatingUiInProgress) {
             // UI is animating, and a will be hidden after a delay, cancel these delays
             cancelUiDelay();

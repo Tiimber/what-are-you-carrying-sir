@@ -948,7 +948,7 @@ public class Misc {
         }
     }
 
-    public static bool IsAnimationActive (string key) {
+    public static bool IsMovementAnimationActive(string key) {
         return movementCoroutines.ContainsKey(key);
     }
 
@@ -1054,6 +1054,24 @@ public class Misc {
 		if (genericCoroutines.ContainsKey(key)) {
 			Singleton<SingletonInstance>.Instance.StopCoroutine (genericCoroutines[key]);
 			genericCoroutines.Remove(key);
+		}
+	}
+
+	private static Dictionary<string, Coroutine> activeAfterDelayCoroutines = new Dictionary<string, Coroutine>();
+	public static void SetActiveAfterDelay (string key, GameObject obj, bool active, bool destroy = false, float time = DEFAULT_ANIMATION_TIME) {
+		if (activeAfterDelayCoroutines.ContainsKey(key)) {
+			Singleton<SingletonInstance>.Instance.StopCoroutine (activeAfterDelayCoroutines[key]);
+			activeAfterDelayCoroutines.Remove(key);
+		}
+		activeAfterDelayCoroutines.Add(key, Singleton<SingletonInstance>.Instance.StartCoroutine (ActiveAfterDelay(key, obj, active, destroy, time)));
+	}
+
+	private static IEnumerator ActiveAfterDelay (string key, GameObject obj, bool active, bool destroy, float time) {
+		yield return new WaitForSeconds(time);
+		obj.SetActive(active);
+		activeAfterDelayCoroutines.Remove(key);
+		if (destroy) {
+			GameObject.Destroy(obj);
 		}
 	}
 

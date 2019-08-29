@@ -23,7 +23,7 @@ public class BagHandler : MonoBehaviour, IPubSub {
     private static Vector3 INIT_BAG_POINT = new Vector3(0f, 20f, 100f);
 
     // TODO - Decide time for calculation cycles
-    const float MAX_ITEM_PLACE_CYCLE_SECONDS = 0.005f;
+    const float MAX_ITEM_PLACE_CYCLE_SECONDS = 0.016f;
 
     private GUIStyle currentInspectStateStyle;
 

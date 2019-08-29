@@ -8,7 +8,7 @@ public class Person : MonoBehaviour, IPubSub {
 
     private static int PERSON_ID = 0;
 
-    private int id = ++PERSON_ID;
+    private int id;
     private PersonBagDefinition bagDefinition = new PersonBagDefinition();
     public List<BagContentProperties> toBePlacedInTrays = new List<BagContentProperties>();
     private float currentX;
@@ -27,7 +27,15 @@ public class Person : MonoBehaviour, IPubSub {
 
     private List<AudioClip> clips;
 
+    const float PASSPORT_OFFSET_X =  1.5f;
+    private bool showingPassport;
+    public Passport passportPrefab;
+
+    [HideInInspector]
+    public Passport passport;
+
     void Awake() {
+        id = ++PERSON_ID;
         Debug.Log("PERSON CREATED");
         // Decide person charachteristics
         voice = "robot1"; // TODO - Decide voice
@@ -131,18 +139,27 @@ public class Person : MonoBehaviour, IPubSub {
     public PROPAGATION onMessage(string message, object data) {
         if (message == "belt_movement") {
             if (bagDefinition.hasInitiated()) {
-                BagProperties leftmostBag = null;
-                foreach(BagProperties bag in bagDefinition.bags) {
-                    if (leftmostBag == null || leftmostBag.gameObject.transform.position.x > bag.gameObject.transform.position.x) {
-                        leftmostBag = bag;
-                    }
-                }
+                BagProperties leftmostBag = bagDefinition.getLeftmostBag();
                 if (leftmostBag != null) {
                     float leftMostBagPositionX = leftmostBag.gameObject.transform.position.x;
                     if (currentX < leftMostBagPositionX) {
                         currentX = leftMostBagPositionX;
                         walkingMan.reportPositionX(currentX);
                         transform.position = new Vector3(leftMostBagPositionX, transform.position.y, transform.position.z);
+
+                        // Check if person should show passport
+                        BagProperties rightmostBag = bagDefinition.getRightmostBag();
+                        GameObject triggerCube = rightmostBag.contentsTriggerCube;
+                        float centerOfTriggerCube = rightmostBag.transform.position.x + triggerCube.transform.localPosition.x;
+                        float bagRightmostPos = centerOfTriggerCube + triggerCube.transform.localScale.x / 2f;
+                        float bagLeftmostPos = centerOfTriggerCube - triggerCube.transform.localScale.x / 2f;
+                        if (bagRightmostPos >= Game.instance.currentXrayMachine.scanLeft && bagLeftmostPos <= Game.instance.currentXrayMachine.scanRight) {
+                            if (!showingPassport) {
+                                showPassport();
+                            }
+                        } else if (showingPassport) {
+                            showPassport(false);
+                        }
 
                         // Check if we move past a certain point, to say our greeting
                         if (currentX > greetingPositionX && !haveSaidGreeting) {
@@ -152,7 +169,6 @@ public class Person : MonoBehaviour, IPubSub {
                     }
                 } else {
                     finishPerson();
-                    walkingMan.reportPositionX(float.PositiveInfinity);
                 }
             }
         } else if (message == "bag_inspect_item") {
@@ -186,5 +202,25 @@ public class Person : MonoBehaviour, IPubSub {
 
     public string getWorstMistake() {
         return worstMistake;
+    }
+
+    private void showPassport(bool show = true) {
+        showingPassport = show;
+        float passportMovementY = 1.63f;
+        if (show && passport == null) {
+            passport = Instantiate(passportPrefab);
+            Vector3 passportTargetPosition = new Vector3(passport.transform.localPosition.x - PASSPORT_OFFSET_X * (passport.id % 3), passport.transform.localPosition.y + passportMovementY, passport.transform.localPosition.z);
+            Quaternion passportTargetRotation = passport.transform.localRotation;
+            Misc.AnimateMovementTo("person_passport_show_" + id, passport.gameObject, passportTargetPosition);
+            passport.originalPosition = passportTargetPosition;
+            passport.originalRotation = passportTargetRotation;
+            if (!(Game.instance.cameraXPos == 1 && !Game.instance.zoomedOutState)) {
+                passport.startInactive = true;
+            }
+        } else {
+            Vector3 passportTargetPosition = new Vector3(passport.transform.localPosition.x, passport.transform.localPosition.y - passportMovementY, passport.transform.localPosition.z);
+            Misc.AnimateMovementTo("person_passport_hide_" + id, passport.gameObject, passportTargetPosition);
+            Misc.SetActiveAfterDelay("person_passport_active_" + id, passport.gameObject, false, true);
+        }
     }
 }

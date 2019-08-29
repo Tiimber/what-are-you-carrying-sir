@@ -76,7 +76,7 @@ public class CameraHandler {
 		yield return ZoomWithAmount(MIN_ZOOM_LEVEL_ORTHOGRAPHIC, 0.25f, centerPos);
 	}
 
-	public static void ZoomToSizeAndMoveToPointThenSetNewMinMaxZoomAndCenter(float size, Vector3 center, float zoomSizeFactor, float time = 0.3f) {
+	public static void ZoomToSizeAndMoveToPointThenSetNewMinMaxZoomAndCenter(float size, Vector3 center, float zoomSizeFactor, float time = Misc.DEFAULT_ANIMATION_TIME) {
 		Singleton<SingletonInstance>.Instance.StartCoroutine (ZoomFromToAndMoveToPointThenSetNewMinMaxZoomAndCenter(size, center, zoomSizeFactor, time));
 	}
 
@@ -86,7 +86,7 @@ public class CameraHandler {
 		CameraHandler.SetCenterPoint(center);
 	}
 
-	public static void ZoomToSizeAndMoveToPoint(float size, Vector3 center, float time = 0.3f) {
+	public static void ZoomToSizeAndMoveToPoint(float size, Vector3 center, float time = Misc.DEFAULT_ANIMATION_TIME) {
 		Singleton<SingletonInstance>.Instance.StartCoroutine (ZoomFromToAndMoveToPoint(main.orthographicSize, size, center, time));
 	}
 
@@ -241,12 +241,12 @@ public class CameraHandler {
 	}
 
 	private static Coroutine currentMoveTo = null;
-	public static void MoveTo(GameObject gameObject, float time = 0.3f) {
+	public static void MoveTo(GameObject gameObject, float time = Misc.DEFAULT_ANIMATION_TIME) {
         Vector3 objectPosition = gameObject.transform.position;
 		MoveToPoint(objectPosition, time);
 	}
 
-	public static void MoveToPoint(Vector3 point, float time = 0.3f) {
+	public static void MoveToPoint(Vector3 point, float time = Misc.DEFAULT_ANIMATION_TIME) {
 		Vector3 cameraPosition = main.transform.position;
         Vector3 moveCameraToObjectVector = point - cameraPosition;
         moveCameraToObjectVector.z = 0f;
@@ -269,7 +269,7 @@ public class CameraHandler {
     private static Coroutine currentRotateCoroutine;
     private static Coroutine currentWaitForGyroCoroutine;
 
-	public static void ZoomPerspectiveCameraTo(float targetZoom, float time = 0.3f) {
+	public static void ZoomPerspectiveCameraTo(float targetZoom, float time = Misc.DEFAULT_ANIMATION_TIME) {
         float fromZoom = perspectiveCamera.fieldOfView;
         if (currentZoomCoroutine != null) {
             Singleton<SingletonInstance>.Instance.StopCoroutine (currentZoomCoroutine);
@@ -277,12 +277,12 @@ public class CameraHandler {
         currentZoomCoroutine = Singleton<SingletonInstance>.Instance.StartCoroutine (AnimatePerspectiveFieldOfView(fromZoom, targetZoom, time));
 	}
 
-    public static void MovePerspectiveCameraBy(Vector3 moveVector, float time = 0.3f) {
+    public static void MovePerspectiveCameraBy(Vector3 moveVector, float time = Misc.DEFAULT_ANIMATION_TIME) {
         Vector3 toPosition = perspectiveCamera.gameObject.transform.position + moveVector;
         MovePerspectiveCameraTo(toPosition, time);
     }
 
-    public static void MovePerspectiveCameraTo(Vector3 toPosition, float time = 0.3f) {
+    public static void MovePerspectiveCameraTo(Vector3 toPosition, float time = Misc.DEFAULT_ANIMATION_TIME) {
         Vector3 fromPosition = perspectiveCamera.gameObject.transform.position;
         if (currentMoveCoroutine != null) {
             Singleton<SingletonInstance>.Instance.StopCoroutine (currentMoveCoroutine);
@@ -290,7 +290,7 @@ public class CameraHandler {
         currentMoveCoroutine = Singleton<SingletonInstance>.Instance.StartCoroutine (AnimatePerspectiveMove(fromPosition, toPosition, time));
     }
 
-    public static void RotatePerspectiveCameraTo(Quaternion toRotation, float time = 0.3f) {
+    public static void RotatePerspectiveCameraTo(Quaternion toRotation, float time = Misc.DEFAULT_ANIMATION_TIME) {
         Quaternion fromRotation = perspectiveCamera.gameObject.transform.rotation;
         if (currentRotateCoroutine != null) {
             Singleton<SingletonInstance>.Instance.StopCoroutine (currentRotateCoroutine);
@@ -298,7 +298,7 @@ public class CameraHandler {
         currentRotateCoroutine = Singleton<SingletonInstance>.Instance.StartCoroutine (AnimatePerspectiveRotate(fromRotation, toRotation, time));
     }
 
-    public static void SetGyroEnabledAfterDelay(float time = 0.3f) {
+    public static void SetGyroEnabledAfterDelay(float time = Misc.DEFAULT_ANIMATION_TIME) {
         if (currentWaitForGyroCoroutine != null) {
             Singleton<SingletonInstance>.Instance.StopCoroutine (currentWaitForGyroCoroutine);
         }

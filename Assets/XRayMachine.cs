@@ -56,7 +56,7 @@ public class XRayMachine : MonoBehaviour {
 		
 	}
 
-    public void attachConenctingConveyors() {
+    public void attachConnectingConveyors() {
         if (conveyor != null) {
             GameObject leftConveyor = Instantiate(conveyor, connectingConveyorLeftPos, Quaternion.identity, transform);
             GameObject rightConveyor = Instantiate(conveyor, connectingConveyorRightPos, Quaternion.identity, transform);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Game : MonoBehaviour, IPubSub {
@@ -29,7 +30,7 @@ public class Game : MonoBehaviour, IPubSub {
     public bool zoomedOutState = true;
     public int cameraXPos = 1;
 
-	private XRayMachine currentXrayMachine;
+	public XRayMachine currentXrayMachine;
 
     private Dictionary<string, int> mistakeSeverity = new Dictionary<string, int>();
 
@@ -37,6 +38,10 @@ public class Game : MonoBehaviour, IPubSub {
     float leftClickReleaseTimer = 0f;
     Vector3 mouseDownPosition;
     Vector3 prevMousePosition;
+
+    public GameObject[] gameObjectsToPreload;
+    public GameObject preloadContainer;
+    private static Vector3 TINY_INSTANTIATING_SCALE = new Vector3(0.01f, 0.01f, 0.01f);
 
     TKSwipeRecognizer swipeRecognizer;
     TKTapRecognizer twoTapRecognizer; // TODO - Only for debug
@@ -81,7 +86,7 @@ public class Game : MonoBehaviour, IPubSub {
 		// TODO - Pick xrayMachine depending on level instead...
 		GameObject xrayMachineGameObject = Instantiate(xrayMachines[0], xrayMachines[0].transform.position, Quaternion.identity);
 		currentXrayMachine = xrayMachineGameObject.GetComponent<XRayMachine> ();
-        currentXrayMachine.attachConenctingConveyors();
+        currentXrayMachine.attachConnectingConveyors();
         room.GetComponent<Room>().setLocation("se", "mma");
 
 //        // when using in conjunction with a pinch or rotation recognizer setting the min touches to 2 smoothes movement greatly
@@ -106,6 +111,8 @@ public class Game : MonoBehaviour, IPubSub {
         continousHoldRecognizer.gestureHoldingEvent += touchHoldActive;
         continousHoldRecognizer.gestureHoldingEventEnded += touchHoldEnded;
         TouchKit.addGestureRecognizer(continousHoldRecognizer);
+
+        StartCoroutine(preloadGameObjects());
     }
 
     void touchHoldEnded(TKContinousHoldRecognizer r) {
@@ -362,9 +369,16 @@ public class Game : MonoBehaviour, IPubSub {
         CameraHandler.ZoomPerspectiveCameraTo(zoomTo);
         CameraHandler.MovePerspectiveCameraTo(moveTo);
         CameraHandler.RotatePerspectiveCameraTo(rotateTo);
+        StartCoroutine(publishCameraMovementAfterDelay(Misc.DEFAULT_ANIMATION_TIME));
         if (!zoomedOutState && cameraXPos == 2) {
 //            CameraHandler.SetGyroEnabledAfterDelay();
         }
+    }
+
+    private System.Collections.IEnumerator publishCameraMovementAfterDelay(float delay) {
+        PubSub.publish("CameraMovementStarted");
+        yield return new WaitForSeconds(delay);
+        PubSub.publish("CameraMovementFinished");
     }
 
 /*
@@ -415,5 +429,20 @@ public class Game : MonoBehaviour, IPubSub {
         }
         mistakeSeverity[mistake]++;
         loudspeaker.putMessageOnQueue(mistake, mistakeSeverity[mistake], Misc.randomRange(7f, 15f));
+    }
+
+    private System.Collections.IEnumerator preloadGameObjects() {
+        yield return null;
+        List<GameObject> instantiatedPreloads = new List<GameObject>();
+        foreach (GameObject preload in gameObjectsToPreload) {
+            GameObject instantiated = Instantiate(preload, preloadContainer.transform);
+            instantiated.transform.localScale = TINY_INSTANTIATING_SCALE;
+            instantiatedPreloads.Add(instantiated);
+            yield return null;
+        }
+        yield return null;
+        foreach(GameObject instantiated in instantiatedPreloads) {
+            Destroy(instantiated);
+        }
     }
 }
