@@ -22,6 +22,7 @@ public class Game : MonoBehaviour, IPubSub {
     public Camera gameCamera;
     public Camera inspectCamera;
     public Camera blurCamera;
+    public Camera tvCamera;
     public LoudspeakerLogic loudspeaker;
     public Room room;
 
@@ -61,7 +62,9 @@ public class Game : MonoBehaviour, IPubSub {
 
     void Awake () {
 
-        // Set framerate only for edito - Should do based on device later?!
+//        Misc.setRandomSeed(1234567890);
+
+        // Set framerate only for editor - Should do based on device later?!
 //#if UNITY_EDITOR
         QualitySettings.vSyncCount = 0;  // VSync must be disabled
         Application.targetFrameRate = 90;
@@ -77,6 +80,8 @@ public class Game : MonoBehaviour, IPubSub {
 
         // Last in line for click triggering
         PubSub.subscribe("Click", this, Int32.MaxValue);
+
+        pauseGame();
     }
 
     // Use this for initialization
@@ -195,7 +200,7 @@ public class Game : MonoBehaviour, IPubSub {
         newPerson.startPlaceBags(bagHandler, bagDropPosition);
     }
 
-    private void pauseGame () {
+    public void pauseGame () {
         Game.paused = !Game.paused;
         PubSub.publish("pause", Game.paused);
         animateCameraChange();
@@ -292,7 +297,7 @@ public class Game : MonoBehaviour, IPubSub {
         }
 
         // Left mouse button
-        if (!Game.paused && Input.GetMouseButton (0)) {
+        if (Input.GetMouseButton (0)) {
             // Drag logic
             bool firstFrame = Input.GetMouseButtonDown (0);
             Vector3 mousePosition = Input.mousePosition;
@@ -326,6 +331,8 @@ public class Game : MonoBehaviour, IPubSub {
             if (Misc.getDistance (mouseDownPosition, prevMousePosition) < THRESHOLD_MAX_MOVE_TO_BE_CONSIDERED_CLICK) {
                 if (!Game.paused) {
                     PubSub.publish ("Click", mouseDownPosition);
+                } else {
+                    PubSub.publish ("ClickTV", mouseDownPosition);
                 }
                 leftClickReleaseTimer = 0f;
             }

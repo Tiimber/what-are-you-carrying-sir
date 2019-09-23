@@ -6,6 +6,7 @@ public class TVContentSet : MonoBehaviour {
 
     public GameObject top;
     public GameObject bottom;
+    public bool scrollable;
 
     public float getTop() {
         return top.transform.localPosition.y;

@@ -13,6 +13,9 @@ public class Misc {
 
     public const float DEFAULT_ANIMATION_TIME = 0.3f;
 
+	public const string ANIMATION_LINEAR = "linear";
+	public const string ANIMATION_SQRT = "sqrt";
+
     public static Vector3 VECTOR3_NULL = new Vector3(0, 0, -10000f);
 
     public static System.Random random = new System.Random();
@@ -964,20 +967,24 @@ public class Misc {
 	}
 
     private static Dictionary<string, Coroutine> scaleCoroutines = new Dictionary<string, Coroutine>();
-    public static void AnimateScaleTo (string key, GameObject obj, Vector3 toScale, float time = DEFAULT_ANIMATION_TIME) {
+    public static void AnimateScaleTo (string key, GameObject obj, Vector3 toScale, float time = DEFAULT_ANIMATION_TIME, string animationMethod = Misc.ANIMATION_LINEAR) {
         Vector3 fromScale = obj.transform.localScale;
         if (scaleCoroutines.ContainsKey(key)) {
             Singleton<SingletonInstance>.Instance.StopCoroutine (scaleCoroutines[key]);
             scaleCoroutines.Remove(key);
         }
-        scaleCoroutines.Add(key, Singleton<SingletonInstance>.Instance.StartCoroutine (AnimateScale(key, obj, fromScale, toScale, time)));
+        scaleCoroutines.Add(key, Singleton<SingletonInstance>.Instance.StartCoroutine (AnimateScale(key, obj, fromScale, toScale, time, animationMethod)));
     }
 
-    private static IEnumerator AnimateScale (string key, GameObject obj, Vector3 from, Vector3 to, float time) {
+	public static bool IsScaleAnimationActive(string key) {
+		return scaleCoroutines.ContainsKey(key);
+	}
+
+	private static IEnumerator AnimateScale (string key, GameObject obj, Vector3 from, Vector3 to, float time, string animationMethod) {
         float t = 0f;
 		while (t <= 1f) {
 			t += Time.unscaledDeltaTime / time;
-			Vector3 currentScale = Vector3.Slerp(from, to, t);
+			Vector3 currentScale = Vector3.Slerp(from, to, calcAnimationTime(t, animationMethod));
             obj.transform.localScale = currentScale;
 			yield return null;
 		}
@@ -1072,6 +1079,16 @@ public class Misc {
 		activeAfterDelayCoroutines.Remove(key);
 		if (destroy) {
 			GameObject.Destroy(obj);
+		}
+	}
+
+	private static float calcAnimationTime(float t, string animationMethod) {
+		switch (animationMethod) {
+			case Misc.ANIMATION_SQRT:
+				return (float) Math.Sqrt(t);
+			case Misc.ANIMATION_LINEAR:
+			default:
+				return t;
 		}
 	}
 

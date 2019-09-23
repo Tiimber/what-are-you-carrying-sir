@@ -1,6 +1,13 @@
+TV-skärm med menyer och tutorial, pause-skärmen ska defaultas till att visa "score" (felbeslut).
+Pass (och all relaterat till person) ska vara dynamiskt
+Dator ska endast räknas som felbeslut beroende på materialet
+
+---
+
+Dator (borde ligga i tray från början)
+Kan man göra något interaktivt med datorn i inspect-läge? Typ trycka på några knappar och kanske gömma ett "easter egg"
 Piller i blister
-Underkläder (kvinnliga och manliga)
-Dator (borde ligga i tray)
+Underkläder (kvinnliga och manliga - och borde assignas till "rätt kön")
 
 ---
 
