@@ -197,7 +197,7 @@ public class BagContentProperties : MonoBehaviour, IPubSub {
 
     public Generic.CONSEQUENCE getConsequence () {
         if (consequences.Length > 0) {
-            return consequences[Misc.randomRange(0, consequences.Length)];
+            return consequences[ItsRandom.randomRange(0, consequences.Length)];
         }
         return Generic.CONSEQUENCE.NOTHING;
     }

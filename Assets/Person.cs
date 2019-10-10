@@ -44,14 +44,14 @@ public class Person : MonoBehaviour, IPubSub {
         clips = Resources.LoadAll<AudioClip>("voice/" + voice).ToList();
         // Greeting
         // Some people don't say greeting - in those cases, pretend we've already greeted
-//        haveSaidGreeting = Misc.randomBool(); // TODO
+//        haveSaidGreeting = ItsRandom.randomBool(); // TODO
         haveSaidGreeting = false;
     }
 
 	// Use this for initialization
 	void Start () {
         // Choose greeting
-        greeting = Misc.pickRandom(clips.FindAll(i => i.name.StartsWith("greetings-")));
+        greeting = ItsRandom.pickRandom(clips.FindAll(i => i.name.StartsWith("greetings-")));
 
         bagDefinition.person = this;
         currentX = this.transform.position.x;
@@ -108,25 +108,25 @@ public class Person : MonoBehaviour, IPubSub {
         string coroutineKey = "inspect-reaction-" + item.id;
         List<AudioClip> itemAudioClips = clips.FindAll(i => i.name.Contains(item.category + "-"));
 
-        yield return new WaitForSeconds(Misc.randomRange(4f, 8f));
+        yield return new WaitForSeconds(ItsRandom.randomRange(4f, 8f));
         while (Misc.HasCoroutine(coroutineKey)) {
-            if (Misc.randomRange(0, 100) < 25) {
-                yield return playVoice(Misc.pickRandom(itemAudioClips));
+            if (ItsRandom.randomRange(0, 100) < 25) {
+                yield return playVoice(ItsRandom.pickRandom(itemAudioClips));
             }
-            yield return new WaitForSeconds(Misc.randomRange(3f, 5f));
+            yield return new WaitForSeconds(ItsRandom.randomRange(3f, 5f));
         }
     }
 
     private IEnumerator reactOnAction(string action) {
-        yield return new WaitForSeconds(Misc.randomRange(0.5f, 1.5f));
+        yield return new WaitForSeconds(ItsRandom.randomRange(0.5f, 1.5f));
         List<AudioClip> reactionAudioClips = clips.FindAll(i => i.name.Contains(action + "-"));
-        yield return playVoice(Misc.pickRandom(reactionAudioClips));
+        yield return playVoice(ItsRandom.pickRandom(reactionAudioClips));
     }
 
     private void reactOnInspectAction(InspectUIButton.INSPECT_TYPE action, BagContentProperties item) {
         if (action == InspectUIButton.INSPECT_TYPE.MANUAL_INSPECT || action == InspectUIButton.INSPECT_TYPE.MANUAL_INSPECT_NEW) {
             // TODO - Maybe don't react on 50% (ajdust level)
-            if (Misc.randomBool()) {
+            if (ItsRandom.randomBool()) {
                 StartCoroutine(reactOnAction("manual"));
             }
         } else if (action == InspectUIButton.INSPECT_TYPE.TRASHCAN) {

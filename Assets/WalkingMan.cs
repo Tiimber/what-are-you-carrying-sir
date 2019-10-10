@@ -7,7 +7,7 @@ public class WalkingMan : MonoBehaviour {
     public Person person;
     float targetPositionX;
 
-    float MOVEMENT_PER_FRAME = 0.1f;
+    float MOVEMENT_PER_FRAME = 0.2f;
     float MAX_TIME_TO_WAIT_TO_CATCHUP = 2f;
 
     float timeLeftToMoveTowardsBag = 0f;
@@ -56,7 +56,7 @@ public class WalkingMan : MonoBehaviour {
         targetPositionX = positionX;
 
         if (targetPositionX > transform.position.x && timeLeftToMoveTowardsBag == 0f && !isWalking) {
-            timeLeftToMoveTowardsBag = Misc.randomRange(MAX_TIME_TO_WAIT_TO_CATCHUP - 0.5f, MAX_TIME_TO_WAIT_TO_CATCHUP + 0.5f);
+            timeLeftToMoveTowardsBag = ItsRandom.randomRange(MAX_TIME_TO_WAIT_TO_CATCHUP - 0.5f, MAX_TIME_TO_WAIT_TO_CATCHUP + 0.5f);
         }
     }
 }

@@ -40,6 +40,7 @@ public class LoudspeakerLogic : MonoBehaviour {
             float waitTimeForFirstInQueue = firstInQueue.First;
             float iterationWaitTime = Mathf.Min(waitTimeForFirstInQueue, 1f);
             if (iterationWaitTime > 0) {
+                Debug.Log(firstInQueue.First + "s : " + firstInQueue.Second.name);
                 firstInQueue.First -= iterationWaitTime;
                 yield return new WaitForSeconds(iterationWaitTime);
             } else {
@@ -53,7 +54,9 @@ public class LoudspeakerLogic : MonoBehaviour {
     }
 
     public void putMessageOnQueue(string type, int severity, float delay = 0f) {
-        AudioClip warningMessage = Misc.pickRandom(clips.FindAll(i => i.name.Contains(type + "-") && i.name.Contains("-severity-" + severity)));
+        Debug.Log("Play sound: " + type);
+        AudioClip warningMessage = ItsRandom.pickRandom(clips.FindAll(i => i.name.Contains(type + "-") && i.name.Contains("-severity-" + severity)));
+        Debug.Log("SOUND: " + warningMessage);
         if (warningMessage != null) {
             putMessageOnQueue(warningMessage, delay);
         } else {
@@ -63,17 +66,21 @@ public class LoudspeakerLogic : MonoBehaviour {
 
     public void putMessageOnQueue (AudioClip audioClip, float delay = 0f) {
         // Is the clip already in queue a "generic announcement"?
+        Debug.Log("Queue length: " + queue.Count);
         if (queue.Count > 0) {
             Tuple2<float, AudioClip> firstInQueue = queue.First<Tuple2<float, AudioClip>>();
+            Debug.Log("First announcement in queue: " + firstInQueue.Second.name);
             if (firstInQueue.Second.name.StartsWith(GENERIC_ANNOUNCEMENT_PREFIX)) {
                 queue.Remove(firstInQueue);
+                Debug.Log("Removed generic announcement from queue!");
             }
         }
+        Debug.Log("Adding announcement: " + audioClip.name);
         queue.Insert(0, new Tuple2<float, AudioClip>(delay, audioClip));
     }
 
     private void addGenericAnnouncementAfterDelay() {
-        queue.Add(new Tuple2<float, AudioClip>(Misc.randomRange(MIN_SECONDS_BETWEEN_LOUDSPEAKER_ANNOUNCEMENTS, MAX_SECONDS_BETWEEN_LOUDSPEAKER_ANNOUNCEMENTS), Misc.pickRandom(clips.FindAll(i => i.name.StartsWith(GENERIC_ANNOUNCEMENT_PREFIX)))));
+        queue.Add(new Tuple2<float, AudioClip>(ItsRandom.randomRange(MIN_SECONDS_BETWEEN_LOUDSPEAKER_ANNOUNCEMENTS, MAX_SECONDS_BETWEEN_LOUDSPEAKER_ANNOUNCEMENTS), ItsRandom.pickRandom(clips.FindAll(i => i.name.StartsWith(GENERIC_ANNOUNCEMENT_PREFIX)))));
     }
 
     private List<AudioClip> getAdditionalPartsForAudioClip(AudioClip firstClip) {
@@ -92,7 +99,7 @@ public class LoudspeakerLogic : MonoBehaviour {
             List<AudioClip> matchingParts = additionalParts.FindAll(i => i.name.StartsWith("part-" + partStr));
             foundMoreParts = matchingParts.Count > 0;
             if (foundMoreParts) {
-                AudioClip random = Misc.pickRandom(matchingParts);
+                AudioClip random = ItsRandom.pickRandom(matchingParts);
                 if (new Regex(@"^part-" + partStr + @"_\d+").IsMatch(random.name)) {
                     chosenAdditionalParts.Add(random);
                 } else {

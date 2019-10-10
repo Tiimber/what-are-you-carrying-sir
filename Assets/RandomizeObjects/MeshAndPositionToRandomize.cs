@@ -10,7 +10,7 @@ public class MeshAndPositionToRandomize {
     public MeshAndPosition[] meshesAndPositions;
 
     public void assign() {
-        MeshAndPosition randomMeshAndPosition = Misc.pickRandom(meshesAndPositions.ToList());
+        MeshAndPosition randomMeshAndPosition = ItsRandom.pickRandom(meshesAndPositions.ToList());
         foreach(AssignMeshAndPositionToObject objectToSetMeshAndPosition in objectsToSetMeshAndPosition) {
             objectToSetMeshAndPosition.mesh = randomMeshAndPosition.mesh;
             objectToSetMeshAndPosition.position = randomMeshAndPosition.position;

@@ -10,6 +10,6 @@ public class ColorToRandomize {
     public Color[] colors;
 
     public void assign() {
-        objectWithMaterial.color = Misc.pickRandom(colors.ToList());
+        objectWithMaterial.color = ItsRandom.pickRandom(colors.ToList());
     }
 }

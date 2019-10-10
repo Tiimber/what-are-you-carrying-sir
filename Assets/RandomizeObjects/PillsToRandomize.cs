@@ -37,9 +37,9 @@ public class PillsToRandomize {
         organic = specifiedAsOrganic;
 
         // Random "wrongness" - pill type
-        int randomType = Misc.randomRange(0, 100);
+        int randomType = ItsRandom.randomRange(0, 100);
         if (randomType <= FACTOR_FOR_WRONG_PILL_TYPE) {
-            bool wrongSubstanceLiquid = Misc.randomBool();
+            bool wrongSubstanceLiquid = ItsRandom.randomBool();
             if (wrongSubstanceLiquid && !specifiedAsLiquid) {
                 amount = 0;
                 liquid = true;
@@ -51,9 +51,9 @@ public class PillsToRandomize {
         }
 
         // Random "wrongness" - amount of pills
-        int randomAmount = Misc.randomRange(0, 100);
+        int randomAmount = ItsRandom.randomRange(0, 100);
         if (!liquid && (randomAmount <= FACTOR_FOR_WRONG_PILL_AMOUNT || specifiedAsLiquid)) {
-            amount = Misc.randomRange(1, (!specifiedAsLiquid ? specifiedAmount : RANDOM_BASE_AMOUNT_PILLS) + 3);
+            amount = ItsRandom.randomRange(1, (!specifiedAsLiquid ? specifiedAmount : RANDOM_BASE_AMOUNT_PILLS) + 3);
         }
 
         if (amount > 0) {

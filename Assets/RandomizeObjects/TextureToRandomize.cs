@@ -11,7 +11,7 @@ public class TextureToRandomize {
     public Texture[] textures;
 
     public void assign() {
-        objectWithMaterial.texture = Misc.pickRandom(textures.ToList());
+        objectWithMaterial.texture = ItsRandom.pickRandom(textures.ToList());
         objectWithMaterial.materialIndex = materialIndex;
     }
 }

@@ -26,7 +26,7 @@ public class RandomPills : MonoBehaviour, RandomInterface {
 	}
 
     public void run() {
-        PillsToRandomize chosenPillsConfig = Misc.pickRandom(pillsToRandomize.ToList());
+        PillsToRandomize chosenPillsConfig = ItsRandom.pickRandom(pillsToRandomize.ToList());
         chosenPillsConfig.assign(gameObject, objectWithMaterial, materialIndex, pillsContainer, pillsContainerXray, liquidContainer, liquidContainerXray, organicMaterialXray);
     }
 }

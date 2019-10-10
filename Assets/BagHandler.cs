@@ -8,12 +8,16 @@ public class BagHandler : MonoBehaviour, IPubSub {
 
     public static BagHandler instance;
 
+    public const string RANDOM_TYPE = "bags";
+
     private BagProperties currentBagPlacing;
     public BagProperties currentBagInspect;
 
     public GameObject[] bags;
     public GameObject tray;
     public BagContentType[] bagContentTypes;
+    public BagContentType[] bagContentTypesIllegal;
+    public BagContentType[] bagContentTypesLegal;
 
     private List<BagProperties> activeBags = new List<BagProperties>();
 
@@ -77,7 +81,7 @@ public class BagHandler : MonoBehaviour, IPubSub {
 
     public void createBag (Vector3 bagDropPosition) {
         // TODO - Random bag - Some distribution factor? Maybe not plastic tray except for certain content?
-        int randomBagIndex = Misc.randomRange(0, bags.Length);
+        int randomBagIndex = ItsRandom.randomRange(0, bags.Length, RANDOM_TYPE);
         GameObject bagGameObject = Instantiate (bags [randomBagIndex], bagDropPosition, Quaternion.identity);
         BagProperties bagProperties = bagGameObject.GetComponent<BagProperties> ();
         bagGameObject.transform.position = new Vector3 (bagDropPosition.x, bagDropPosition.y + bagProperties.halfBagHeight, bagDropPosition.z);
@@ -286,7 +290,7 @@ public class BagHandler : MonoBehaviour, IPubSub {
         foreach (BagContentProperties item in items) {
             item.transform.parent = bagProperties.contents.transform;
             Vector3 objectSize = item.objectSize;
-            item.transform.localPosition = new Vector3(Misc.randomPlusMinus(0f, (bagSize.x - objectSize.x) / 2f), bagProperties.halfBagHeight, Misc.randomPlusMinus(0f, (bagSize.z - objectSize.z) / 2f));
+            item.transform.localPosition = new Vector3(ItsRandom.randomPlusMinus(0f, (bagSize.x - objectSize.x) / 2f, RANDOM_TYPE), bagProperties.halfBagHeight, ItsRandom.randomPlusMinus(0f, (bagSize.z - objectSize.z) / 2f, RANDOM_TYPE));
             item.transform.localScale = Vector3.one;
             bagProperties.bagContents.Add(item);
             bagProperties.freezeContents(true);
@@ -298,16 +302,32 @@ public class BagHandler : MonoBehaviour, IPubSub {
     }
 
     IEnumerator placeItemsInBag (BagProperties bagProperties, int amount, List<BagContentProperties> toBePlacedInTrays, int personId) {
-        float lastCycleStart = Time.realtimeSinceStartup;
+        int yieldEveryXthItem = 5;
+        int yieldCounter = yieldEveryXthItem;
+//        float lastCycleStart = Time.realtimeSinceStartup;
         Vector3 bagSize = bagProperties.placingCube.transform.localScale;
         bagProperties.placingCube.SetActive(true);
         Bounds bagBounds = bagProperties.placingCube.GetComponent<Collider>().bounds;
         bagProperties.placingCube.SetActive(false);
 //        Debug.Log(bagBounds);
+
+        // TODO - This code block is only made for forcing an illegal item
+        GameObject gunObj = ItsRandom.pickRandom<BagContentType>(bagContentTypesIllegal.ToList()).contentObj;
+        GameObject gun = Instantiate (gunObj);
+        gun.transform.parent = bagProperties.contents.transform;
+        BagContentProperties gunProperties = gun.GetComponent<BagContentProperties> ();
+        // Randomize place in bag
+        findPlaceForItemInBag(gunProperties, bagProperties, int.MaxValue);
+        bagProperties.bagContents.Add(gunProperties);
+        // TODO - END
+
         for (int i = 0; i < amount; i++) {
-            List<int> weights = bagContentTypes.Select(obj => obj.frequency).ToList();
-            List<GameObject> gameObjects = bagContentTypes.Select(obj => obj.contentObj).ToList();
-            GameObject randomGameObject = Misc.pickRandomWithWeights(weights, gameObjects);
+            List<int> weights = bagContentTypesLegal.Select(obj => obj.frequency).ToList();
+            List<GameObject> gameObjects = bagContentTypesLegal.Select(obj => obj.contentObj).ToList();
+            // TODO - below are the REAL CODE - NOT ABOVE
+//            List<int> weights = bagContentTypes.Select(obj => obj.frequency).ToList();
+//            List<GameObject> gameObjects = bagContentTypes.Select(obj => obj.contentObj).ToList();
+            GameObject randomGameObject = ItsRandom.pickRandomWithWeights(weights, gameObjects, RANDOM_TYPE);
 
             // Check if item should be in tray, or not instantiated by any other reason (eg. not place 3 guns in bag...)
             bool acceptItem = true;
@@ -343,13 +363,18 @@ public class BagHandler : MonoBehaviour, IPubSub {
                 Destroy(contentPiece);
             }
 
-            if (lastCycleStart + MAX_ITEM_PLACE_CYCLE_SECONDS < Time.realtimeSinceStartup) {
+/*
+            yieldCounter--;
+            if (yieldCounter == 0) {
+                yieldCounter = yieldEveryXthItem;
+//            if (lastCycleStart + MAX_ITEM_PLACE_CYCLE_SECONDS < Time.realtimeSinceStartup) {
                 Debug.Log("YIELD");
                 yield return null;
-                // TODO - Compact items by code (move downwards)
-                yield return null;
-                lastCycleStart = Time.realtimeSinceStartup;
+//                // TODO - Compact items by code (move downwards)
+//                yield return null;
+//                lastCycleStart = Time.realtimeSinceStartup;
             }
+*/
         }
         Debug.Log("Items in bag: " + bagProperties.bagContents.Count());
 //        Debug.Break();
@@ -453,7 +478,7 @@ public class BagHandler : MonoBehaviour, IPubSub {
         while (objectsCollide && tries-- > 0) {
             bool haveAdjustedPos = false;
             // Randomize position for object
-            item.transform.localPosition = new Vector3(Misc.randomPlusMinus(0f, (bagSize.x - objectSize.x) / 2f), Misc.randomPlusMinus(0f, (bagSize.y - objectSize.y) / 2f), Misc.randomPlusMinus(0f, (bagSize.z - objectSize.z) / 2f));
+            item.transform.localPosition = new Vector3(ItsRandom.randomPlusMinus(0f, (bagSize.x - objectSize.x) / 2f, RANDOM_TYPE), ItsRandom.randomPlusMinus(0f, (bagSize.y - objectSize.y) / 2f, RANDOM_TYPE), ItsRandom.randomPlusMinus(0f, (bagSize.z - objectSize.z) / 2f, RANDOM_TYPE));
 
             while (true) {
                 List<Collider> bagContentColliders = item.GetComponents<Collider>().ToList();

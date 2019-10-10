@@ -18,7 +18,6 @@ public class Misc {
 
     public static Vector3 VECTOR3_NULL = new Vector3(0, 0, -10000f);
 
-    public static System.Random random = new System.Random();
 	public static bool haveScannedInputs = false;
 	public static bool hasMouse = true;
 
@@ -88,44 +87,6 @@ public class Misc {
 	public static Vector3 DivideVectors(Vector3 vec1, Vector3 vec2) {
 		return new Vector3(vec1.x / vec2.x, vec1.y / vec2.y, vec1.z / vec2.z);
 	}
-
-    public static T pickRandom<T>(List<T> list) {
-		if (list.Count > 0) {
-			return list[Misc.randomRange(0, list.Count)];
-		}
-		return default(T);
-	}
-
-//	public static string pickRandom(List<string> strings) {
-//		return strings[Misc.randomRange(0, strings.Count - 1)];
-//	}
-
-    public static V pickRandomValue<K, V>(Dictionary<K, V> dict) {
-        if (dict.Count > 0) {
-            return dict.ElementAt(Misc.randomRange(0, dict.Count)).Value;
-        }
-        return default(V);
-	}
-
-    public static K pickRandomKey<K, V>(Dictionary<K, V> dict) {
-        if (dict.Count > 0) {
-            return dict.ElementAt(Misc.randomRange(0, dict.Count)).Key;
-        }
-        return default(K);
-	}
-
-    public static GameObject pickRandomWithWeights(List<int> weights, List<GameObject> gameObjects) {
-        int weightSum = weights.Sum();
-        int random = Misc.randomRange(0, weightSum);
-        int index;
-        int accumulatedSum;
-        for (index = 0, accumulatedSum = 0; index <= weights.Count; accumulatedSum += weights[index], index++) {
-            if (accumulatedSum + weights[index] > random) {
-                break;
-            }
-        }
-        return gameObjects[index];
-    }
 
 	public static Texture2D MakeTex(int width, int height, Color col) {
 		Color[] pix = new Color[width * height];
@@ -307,31 +268,6 @@ public class Misc {
 			return Convert.ToInt64(strVal);
 		}
 		return defaultValue;
-	}
-
-	public static void setRandomSeed(int randomSeed) {
-		Misc.random = new System.Random(randomSeed);
-	}
-
-	public static float randomPlusMinus(float medium, float plusMinus) {
-		return randomRange(medium - plusMinus, medium + plusMinus);
-	}
-
-	public static float randomRange(float min, float max) {
-		double value = Misc.random.NextDouble();
-		return min + (max - min) * (float)value;
-	}
-
-	public static int randomRange(int min, int max) {
-		return Misc.random.Next(min, max);
-	}
-
-	public static bool randomBool() {
-		return Misc.random.NextDouble() < 0.5d;
-	}
-
-	public static object randomTime() {
-		return Misc.randomRange(0, 23) + ":" + Misc.randomRange(0, 59);
 	}
 
 	public static DateTime parseDate(string dob) {

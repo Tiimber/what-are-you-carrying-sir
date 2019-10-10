@@ -43,7 +43,7 @@ public class PlayVideoInspectAction : MonoBehaviour, ActionOnInspect {
                 videoPlayer.controlledAudioTrackCount = 1;
 
                 // Pick video clip
-                VideoClip videoClip = Misc.pickRandom(videoClips.ToList());
+                VideoClip videoClip = ItsRandom.pickRandom(videoClips.ToList());
                 videoPlayer.clip = videoClip;
                 chosenVideoClip = true;
             }

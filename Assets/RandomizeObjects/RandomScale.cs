@@ -19,7 +19,7 @@ public class RandomScale : MonoBehaviour, RandomInterface {
 	}
 
 	public void run() {
-		Vector3 chosenScale = Misc.pickRandom(possibleScales.ToList());
+		Vector3 chosenScale = ItsRandom.pickRandom(possibleScales.ToList());
         BagContentProperties bagContentProperties = this.GetComponent<BagContentProperties>();
         bagContentProperties.objectSize = Vector3.Scale(bagContentProperties.objectSize, chosenScale);
         bagContentProperties.transform.localScale = chosenScale;

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Game : MonoBehaviour, IPubSub {
 
-    const float CONVEYOR_SPEED = 0.2f;
+    const float CONVEYOR_SPEED = 0.15f;
 //    const float CONVEYOR_SPEED = 2.0f;
 	const float CONVEYOR_BACK_PCT_SPEED = 0.8f;
 
@@ -62,7 +62,8 @@ public class Game : MonoBehaviour, IPubSub {
 
     void Awake () {
 
-//        Misc.setRandomSeed(1234567890);
+        ItsRandom.setRandomSeed(1234567890, "bags");
+        ItsRandom.setRandomSeed(987654321, "people");
 
         // Set framerate only for editor - Should do based on device later?!
 //#if UNITY_EDITOR
@@ -431,11 +432,12 @@ public class Game : MonoBehaviour, IPubSub {
     }
 
     public void registerMistake(string mistake) {
+        Debug.Log("Register mistake: " + mistake);
         if (!mistakeSeverity.ContainsKey(mistake)) {
             mistakeSeverity.Add(mistake, 0);
         }
         mistakeSeverity[mistake]++;
-        loudspeaker.putMessageOnQueue(mistake, mistakeSeverity[mistake], Misc.randomRange(7f, 15f));
+        loudspeaker.putMessageOnQueue(mistake, mistakeSeverity[mistake], ItsRandom.randomRange(7f, 15f));
     }
 
     private System.Collections.IEnumerator preloadGameObjects() {
