@@ -108,11 +108,16 @@ public class Game : MonoBehaviour, IPubSub {
         twoTapRecognizer.gestureRecognizedEvent += twoTapDetected;
 		TouchKit.addGestureRecognizer(twoTapRecognizer);
 
+/*
+#if UNITY_IOS
+        Input.simulateMouseWithTouches = false;
+#endif
 #if UNITY_IOS || UNITY_ANDROID
         tapRecognizer.numberOfTouchesRequired = 1;
         tapRecognizer.gestureRecognizedEvent += tapDetected;
         TouchKit.addGestureRecognizer(tapRecognizer);
 #endif
+*/
 
         continousHoldRecognizer.gestureHoldingEvent += touchHoldActive;
         continousHoldRecognizer.gestureHoldingEventEnded += touchHoldEnded;
@@ -141,7 +146,11 @@ public class Game : MonoBehaviour, IPubSub {
     }
 
     void tapDetected(TKTapRecognizer r) {
-        PubSub.publish("Click", r.touchLocation());
+        if (!Game.paused) {
+            PubSub.publish("Click", r.touchLocation());
+        } else {
+            PubSub.publish ("ClickTV", r.touchLocation());
+        }
     }
 
     void twoTapDetected(TKTapRecognizer r) {

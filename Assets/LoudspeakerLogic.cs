@@ -40,7 +40,7 @@ public class LoudspeakerLogic : MonoBehaviour {
             float waitTimeForFirstInQueue = firstInQueue.First;
             float iterationWaitTime = Mathf.Min(waitTimeForFirstInQueue, 1f);
             if (iterationWaitTime > 0) {
-                Debug.Log(firstInQueue.First + "s : " + firstInQueue.Second.name);
+//                Debug.Log(firstInQueue.First + "s : " + firstInQueue.Second.name);
                 firstInQueue.First -= iterationWaitTime;
                 yield return new WaitForSeconds(iterationWaitTime);
             } else {

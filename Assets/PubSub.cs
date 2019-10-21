@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public class PubSub {
 
@@ -50,6 +51,7 @@ public class PubSub {
 	}
 
 	public static void publish (string message, object data = null) {
+//		Debug.Log(message + " - " + data.ToString());
 		if (subscriptions.ContainsKey (message)) {
 			Dictionary<IPubSub, int> subscriptionsUnsorted = subscriptionsWithPriorities [message];
 			List<IPubSub> subscriptionsSorted = subscriptionsUnsorted.OrderByDescending (entry => entry.Value).Select (entry => entry.Key).ToList();

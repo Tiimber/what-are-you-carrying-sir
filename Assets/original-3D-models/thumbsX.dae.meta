@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 6db0d93e0aa3b4838adb68aaabdcde79
 ModelImporter:
-  serializedVersion: 26
+  serializedVersion: 28
   internalIDToNameTable: []
   externalObjects:
   - first:
@@ -10,7 +10,7 @@ ModelImporter:
       name: _15809_Thumbs_Up_v1_15809_Thumbs_Up_v1_15809_Thumbs_Up_v1defaul
     second: {fileID: 2100000, guid: 424becb1c0d234f779ab64b7cb268cb5, type: 2}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -36,7 +36,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations: []
-    isReadable: 0
+    isReadable: 1
   meshes:
     lODScreenPercentages: []
     globalScale: 1
@@ -74,7 +74,6 @@ ModelImporter:
     normalSmoothingSource: 0
   referencedClips: []
   importAnimation: 0
-  copyAvatar: 0
   humanDescription:
     serializedVersion: 3
     human: []
@@ -94,6 +93,7 @@ ModelImporter:
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 0
   humanoidOversampling: 1
+  avatarSetup: 0
   additionalBone: 0
   userData: 
   assetBundleName: 
