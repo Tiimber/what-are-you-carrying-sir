@@ -12,6 +12,7 @@ public class WalkingMan : MonoBehaviour {
 
     float timeLeftToMoveTowardsBag = 0f;
     bool isWalking = false;
+    private bool shouldDestroy = false;
 
     void Awake() {
         animator = GetComponent<Animator>();
@@ -45,7 +46,7 @@ public class WalkingMan : MonoBehaviour {
             if (transform.position.x >= targetPositionX) {
                 isWalking = false;
                 animator.SetBool("idling", true);
-                if (person == null) {
+                if (person == null || shouldDestroy) {
                     Destroy(this.gameObject);
                 }
             }
@@ -57,6 +58,13 @@ public class WalkingMan : MonoBehaviour {
 
         if (targetPositionX > transform.position.x && timeLeftToMoveTowardsBag == 0f && !isWalking) {
             timeLeftToMoveTowardsBag = ItsRandom.randomRange(MAX_TIME_TO_WAIT_TO_CATCHUP - 0.5f, MAX_TIME_TO_WAIT_TO_CATCHUP + 0.5f);
+        }
+    }
+
+    public void finishWalkingMan() {
+        shouldDestroy = true;
+        if (!isWalking) {
+            timeLeftToMoveTowardsBag = 0.001f;
         }
     }
 }

@@ -26,6 +26,7 @@ public class BagProperties : MonoBehaviour, IPubSub {
 
     public bool isOnConveyor = false;
     public bool isOpen = false;
+    public bool isDestroyed = false;
 
     public string bagDisplayName;
 
@@ -52,6 +53,10 @@ public class BagProperties : MonoBehaviour, IPubSub {
 	void Update () {
 		
 	}
+
+    void OnDestroy () {
+        this.isDestroyed = true;
+    }
 
 	public void setEnabledStateCollidersAndRigidbodies (bool enable = true) {
 		setGravity (enable);
@@ -146,7 +151,7 @@ public class BagProperties : MonoBehaviour, IPubSub {
         showItems(false);
     }
 
-    public void bagFinished () {
+    public void bagFinished (bool checkMistakes = true) {
         Debug.Log("Bag Finished!");
         BagHandler.instance.bagFinished (this);
         // For each item in bag, score point depending on action
@@ -172,6 +177,8 @@ public class BagProperties : MonoBehaviour, IPubSub {
         string worstMistake = bagDefinition.person.getWorstMistake();
         if (worstMistake == "warning") {
             // TODO - Do something with personal warning
+        } else if (worstMistake == "false arrest") {
+            // TODO - Do something with serious personal warning
         } else if (worstMistake != "none") {
             Game.instance.registerMistake(worstMistake);
         }
@@ -183,6 +190,7 @@ public class BagProperties : MonoBehaviour, IPubSub {
             bagContents.RemoveAt(0);
         }
         Destroy(this.gameObject);
+        this.isDestroyed = true;
         // TODO - Report results of bag to "person"
     }
 

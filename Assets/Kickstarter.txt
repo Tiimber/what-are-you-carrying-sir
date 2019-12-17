@@ -1,0 +1,63 @@
+VIDEO! Basic
+Rewards: Fundera kring ev. fler, annars bra
+Story: Allt kvar
+People: DONE!
+Payment: DONE!
+
+---
+
+Person går förbi, vi noterar vapen, struntar i det - släpper förbi - hör speaker reaktion
+(Berättarröst reagerar och "skärper sig")
+
+Person går förbi, vi kollar passet, vi noterar olika element i väskan - inspekterar väskan, roterar objekt - idle-reaktioner - visa någon dator - reaktion på kasta/polis...
+
+Rewards:
+
+- Vara med i spelet, pass-uppgifter
+- Välj märke på mobiltelefon
+- Preferens för hur "riskabel" du är med innehåll i väska
+- Personlig terminal-output
+- Spela in egen röst
+
+Att göra innan kickstarter:
+
+- Bok - mall för personlig titel/författare
+- Papper för tillstånd av piller
+- Mobile phones (in trays) Bapple, Slamsmug, Wa-o-hey, Gurgle, Chiao-you, bocchia, ... (material på skärmen?)
+- Tavlor med motiv från landet/orten
+- (Fler typer av innehåll i väskorna)
+- (Endless mode - poängsystem)
+- (TV ska även vara poäng-skärm)
+
+
+Att göra (prioriterat) efter kickstarter:
+
+- Hantera Kickstarter-personer, alla ska ha egen konf som laddas med personen
+- Personlig terminal-output på datorskärmen
+- Personliga böcker - titlar/författtare från Kickstarter
+- Fler kroppstyper
+
+- Skoj material på mobil (kan nog återanvända en del filmer, men borde vara nytt material också)
+- Fler "datorer"
+- Bakgrundsmusik (från TVn)
+- Ljudklipp när personer reagerar på "report to police" (baserat på pass)
+
+- Story mode - klättra i rank
+- Bok med olagliga substanser i pärmen - om man upptäcker det så kan speakerrösten tacka security officer för sin insats (kanske även pillerburk)
+- Missions - "se upp för ryssen som kan ha kniv" - "rykte om tysk med piratfilmer"
+
+- Fler typer av innehåll i väskorna
+- Fler typer av väskor
+- Better packing algorithm	
+
+- Fler röntgen-maskiner
+- Snyggare pass
+- Personalized voices?
+- iOS / Android
+
+Efter V1:
+- Bodyscanner
+- Nintendo Switch
+- (XBox/PS)
+- Interaktivt material (spel, ikoner) på laptopskärmen						
+

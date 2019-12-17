@@ -5,7 +5,8 @@ Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: x-ray-material-intense-white
   m_Shader: {fileID: 4800000, guid: f4d880de7c8607c43a459330e2e8b387, type: 3}
   m_ShaderKeywords: 
@@ -21,7 +22,7 @@ Material:
     m_Floats:
     - _MKEditorShowMainBehavior: 1
     - _MKEditorShowXRayBehavior: 1
-    - _XRayInside: 0.268
+    - _XRayInside: 0.919
     - _XRayRimSize: 0.268
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}

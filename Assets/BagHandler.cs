@@ -114,7 +114,7 @@ public class BagHandler : MonoBehaviour, IPubSub {
     }
 
     public Coroutine placeItems (List<BagContentProperties> toBePlacedInTrays, int personId) {
-        return StartCoroutine (placeItemsInBag (currentBagPlacing, 150, toBePlacedInTrays, personId));
+        return StartCoroutine (placeItemsInBag (currentBagPlacing, 20, toBePlacedInTrays, personId));
     }
 
     public Coroutine shuffleBag () {

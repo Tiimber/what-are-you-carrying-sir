@@ -17,6 +17,8 @@ public class Passport : MonoBehaviour, IPubSub {
 
     private static Passport ZoomedInPassport;
 
+    public Person person;
+
     void Awake() {
         id = ++PASSPORT_ID;
     }
@@ -92,6 +94,20 @@ public class Passport : MonoBehaviour, IPubSub {
             ZoomedInPassport = this;
         }
         isZoomedIn = !isZoomedIn;
+    }
+
+    void OnGUI() {
+        if (isZoomedIn) {
+            if (GUI.Button(new Rect(Screen.width / 2f - 50f, Screen.height - 100f, 100f, 50), "Report person!")) {
+                person.reportToAuthorities();
+            }
+        }
+    }
+
+    public void animateAndDestroy() {
+//        Misc.AnimateMovementTo("person_passport_hide_" + id, gameObject, passportTargetPosition);
+        Misc.AnimateScaleTo("passport_scale_destroy_" + id, gameObject, new Vector3(0.001f, 0.001f, 0.001f));
+        Misc.SetActiveAfterDelay("passport_active_destroy_" + id, gameObject, false, true);
     }
 
 }

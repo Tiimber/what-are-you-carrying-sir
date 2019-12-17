@@ -22,7 +22,7 @@ public class Person : MonoBehaviour, IPubSub {
 
     private string worstMistake = "none";
     private static List<string> WORST_MISTAKES = new List<string>(){
-        "gun", "knife", "drugs", "warning", "none"
+        "false arrest", "gun", "knife", "drugs", "warning", "none"
     };
 
     private List<AudioClip> clips;
@@ -140,7 +140,8 @@ public class Person : MonoBehaviour, IPubSub {
         if (message == "belt_movement") {
             if (bagDefinition.hasInitiated()) {
                 BagProperties leftmostBag = bagDefinition.getLeftmostBag();
-                if (leftmostBag != null) {
+                Debug.Log("Leftmostbag " + leftmostBag);
+                if (leftmostBag != null && !leftmostBag.isDestroyed) {
                     float leftMostBagPositionX = leftmostBag.gameObject.transform.position.x;
                     if (currentX < leftMostBagPositionX) {
                         currentX = leftMostBagPositionX;
@@ -168,6 +169,7 @@ public class Person : MonoBehaviour, IPubSub {
                         }
                     }
                 } else {
+                    walkingMan.finishWalkingMan();
                     finishPerson();
                 }
             }
@@ -209,6 +211,7 @@ public class Person : MonoBehaviour, IPubSub {
         float passportMovementY = 1.63f;
         if (show && passport == null) {
             passport = Instantiate(passportPrefab);
+            passport.person = this;
             Vector3 passportTargetPosition = new Vector3(passport.transform.localPosition.x - PASSPORT_OFFSET_X * (passport.id % 3), passport.transform.localPosition.y + passportMovementY, passport.transform.localPosition.z);
             Quaternion passportTargetRotation = passport.transform.localRotation;
             Misc.AnimateMovementTo("person_passport_show_" + id, passport.gameObject, passportTargetPosition);
@@ -222,5 +225,15 @@ public class Person : MonoBehaviour, IPubSub {
             Misc.AnimateMovementTo("person_passport_hide_" + id, passport.gameObject, passportTargetPosition);
             Misc.SetActiveAfterDelay("person_passport_active_" + id, passport.gameObject, false, true);
         }
+    }
+
+    public void reportToAuthorities() {
+        // TODO - was it really a mistake to "report person"?
+        worstMistake = "false arrest";
+        playVoice(ItsRandom.pickRandom(clips.FindAll(i => i.name.StartsWith("false_arrest-"))));
+        bagDefinition.bags.ForEach(bag => bag.bagFinished(false));
+        passport.animateAndDestroy();
+        Destroy(walkingMan.gameObject);
+        finishPerson();
     }
 }
