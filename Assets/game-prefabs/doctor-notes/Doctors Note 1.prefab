@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 850084113432513004}
   - component: {fileID: 3990697717032050810}
   - component: {fileID: 9104197975068703644}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Patient name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 6227725389216364353}
   - component: {fileID: 6912052533729278411}
   - component: {fileID: 6417034559776653489}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -430,7 +430,7 @@ GameObject:
   - component: {fileID: 1435692873428822850}
   - component: {fileID: 1909564433908494552}
   - component: {fileID: 5266433021930426485}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Doctor name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -634,7 +634,7 @@ GameObject:
   - component: {fileID: 7505590664630101350}
   - component: {fileID: 1102319536637368172}
   - component: {fileID: 1945960092935675575}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Doctor signature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -835,7 +835,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6618729699150312839}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -874,7 +874,7 @@ GameObject:
   - component: {fileID: 6618729699398430213}
   - component: {fileID: 6618729699398430214}
   - component: {fileID: 6618729699398430215}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Paper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -969,7 +969,7 @@ GameObject:
   - component: {fileID: 6618729700374291305}
   - component: {fileID: 6618729700374291306}
   - component: {fileID: 6618729700374291307}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1169,7 +1169,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6618729700732476365}
-  m_Layer: 0
+  - component: {fileID: 3575955897906251186}
+  - component: {fileID: -8343705846423777904}
+  m_Layer: 10
   m_Name: Doctors Note 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1184,7 +1186,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618729700732476366}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.04136741, y: -0.0043468475, z: 0.016004682}
+  m_LocalPosition: {x: 0.40001684, y: -0.03820688, z: 0.15328534}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6618729699398430208}
@@ -1192,6 +1194,49 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3575955897906251186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6618729700732476366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27bfcba529a484e059b2f5434319da2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  signatureFonts:
+  - {fileID: 11400000, guid: e4bb00c69c4b041f1b86481132558fcb, type: 2}
+  - {fileID: 11400000, guid: 844edb3e6f0ff4f64b039b8f683ab446, type: 2}
+  - {fileID: 11400000, guid: 7103e7b2ee1874440838d665a68f2f55, type: 2}
+  - {fileID: 11400000, guid: 7199e54ebcdd14eccb4c81e774513ea9, type: 2}
+  - {fileID: 11400000, guid: 310383b504fb04b05bdb5bc9046dfb07, type: 2}
+  - {fileID: 11400000, guid: 62cf234e2a07c496986bda6792a7b71c, type: 2}
+  - {fileID: 11400000, guid: bed39c655b08144e88a6a1b7a3283e3c, type: 2}
+  paperMaterials:
+  - {fileID: 2100000, guid: 7fba669c63dcd48c787359d49f224554, type: 2}
+  - {fileID: 2100000, guid: 36dbe6a8a28084b71b812411c5e5b431, type: 2}
+  title: {fileID: 6618729700374291307}
+  text: {fileID: 6417034559776653489}
+  medicineName: {fileID: 4173483096559725329}
+  patientName: {fileID: 9104197975068703644}
+  doctorName: {fileID: 5266433021930426485}
+  doctorSignature: {fileID: 1945960092935675575}
+  paperMaterialObject: {fileID: 6618729699398430209}
+--- !u!114 &-8343705846423777904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6618729700732476366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d54d0f490e9be4602947e949e62e9fe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reference: {fileID: 0}
 --- !u!1 &6731441695074358025
 GameObject:
   m_ObjectHideFlags: 0
@@ -1205,7 +1250,7 @@ GameObject:
   - component: {fileID: 4141665791012407821}
   - component: {fileID: 1487023872313255795}
   - component: {fileID: 4173483096559725329}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Medicine name
   m_TagString: Untagged
   m_Icon: {fileID: 0}

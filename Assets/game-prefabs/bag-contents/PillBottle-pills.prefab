@@ -3288,6 +3288,7 @@ GameObject:
   - component: {fileID: 54620830209039350}
   - component: {fileID: 136106123355664578}
   - component: {fileID: 114105398749812888}
+  - component: {fileID: -5482636318902017649}
   m_Layer: 11
   m_Name: PillBottle-pills
   m_TagString: Untagged
@@ -3424,6 +3425,27 @@ MonoBehaviour:
     amount: 0
     organic: 0
     liquid: 0
+--- !u!114 &-5482636318902017649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1829317634330666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f3e941ae12b41f7b5736fb512a261a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slideInObjectDefinitions:
+  - gameObjectToSlideIn: {fileID: 6618729700732476366, guid: f470dff6ea4694947b25f95db3d967bf,
+      type: 3}
+    instantiatedObject: {fileID: 0}
+    pills: {fileID: 0}
+    startSlidePosition: {x: 28, y: 43, z: -3}
+    endSlidePosition: {x: 28, y: 43, z: -8}
+    animateReverse: 1
+    animationTime: 0.5
 --- !u!1 &1851634107977822
 GameObject:
   m_ObjectHideFlags: 0

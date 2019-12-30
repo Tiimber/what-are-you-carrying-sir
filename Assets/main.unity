@@ -587,7 +587,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 30
   far clip plane: 1000
   field of view: 20
   orthographic: 0
@@ -1851,6 +1851,9 @@ MonoBehaviour:
   - contentObj: {fileID: 457062165914181558, guid: f10e5426be96942018cceaeb18cd7b77,
       type: 3}
     frequency: 10
+  - contentObj: {fileID: 1829317634330666, guid: be2211b8cb1ac412b9710f30e65e771b,
+      type: 3}
+    frequency: 100
   bagInspectState: 0
 --- !u!114 &1350434892
 MonoBehaviour:
