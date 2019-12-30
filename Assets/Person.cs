@@ -19,6 +19,8 @@ public class Person : MonoBehaviour, IPubSub {
     private AudioClip greeting;
     public float greetingPositionX;
     public WalkingMan walkingMan;
+    public string personName;
+    public string personUniqueId;
 
     private string worstMistake = "none";
     private static List<string> WORST_MISTAKES = new List<string>(){
@@ -37,7 +39,9 @@ public class Person : MonoBehaviour, IPubSub {
     void Awake() {
         id = ++PERSON_ID;
         Debug.Log("PERSON CREATED");
-        // Decide person charachteristics
+        // Decide person characteristics
+        personUniqueId = "TODO-randomizeme"; // TODO - Real person
+        personName = "Retep Grebsrof"; // TODO - Real person
         voice = "robot1"; // TODO - Decide voice
 
         // Load information on audio clips
