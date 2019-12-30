@@ -1121,7 +1121,7 @@ MonoBehaviour:
   actionTaken: 0
   manualInspectTrayNumber: 0
   consequences: 
-  displayName: book "Book Title"
+  displayName: Book
   category: book
   xrayMaterialObjects:
   - {fileID: 5164392251998031891}

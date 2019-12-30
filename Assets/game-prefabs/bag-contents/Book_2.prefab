@@ -822,7 +822,7 @@ MonoBehaviour:
   actionTaken: 0
   manualInspectTrayNumber: 0
   consequences: 
-  displayName: book "Book Title"
+  displayName: Book
   category: book
   xrayMaterialObjects:
   - {fileID: 2661155535732073525}
