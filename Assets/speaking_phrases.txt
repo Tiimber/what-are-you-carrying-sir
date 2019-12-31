@@ -1,3 +1,302 @@
+Reaction announcements (baserat på vad man släpper igenom felaktigt):
+
+Gun, severity 1: This is an announcement to all passengers! Due to an oversight from one of our security staff, we have a wild gunman on the loose. If you notice anyone acting suspicious, please report it to the authorities.
+
+Knife, severity 1: This is a personal message to **** ******. Please report to security staff due to a security mess-up. 
+
+Gun/knife, severity 2: [...] A lunatic have been spotted at Gate 0X. Please evacuate to nearest information desk immediately. [DELAY X SECONDS] [MUFFLED GUN NOISE/SCREAM NOISE/BOMB SOUND] Gate 0X is now open. A smaller area of the gate have been temporarily sealed off. [DELAY X SECONDS] Cleaning personnel, please report to sealed off area at Gate 0X.
+
+Gun/knife, severity 3: Attention Medical staff. Please get urgently to gate 0X. We have 2 wounded children and 3 severily injured adults in need of immediate attention. 
+
+Drugs, severity 1: [...] There are some illegal substance that got mistakenly let through the security checks. Please be prepared to go through an additional security check before boarding your plane.
+
+Drugs, severity 2: [...] 
+
+Drugs, severity 3: [...] 
+
+
+General announcements:
+
+This is an announcement to all passengers! Please don't leave your luggage unattended.
+
+
+
+Personal announcements:
+
+Personal announcement to ****** ****sson. Please go to gate 9B urgently.
+
+
+
+Flight announcements:
+
+To all passengers on flight ****, there is a small delay of 2 hours. Please buy some drinks and chillax while waiting.
+
+
+
+People comments:
+
+Greetings phrases
+ - [Silence]
+01 - Hi
+02 - Hello
+03 - I hope everything is OK
+04 - Good morning
+05 - Good evening
+06 - This is taking forever
+07 - What is taking so long?
+08 - Airtight security
+...
+
+
+Waiting for inspection comments:
+01 - What's taking so long?
+02 - Come on!
+03 - Can you please hurry up?
+04 - I have a plane to catch.
+05 - Come on, I'm in hurry for my plane
+06 - Hurry!
+07 - Quicker please!
+08 - No need to check more, I'm clean.
+09 - There's nothing hidden in my stuff
+10 - Why do you guys always go through my stuff?
+11 - I would never bring anything dangerous.
+ - [sigh]
+ - [cough]
+ - [sniffle]
+ - [clear throut]
+ - [whistles]
+ - [humming]
+12 - I left my bomb at home.
+13 - I would never break the law
+14 - Will you be done anytime soon?
+15 - Are you finished soon?
+16 - Can you be quick?
+ - 
+ 
+
+Inspecting specific items:
+	Can/Beverage: 
+	 01 - A man/woman needs to drink
+	 02 - Hydrate regularily
+	 03 - Thirsty?
+	 04 - That's my favourite!
+	Gun:
+	 g02 - It's not real
+	 g03 - It's a toy
+	 01 - It's not loaded
+	 02 - The safety is on
+	 03 - It only got blanks
+	 g04 - I'm a hunter
+	 g05 - It's not mine
+	 g06 - Do you like it?
+	 04 - Just an ordinary gun
+	 05 - It's a cigarette lighter in shape of a gun
+	 06 - It's a water pistol
+	 07 - It's broken
+	 08 - It doesn't work
+	 g07 - I have bigger ones at home
+	 09 - I'm from Texas
+	 10 - Make Murica great again!
+	Knife:
+	 g02 - It's not real*
+	 g03 - It's a toy*
+	 g04 - I'm a hunter*
+	 g05 - It's not mine*
+	 g06 - Do you like it?*
+	 g07 - I have bigger ones at home*
+	 01 - I'm a chef
+	 02 - It's only for vegetables
+	 03 - Want me to make you a salad?
+	 04 - It's not really sharp
+	 05 - I'm a nice guy
+	Underwear:
+	 01 - Go ahead and take a sniff, will you? (irritated)
+	 02 - Hey!
+	 03 - Those are private
+	 04 - Is that really necessary?
+	 05 - That brown spot was always there
+	 06 - I used those this morning
+	 07 - Yep, that's my size
+	 g01 - Those are my favourite pairs
+	 08 - Imagine those on me
+	 09 - Now you've seen them
+	 10 - Can you show me yours
+	 11 - Respect my privacy
+	 12 - Please
+	 13 - I'm ashamed
+	 14 - Everyone can see
+	Slippers:
+	 g01 - Those are my favourite pairs*
+	 01 - Do you think I have big feet?
+	 02 - Do you like them?
+	 03 - I hope they don't smell too much
+	 04 - What size do you have?
+	Nail clippers:
+	 01 - My nails are way too long
+	 02 - I take care of myself
+	Computer:
+	 01 - Oh crap, did I forget to lock it?
+	 02 - Did you just hack my computer?
+	 03 - Looking for viruses?
+	 04 - There's only home movies on it
+	 05 - Don't look in my picture folder!
+	 06 - I use it to mine Bitcoin
+	 07 - I'm a programmer
+	 08 - I'm a gamer
+	 09 - I'm a influencer
+	 10 - I have a very popular blog
+	 11 - Don't take out the floppy disk
+	 12 - Can you install anti-virus software for me?
+	 13 - Don't use Bing!
+	 14 - Watch out for viruses!
+	Shirt:
+	 01 - I cleaned it this morning
+	 02 - It's clean
+	 03 - Watch out, it might be dirty
+	 04 - I don't think it will fit you
+	 05 - You are way too big for that
+	 06 - Want to try it on?
+	 07 - Hey, it looks like yours!
+	Jeans:
+	 01 - Too small for you
+	 02 - I put them on one leg at a time
+	 03 - The pockets are empty
+	 04 - I like shorts better
+	 05 - I cleaned them this morning
+	 06 - They're clean
+	 07 - Watch out, they might be dirty
+	 08 - I don't think they will fit you
+	Pills:
+	 01 - It's for my health
+	 02 - You know, hemorrhoids
+	 03 - It's for my allergies
+	 04 - One pill per day, takes the pain away
+	 05 - It's for my anthorpophobia
+	 06 - It's for my coulrophobia
+	 07 - It's for my anxiety
+	 08 - It's for my phobophobbia
+	 09 - It's for my arithmophobia, I'm supposed to take 2 every 4 hours but I take 3 1/2 every 5 hours instead.
+	 10 - It's for my aviophobia
+	 11 - I take three every day
+	 12 - I always keep a bottle with me
+	 13 - It's good for your health
+	 14 - Just take a pill, and no being ill.
+	Lipstick:
+	 01 - Because that's what I'm worth!
+	 02 - That's my partners!
+	 03 - I wear it now, does it look pretty?
+	 ** - That's my favourite!
+	 04 - Do you want to try it?
+	 05 - Do you think it fits me?
+	 06 - What's your favourite color?
+	 07 - I'm beatuiful, aren't I?
+	 08 - It's just gorgeous!
+	 09 - It's organic!
+	 10 - It's made from only clean snake oil.
+	 11 - It's made from endangered species extracts.
+	 12 - That was so expensive.
+	 13 - I'm beautiful.
+	 14 - Lipstick on a pig, right?
+	 15 - I usually start with the upper lip, and then do the lower one.
+	 16 - You want to try it on?
+	 17 - It's only made from waste products!
+	 18 - Hey! Don't use it all!
+	 19 - I need it tonight. I have a date!
+	 
+Action comments:
+	Manual inspect (tray):
+		01 - Oh
+		02 - I didn't know that had to be separated
+		03 - Was I supposed to separate that myself?
+		04 - No one told me to put that in a tray
+		05 - Really?
+		06 - Oh, what else should be separated?
+		07 - Do you ever get tired of your job?
+		08 - Is this really necessary?
+		09 - Nothing is wrong with that one
+		10 - That one is not dangerous
+		11 - I start to not like you anymore
+		12 - This will take forever
+		13 - Hope it doesn't explode due to radiation
+		14 - Do you really have to do that?
+		15 - With the extra dose of radiation, it might develop super powers
+		16 - Should I put everything in a separate tray?
+		17 - Are you trying to make me miss my plane?
+		18 - You just want me to stay here longer, dont you?
+		19 - Come on!
+		20 - I don't like you!
+		21 - Aha!
+		22 - Do you get extra paid for taking more time?
+		23 - Come on! Everyone's looking!
+		24 - This security is stupid
+		25 - While you inspect my stuff, dozens of criminals get past!
+		26 - Eagle eyes!
+		27 - Can I look at the xray of that one?
+		28 - 
+	Throw away:
+		01 - I needed that!
+		02 - Why did you do that?
+		03 - Hey, that's mine!
+		04 - Oh great!
+		05 - Now I have to buy a new one
+		06 - Now you owe me money for a new one!
+		07 - You cant do that!
+		08 - Stop throwing my stuff away!
+		09 - That's unfair!
+		10 - You're picking that one up - now!
+		11 - Are you going to keep that for yourself?
+		12 - That was a present for my partner!
+		13 - No!
+		14 - Pick it back up!
+		15 - Why?
+		16 - That's mine!
+		17 - Do I get it back when I return?
+		18 - I hate you!
+		19 - I'm reporting you!
+		20 - This is so stupid!
+		21 - That's a shame!
+		22 - Do you know how much that cost?
+		23 - Why don't you just throw away my whole bag?
+		24 - Can I keep anything?
+		25 - Can I at least keep something?
+		26 - Thief!
+		27 - Why aren't you looking for real criminals?
+		28 - What a waste!
+		29 - I just bought that!
+		30 - You're making me angry!
+		31 - You're making me mad!
+		32 - You're making me sad!
+		33 - 
+	Police:
+		01 - What did I do wrong?
+		02 - That wasn't illegal!
+		03 - You are going to lose your job!
+		04 - I haven't done nothing!
+		05 - I have a license for that!
+		06 - No! Let me explain!
+		07 - You're a loser!
+		08 - I hate you! *(18)
+		09 - That's legal!
+		10 - You're wrong!
+		11 - What did you just do?
+		12 - Was that necessary?
+		13 - Now, I'm definitely missing my plane!
+		14 - No! I have a family waiting for me!
+		15 - You're the worst security officer ever!
+		16 - I should call the police on you!
+		17 - I'm reporting you for misconduct!
+		18 - Expect to be sued!
+		19 - You will hear from my lawyer!
+		20 - Am I going to jail?
+		21 - Why aren't you looking for real criminals? * (27)
+		22 - It's criminal to do something illegal!
+		23 - What you are doing is illegal!
+		
+* echo
+* low pass
+* high pass
+
+
 Book:
 
 I've read it at least 20 times.
