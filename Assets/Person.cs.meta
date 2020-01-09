@@ -3,7 +3,12 @@ guid: ae11604eef56b4ca3b658a1a758adbe5
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - soundObject: {instanceID: 0}
+  - walkingMan: {instanceID: 0}
+  - photo: {instanceID: 0}
+  - passportPrefab: {instanceID: 0}
+  - passport: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -8,5 +8,6 @@ public class SlideInOtherObjectDefinition {
     public Vector3 startSlidePosition;
     public Vector3 endSlidePosition;
     public bool animateReverse = true;
+    public bool hideAfterReverse = true;
     public float animationTime;
 }

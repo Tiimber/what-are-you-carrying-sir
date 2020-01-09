@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Globalization;
+using TMPro;
 using UnityEngine;
 
 public class Passport : MonoBehaviour, IPubSub {
@@ -16,6 +16,13 @@ public class Passport : MonoBehaviour, IPubSub {
     public bool startInactive;
 
     private static Passport ZoomedInPassport;
+    private static CultureInfo cultureInfoEnUS = new CultureInfo("en-US");
+
+    public GameObject photo;
+    public TextMeshPro passportName;
+    public TextMeshPro nationality;
+    public TextMeshPro dateOfBirth;
+    public TextMeshPro quote;
 
     public Person person;
 
@@ -26,9 +33,17 @@ public class Passport : MonoBehaviour, IPubSub {
     void Start() {
         PASSPORT_LAYER_MASK = LayerMask.GetMask(new string[]{"Passport"});
 
-        PubSub.subscribe("Click", this);
-        PubSub.subscribe("CameraMovementStarted", this);
-        PubSub.subscribe("CameraMovementFinished", this);
+        if (person != null) {
+            PubSub.subscribe("Click", this);
+            PubSub.subscribe("CameraMovementStarted", this);
+            PubSub.subscribe("CameraMovementFinished", this);
+
+            passportName.text = person.personName;
+            nationality.text = person.nationality;
+            dateOfBirth.text = person.dateOfBirth.ToString("MMMM yyyy", cultureInfoEnUS);
+            quote.text = person.idPhrase;
+            photo.GetComponent<PerRendererShaderTexture>().texture = person.photo;
+        }
 
         if (startInactive) {
             this.gameObject.SetActive(false);

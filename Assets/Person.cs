@@ -21,6 +21,10 @@ public class Person : MonoBehaviour, IPubSub {
     public WalkingMan walkingMan;
     public string personName;
     public string personUniqueId;
+    public string nationality;
+    public DateTime dateOfBirth;
+    public string idPhrase;
+    public Texture photo;
 
     private string worstMistake = "none";
     private static List<string> WORST_MISTAKES = new List<string>(){
@@ -42,6 +46,11 @@ public class Person : MonoBehaviour, IPubSub {
         // Decide person characteristics
         personUniqueId = "TODO-randomizeme"; // TODO - Real person
         personName = "Retep Grebsrof"; // TODO - Real person
+        nationality = "Swedish"; // TODO - Real person
+        dateOfBirth = new DateTime(1905, 3, 1); // TODO - Real person
+        idPhrase = "You never win if you always lose"; // TODO - Real person
+        personName = "Retep Grebsrof"; // TODO - Real person
+//        photo = X; // TODO - Real person
         voice = "robot1"; // TODO - Decide voice
 
         // Load information on audio clips

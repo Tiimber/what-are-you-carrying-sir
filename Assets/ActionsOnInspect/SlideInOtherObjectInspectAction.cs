@@ -19,9 +19,13 @@ public class SlideInOtherObjectInspectAction : MonoBehaviour, ActionOnInspect {
             slideInObjectDefinition.pills = GetComponent<BagContentProperties>();
             float time = slideInObjectDefinition.animationTime > 0 ? slideInObjectDefinition.animationTime : Misc.DEFAULT_ANIMATION_TIME;
             if (!reverse) {
+                slideInObjectDefinition.instantiatedObject.SetActive(true);
                 Misc.AnimateMovementTo("position_other_inspect_item_"+i, slideInObjectDefinition.instantiatedObject, slideInObjectDefinition.endSlidePosition, time);
             } else if (slideInObjectDefinition.animateReverse) {
                 Misc.AnimateMovementTo("position_other_inspect_item_end_"+i, slideInObjectDefinition.instantiatedObject, slideInObjectDefinition.startSlidePosition, time);
+                if (slideInObjectDefinition.hideAfterReverse) {
+                    Misc.SetActiveAfterDelay("position_other_inspect_item_end_hide_"+i, slideInObjectDefinition.instantiatedObject, false, false, time);
+                }
             }
         }
 	}
