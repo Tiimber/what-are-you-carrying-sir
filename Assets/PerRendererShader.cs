@@ -5,7 +5,9 @@ using UnityEngine;
 public class PerRendererShader : MonoBehaviour {
 
     public Color color;
-
+    public int materialIndex = 0;
+    public string colorProperty = "_Color";
+    
     private Renderer _renderer;
     private MaterialPropertyBlock _propBlock;
 
@@ -18,11 +20,11 @@ public class PerRendererShader : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         // Get the current value of the material properties in the renderer.
-        _renderer.GetPropertyBlock(_propBlock);
+        _renderer.GetPropertyBlock(_propBlock, materialIndex);
         // Assign our new value.
-        _propBlock.SetColor("_Color", color);
+        _propBlock.SetColor(colorProperty, color);
         // Apply the edited values to the renderer.
-        _renderer.SetPropertyBlock(_propBlock);
+        _renderer.SetPropertyBlock(_propBlock, materialIndex);
 
     }
 }

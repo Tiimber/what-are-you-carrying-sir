@@ -176,11 +176,11 @@ public class BagProperties : MonoBehaviour, IPubSub {
         }
         string worstMistake = bagDefinition.person.getWorstMistake();
         if (worstMistake == "warning") {
-            // TODO - Do something with personal warning
-        } else if (worstMistake == "false arrest") {
-            // TODO - Do something with serious personal warning
-        } else if (worstMistake != "none") {
             Game.instance.registerMistake(worstMistake);
+        } else if (worstMistake == "false arrest") {
+            Game.instance.registerMistake(worstMistake);
+        } else if (worstMistake != "none") {
+            Game.instance.registerMistake(worstMistake, true);
         }
 
         // Clear GameObjects (bag + contents)

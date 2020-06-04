@@ -17,6 +17,8 @@ public class DoctorsNote : MonoBehaviour {
     public TextMeshPro doctorSignature;
 
     public GameObject paperMaterialObject;
+    public PerRendererShader pillColorHalf1;
+    public PerRendererShader pillColorHalf2;
     
     void Start() {
         assignProppertiesBasedOnBagContentProperties(GetComponent<BagContentPropertiesReference>().reference);
@@ -53,6 +55,12 @@ public class DoctorsNote : MonoBehaviour {
         doctorName.text = "Dr. " + doctorNameStr;
         doctorSignature.font = ItsRandom.pickRandom(signatureFonts);
         doctorSignature.text = doctorNameStr;
+
+        PillBottle pillBottle = bagContentProperties.gameObject.GetComponent<PillBottle>();
+        Debug.Log("Color 1: " + pillBottle.colorHalf1.ToString());
+        Debug.Log("Color 2: " + pillBottle.colorHalf2.ToString());
+        pillColorHalf1.color = pillBottle.colorHalf1;
+        pillColorHalf2.color = pillBottle.colorHalf2;
     }
     
 }

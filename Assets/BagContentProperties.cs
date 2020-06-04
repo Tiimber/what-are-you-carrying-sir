@@ -33,6 +33,8 @@ public class BagContentProperties : MonoBehaviour, IPubSub {
     public string category;
     public GameObject[] xrayMaterialObjects;
 
+    public Person person;
+
     public static BagContentProperties currentInspectedItem;
 
     public static int manualInspectTrayCounter = 0;

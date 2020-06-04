@@ -1,5 +1,37 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &7342393694169491543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1027901459530054900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06c99df5001b24268ad4dd25320abc04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 0, g: 0, b: 0, a: 0}
+  materialIndex: 0
+  colorProperty: _Color
+--- !u!114 &1887093688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1248242114393975757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58180ecd5af6a4468aafa1ab8e3b697d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawningSoundObject: {fileID: 1153427527560459090}
+  person: {fileID: 0}
+  bodyRendererShaders:
+  - {fileID: 5642928558007149590}
+  shirtRendererShader: {fileID: 3943845264216044010}
 --- !u!1 &2697960225097960983
 GameObject:
   m_ObjectHideFlags: 0
@@ -140,20 +172,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98f755995ae3347faa8569fd9094d0c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1887093688
+--- !u!114 &5642928558007149590
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1248242114393975757}
+  m_GameObject: {fileID: 4589250332875616155}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58180ecd5af6a4468aafa1ab8e3b697d, type: 3}
+  m_Script: {fileID: 11500000, guid: 06c99df5001b24268ad4dd25320abc04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawningSoundObject: {fileID: 1153427527560459090}
-  person: {fileID: 0}
+  color: {r: 0, g: 0, b: 0, a: 0}
+  materialIndex: 0
+  colorProperty: _Color
+--- !u!114 &3943845264216044010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6820584586029024229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06c99df5001b24268ad4dd25320abc04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 0, g: 0, b: 0, a: 0}
+  materialIndex: 0
+  colorProperty: _Color
+--- !u!114 &3030847144052651169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7757021626886423003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06c99df5001b24268ad4dd25320abc04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 0, g: 0, b: 0, a: 0}
+  materialIndex: 0
+  colorProperty: _Color
 --- !u!1001 &7094093554782171844
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -161,10 +224,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: b17d3d03710014e889a69714e31ad7f3,
+    - target: {fileID: -6786301691405749925, guid: b17d3d03710014e889a69714e31ad7f3,
         type: 3}
-      propertyPath: m_Name
-      value: WalkingManObj
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c9dd8e516281442519e02608409b0551, type: 2}
+    - target: {fileID: -6057140222963153312, guid: b17d3d03710014e889a69714e31ad7f3,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: d74ca2da61b88428f8761f9cb1d122bd, type: 2}
+    - target: {fileID: -6057140222963153312, guid: b17d3d03710014e889a69714e31ad7f3,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6057140222963153312, guid: b17d3d03710014e889a69714e31ad7f3,
+        type: 3}
+      propertyPath: m_CullingMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -6057140222963153312, guid: b17d3d03710014e889a69714e31ad7f3,
+        type: 3}
+      propertyPath: m_UpdateMode
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: b17d3d03710014e889a69714e31ad7f3,
         type: 3}
@@ -236,26 +319,26 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 800
       objectReference: {fileID: 0}
-    - target: {fileID: -6057140222963153312, guid: b17d3d03710014e889a69714e31ad7f3,
+    - target: {fileID: -1055293301923766622, guid: b17d3d03710014e889a69714e31ad7f3,
         type: 3}
-      propertyPath: m_Controller
+      propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 9100000, guid: d74ca2da61b88428f8761f9cb1d122bd, type: 2}
-    - target: {fileID: -6057140222963153312, guid: b17d3d03710014e889a69714e31ad7f3,
+      objectReference: {fileID: 2100000, guid: c9dd8e516281442519e02608409b0551, type: 2}
+    - target: {fileID: -927199367670048503, guid: b17d3d03710014e889a69714e31ad7f3,
         type: 3}
-      propertyPath: m_ApplyRootMotion
-      value: 1
+      propertyPath: m_Name
+      value: WalkingManObj
       objectReference: {fileID: 0}
-    - target: {fileID: -6057140222963153312, guid: b17d3d03710014e889a69714e31ad7f3,
+    - target: {fileID: 1528896267043523574, guid: b17d3d03710014e889a69714e31ad7f3,
         type: 3}
-      propertyPath: m_CullingMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -6057140222963153312, guid: b17d3d03710014e889a69714e31ad7f3,
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c9dd8e516281442519e02608409b0551, type: 2}
+    - target: {fileID: 4866189749256629297, guid: b17d3d03710014e889a69714e31ad7f3,
         type: 3}
-      propertyPath: m_UpdateMode
-      value: 2
-      objectReference: {fileID: 0}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c9dd8e516281442519e02608409b0551, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b17d3d03710014e889a69714e31ad7f3, type: 3}
 --- !u!1 &1248242114393975757 stripped
@@ -267,6 +350,30 @@ GameObject:
 --- !u!4 &2813056854235830750 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: b17d3d03710014e889a69714e31ad7f3,
+    type: 3}
+  m_PrefabInstance: {fileID: 7094093554782171844}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4589250332875616155 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6756246461828635999, guid: b17d3d03710014e889a69714e31ad7f3,
+    type: 3}
+  m_PrefabInstance: {fileID: 7094093554782171844}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6820584586029024229 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4383371379923104033, guid: b17d3d03710014e889a69714e31ad7f3,
+    type: 3}
+  m_PrefabInstance: {fileID: 7094093554782171844}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1027901459530054900 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7795905154276462128, guid: b17d3d03710014e889a69714e31ad7f3,
+    type: 3}
+  m_PrefabInstance: {fileID: 7094093554782171844}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7757021626886423003 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 708528122143404831, guid: b17d3d03710014e889a69714e31ad7f3,
     type: 3}
   m_PrefabInstance: {fileID: 7094093554782171844}
   m_PrefabAsset: {fileID: 0}

@@ -12,6 +12,6 @@ public class TextPairToRandomize {
     public void assign() {
         var randomText = ItsRandom.pickRandom(texts.ToList());
         objectWithText1.text = randomText;
-         objectWithText2.text = randomText;
+        objectWithText2.text = randomText;
     }
 }

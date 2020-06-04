@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
 using UnityEditor;
 using UnityEngine;
 
@@ -26,6 +28,10 @@ public class Game : MonoBehaviour, IPubSub {
     public LoudspeakerLogic loudspeaker;
     public Room room;
 
+    public TVLogic tvLogic;
+    public TVContentSet startMenuTVContent;
+    public TVContentSet pauseTVContent;
+
     public static Game instance;
 
     public bool zoomedOutState = true;
@@ -50,6 +56,7 @@ public class Game : MonoBehaviour, IPubSub {
     TKContinousHoldRecognizer continousHoldRecognizer;
 
     public static bool paused = false;
+    public int points;
 
     enum Direction {
         UP,
@@ -61,9 +68,12 @@ public class Game : MonoBehaviour, IPubSub {
     }
 
     void Awake () {
-
         ItsRandom.setRandomSeed(1234567890, "bags");
         ItsRandom.setRandomSeed(987654321, "people");
+        
+        // "Download" people config - TODO - this should be done elsewhere, preloaded per mission 
+        string personConfigUrl = "file:///Users/robbintapper/what-are-you-carrying-sir/Assets/example-person-config.xml";
+        StartCoroutine (loadPersonConfig (personConfigUrl));
 
         // Set framerate only for editor - Should do based on device later?!
 //#if UNITY_EDITOR
@@ -82,7 +92,7 @@ public class Game : MonoBehaviour, IPubSub {
         // Last in line for click triggering
         PubSub.subscribe("Click", this, Int32.MaxValue);
 
-        pauseGame();
+        pauseGame(true);
     }
 
     // Use this for initialization
@@ -210,10 +220,21 @@ public class Game : MonoBehaviour, IPubSub {
         newPerson.startPlaceBags(bagHandler, bagDropPosition);
     }
 
-    public void pauseGame () {
+    public void pauseGame (bool gameStart = false) {
         Game.paused = !Game.paused;
+        if (Game.paused && !gameStart) {
+            tvLogic.setCurrentContent(pauseTVContent);
+        } else if (gameStart) {
+            tvLogic.setCurrentContent(startMenuTVContent);
+        }
         PubSub.publish("pause", Game.paused);
         animateCameraChange();
+    }
+
+    public void pauseGameClickedTVStart (TVCamera tvCamera) {
+        if (tvCamera.isOn()) {
+            pauseGame();
+        }
     }
 
     private void scrollTV (Direction dir) {
@@ -440,13 +461,21 @@ public class Game : MonoBehaviour, IPubSub {
         return dropPosition;
     }
 
-    public void registerMistake(string mistake) {
+    public void registerMistake(string mistake, bool shouldPlaySpeakerSound = false) {
         Debug.Log("Register mistake: " + mistake);
+        
+        // TODO - Do something the other mistakes, that doesn't result in a speaker sound (warning, false arrest)
+
         if (!mistakeSeverity.ContainsKey(mistake)) {
             mistakeSeverity.Add(mistake, 0);
         }
         mistakeSeverity[mistake]++;
-        loudspeaker.putMessageOnQueue(mistake, mistakeSeverity[mistake], ItsRandom.randomRange(7f, 15f));
+        if (shouldPlaySpeakerSound) {
+            loudspeaker.putMessageOnQueue(mistake, mistakeSeverity[mistake], ItsRandom.randomRange(7f, 15f));
+        }
+        
+        // Refresh score screen
+        pauseTVContent.GetComponent<ScoreScreen>().update(mistakeSeverity, points);
     }
 
     private System.Collections.IEnumerator preloadGameObjects() {
@@ -462,5 +491,17 @@ public class Game : MonoBehaviour, IPubSub {
         foreach(GameObject instantiated in instantiatedPreloads) {
             Destroy(instantiated);
         }
+    }
+    
+    private IEnumerator loadPersonConfig (string personConfigUrl) {
+        WWW www = CacheWWW.Get(personConfigUrl);
+        yield return www;
+        XmlDocument xmlDoc = new XmlDocument ();
+        xmlDoc.LoadXml (www.text);
+
+        Debug.Log("Person config loaded!");
+        Debug.Log(xmlDoc);
+        
+        // levels = new Levels(xmlDoc);
     }
 }

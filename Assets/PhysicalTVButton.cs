@@ -11,7 +11,7 @@ public class PhysicalTVButton : MonoBehaviour, IPubSub {
     void Start() {
         TV_CONTENTS_BUTTONS_LAYER_MASK = LayerMask.GetMask(new string[]{"TVContentsButton"});
 
-        PubSub.subscribe("ClickTV", this);
+        PubSub.subscribe("ClickTV", this, 100);
     }
 
     public PROPAGATION onMessage(string message, object data) {

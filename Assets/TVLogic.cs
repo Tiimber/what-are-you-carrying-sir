@@ -9,6 +9,8 @@ public class TVLogic : MonoBehaviour, IPubSub {
     public GameObject TVBoundaryTop;
     public GameObject TVBoundaryBottom;
 
+    public TVCamera tvCamera;
+
     public Camera camera;
     public TVContentSet currentContent; // TODO - Not public later, should only be set in code
 
@@ -17,10 +19,13 @@ public class TVLogic : MonoBehaviour, IPubSub {
     }
 
     public void setCurrentContent(TVContentSet content) {
-        this.currentContent.transform.gameObject.SetActive(false);
-        content.transform.gameObject.SetActive(true);
-        this.currentContent = content;
-        resetCamera();
+        Debug.Log("CONTENT CHANGE");
+        if (tvCamera.isOn()) {
+            this.currentContent.transform.gameObject.SetActive(false);
+            content.transform.gameObject.SetActive(true);
+            this.currentContent = content;
+            resetCamera();
+        }
     }
 
     private void resetCamera() {

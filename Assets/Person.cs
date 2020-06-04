@@ -14,6 +14,8 @@ public class Person : MonoBehaviour, IPubSub {
     private float currentX;
 
     public SpawningSoundObject soundObject;
+    private Color bodyColor;
+    private Color favouriteColor;
     private string voice;
     private bool haveSaidGreeting = false;
     private AudioClip greeting;
@@ -45,6 +47,7 @@ public class Person : MonoBehaviour, IPubSub {
         Debug.Log("PERSON CREATED");
         // Decide person characteristics
         personUniqueId = "TODO-randomizeme"; // TODO - Real person
+        
         personName = "Retep Grebsrof"; // TODO - Real person
         nationality = "Swedish"; // TODO - Real person
         dateOfBirth = new DateTime(1905, 3, 1); // TODO - Real person
@@ -52,6 +55,54 @@ public class Person : MonoBehaviour, IPubSub {
         personName = "Retep Grebsrof"; // TODO - Real person
 //        photo = X; // TODO - Real person
         voice = "robot1"; // TODO - Decide voice
+        bodyColor = new Color(0f, 0.8f, 0.2f); // TODO - Real favourite color - will change color of entire person 
+        favouriteColor = new Color(1f, 0.2f, 0.2f); // TODO - Real favourite color - will change color of person shirt
+        Dictionary<string, string> books = new Dictionary<string, string>() {
+            {"Dolan J Droumpf", "I will be the greatest [INSERT SOMETHING HERE] ever!"}
+        };
+        Dictionary<string, Dictionary<string, float>> probabilityMap = new Dictionary<string, Dictionary<string, float>>() {
+            {"clothing", new Dictionary<string, float>() {
+                    {"briefs", 1f},
+                    {"panties", 0.1f},
+                    {"bras", 0.5f},
+                    {"shirts", 0.4f},
+                    {"jeans", 0.4f},
+                    {"dress", 0.01f},
+                    {"skirt", 0.01f},
+                    {"socks", 0.9f},
+                    {"hat", 0.05f},
+                    {"cap", 0.05f},
+                    {"slippers", 0.05f},
+                    {"shoes", 0.05f},
+                    {"gloves", 0.05f},
+                }
+            },
+            {"pills", new Dictionary<string, float>() {
+                    {"allergies", 1f},
+                    {"moreThanOne", 0f},
+                    {"smuggler", 0.01f}
+                }
+            },
+            {"weapons", new Dictionary<string, float>() {
+                    {"risk", 1f},
+                    {"riskGun", 1f},
+                    {"riskKnife", 1f}
+                }
+            },
+            // Computers, mobile phone material
+            {"displays", new Dictionary<string, float>() {
+                    {"piracy", 0.2f},
+                    {"worried", 0.5f},
+                    {"noob", 0.3f}
+                }
+            },
+            {"personality", new Dictionary<string, float>() {
+                    {"rude", 0.2f},
+                    {"polite", 0.4f},
+                    {"impatient", 0.3f},
+                }
+            }
+        };
 
         // Load information on audio clips
         clips = Resources.LoadAll<AudioClip>("voice/" + voice).ToList();
@@ -69,6 +120,7 @@ public class Person : MonoBehaviour, IPubSub {
         bagDefinition.person = this;
         currentX = this.transform.position.x;
         walkingMan.reportPositionX(currentX);
+        walkingMan.setColors(bodyColor, favouriteColor);
 
         PubSub.subscribe("belt_movement", this);
 
@@ -92,7 +144,7 @@ public class Person : MonoBehaviour, IPubSub {
     }
 
     public IEnumerator startPlaceBagsCoroutine(BagHandler bagHandler, Vector3 bagDropPosition) {
-        yield return bagHandler.packBagAndDropIt(bagDropPosition, bagDefinition, toBePlacedInTrays, id);
+        yield return bagHandler.packBagAndDropIt(bagDropPosition, bagDefinition, toBePlacedInTrays, this);
     }
 
     private Coroutine playVoice(AudioClip clip) {

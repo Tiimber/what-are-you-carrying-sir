@@ -13,7 +13,7 @@ public class TVContentsButton : MonoBehaviour, IPubSub {
         TV_CONTENTS_BUTTONS_LAYER_MASK = LayerMask.GetMask(new string[]{"TVContentsButton"});
         TV_SCREEN_LAYER_MASK = LayerMask.GetMask(new string[]{"TVScreen"});
 
-        PubSub.subscribe("ClickTV", this);
+        PubSub.subscribe("ClickTV", this, 99);
     }
 
     public PROPAGATION onMessage(string message, object data) {

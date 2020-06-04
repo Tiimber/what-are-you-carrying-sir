@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="$PROJECT_DIR$/../Library/Caches/Rider2019.3/extResources" t="IncludeRecursive" />
-    <e p="$PROJECT_DIR$/../Library/Caches/Rider2019.3/resharper-host/local/Transient/ReSharperHost/v193/SolutionCaches/_what-are-you-carrying-sir.1026112148.00" t="ExcludeRecursive" />
+    <e p="$PROJECT_DIR$/../.gitignore_global" t="IncludeRecursive" />
+    <e p="$APPLICATION_CONFIG_DIR$/consoles/db" t="IncludeRecursive" />
+    <e p="$APPLICATION_CONFIG_DIR$/extensions" t="IncludeRecursive" />
+    <e p="$APPLICATION_CONFIG_DIR$/scratches" t="IncludeRecursive" />
+    <e p="$PROJECT_DIR$/../Library/Caches/JetBrains/Rider2020.1/extResources" t="IncludeRecursive" />
+    <e p="$PROJECT_DIR$/../Library/Caches/JetBrains/Rider2020.1/resharper-host/local/Transient/ReSharperHost/v201/SolutionCaches/_what-are-you-carrying-sir.1026112148.00" t="ExcludeRecursive" />
     <e p="$PROJECT_DIR$" t="IncludeRecursive">
       <e p="Assembly-CSharp-Editor-firstpass.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
@@ -48,6 +52,7 @@
         <e p="BagHandler.cs" t="Include" />
         <e p="BagMesh.cs" t="Include" />
         <e p="BagProperties.cs" t="Include" />
+        <e p="CacheWWW.cs" t="Include" />
         <e p="CameraHandler.cs" t="Include" />
         <e p="CombineChildren.cs" t="Include" />
         <e p="ConveyorObject.cs" t="Include" />
@@ -55,9 +60,11 @@
         <e p="Editor" t="Include">
           <e p="MeshCombineWizard.cs" t="Include" />
         </e>
+        <e p="example-person-config.xml" t="Include" />
         <e p="FPSDisplay.cs" t="Include" />
         <e p="Game.cs" t="Include" />
         <e p="Generic.cs" t="Include" />
+        <e p="GenericBookText.cs" t="Include" />
         <e p="GenericTrigger.cs" t="Include" />
         <e p="GyroInput.cs" t="Include" />
         <e p="InspectActionBag.cs" t="Include" />
@@ -69,6 +76,7 @@
         <e p="Kickstarter.txt" t="Include" />
         <e p="LoudspeakerLogic.cs" t="Include" />
         <e p="Materials" t="Include">
+          <e p="NoSeeThroughShader.shader" t="Include" />
           <e p="PerRendererShader_Standard.shader" t="Include" />
         </e>
         <e p="Math3d.cs" t="Include" />
@@ -97,6 +105,7 @@
         <e p="Person.cs" t="Include" />
         <e p="PersonBagDefinition.cs" t="Include" />
         <e p="PhysicalTVButton.cs" t="Include" />
+        <e p="PillBottle.cs" t="Include" />
         <e p="PlayRandomAudioPosition.cs" t="Include" />
         <e p="PubSub.cs" t="Include" />
         <e p="QuickOutline" t="Include">
@@ -117,6 +126,7 @@
           <e p="MeshAndPosition.cs" t="Include" />
           <e p="MeshAndPositionToRandomize.cs" t="Include" />
           <e p="PillsToRandomize.cs" t="Include" />
+          <e p="RandomBook.cs" t="Include" />
           <e p="RandomColor.cs" t="Include" />
           <e p="RandomInterface.cs" t="Include" />
           <e p="RandomMaterial.cs" t="Include" />
@@ -133,9 +143,11 @@
           <e p="TextureToSet.cs" t="Include" />
         </e>
         <e p="Room.cs" t="Include" />
+        <e p="ScoreScreen.cs" t="Include" />
         <e p="Singleton.cs" t="Include" />
         <e p="SingletonInstance.cs" t="Include" />
         <e p="SpawningSoundObject.cs" t="Include" />
+        <e p="speaking_phrases.txt" t="Include" />
         <e p="Standard Assets" t="Include">
           <e p="Editor" t="Include">
             <e p="ImageEffects" t="Include">

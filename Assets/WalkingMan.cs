@@ -7,6 +7,9 @@ public class WalkingMan : MonoBehaviour {
     public Person person;
     float targetPositionX;
 
+    public PerRendererShader[] bodyRendererShaders;
+    public PerRendererShader shirtRendererShader;
+
     float MOVEMENT_PER_FRAME = 0.2f;
     float MAX_TIME_TO_WAIT_TO_CATCHUP = 2f;
 
@@ -66,5 +69,15 @@ public class WalkingMan : MonoBehaviour {
         if (!isWalking) {
             timeLeftToMoveTowardsBag = 0.001f;
         }
+    }
+
+    public void setColors(Color body, Color shirt) {
+        foreach (PerRendererShader bodyRendererShader in bodyRendererShaders) {
+            if (bodyRendererShader != null) {
+                bodyRendererShader.color = body;
+            }
+        }
+
+        shirtRendererShader.color = shirt;
     }
 }

@@ -837,6 +837,14 @@ public class Misc {
 		rotationCoroutines.Add(key, Singleton<SingletonInstance>.Instance.StartCoroutine (AnimateRotation(key, obj, fromRotation, toRotation, time)));
     }
 
+    public static void AnimateRotationFromToWithDelay (string key, GameObject obj, Vector3 fromRotation, Vector3 toRotation, float delay, float time = DEFAULT_ANIMATION_TIME) {
+	    if (rotationCoroutines.ContainsKey(key)) {
+		    Singleton<SingletonInstance>.Instance.StopCoroutine (rotationCoroutines[key]);
+		    rotationCoroutines.Remove(key);
+	    }
+	    rotationCoroutines.Add(key, Singleton<SingletonInstance>.Instance.StartCoroutine (AnimateRotation(key, obj, fromRotation, toRotation, time, delay)));
+    }
+
     public static void AnimateRotationFromTo (string key, GameObject obj, Vector3 fromRotation, Vector3 toRotation, float time = DEFAULT_ANIMATION_TIME) {
         if (rotationCoroutines.ContainsKey(key)) {
             Singleton<SingletonInstance>.Instance.StopCoroutine (rotationCoroutines[key]);
@@ -845,11 +853,20 @@ public class Misc {
 		rotationCoroutines.Add(key, Singleton<SingletonInstance>.Instance.StartCoroutine (AnimateRotation(key, obj, fromRotation, toRotation, time)));
     }
 
-    private static IEnumerator AnimateRotation (string key, GameObject obj, Vector3 from, Vector3 to, float time) {
+    private static IEnumerator AnimateRotation (string key, GameObject obj, Vector3 from, Vector3 to, float time, float delay = 0f) {
+	    if (delay > 0f) {
+		    yield return new WaitForSeconds(delay);
+	    }
 		float t = 0f;
+		Debug.Log("Rotattion" + (to - from).ToString());
+		Vector3 newTo = new Vector3(
+			Mathf.DeltaAngle(from.x, to.x) + from.x,
+			Mathf.DeltaAngle(from.y, to.y) + from.y,
+			Mathf.DeltaAngle(from.z, to.z) + from.z
+		);
 		while (t <= 1f) {
 			t += Time.unscaledDeltaTime / time;
-			Vector3 currentRotation = Vector3.Slerp(from, to, t);
+			Vector3 currentRotation = Vector3.Slerp(from, newTo, t);
 			obj.transform.localRotation = Quaternion.Euler(currentRotation);
 			yield return null;
 		}

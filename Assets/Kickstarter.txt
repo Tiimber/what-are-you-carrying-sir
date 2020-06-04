@@ -21,7 +21,6 @@ Rewards:
 
 Att göra innan kickstarter:
 
-- Papper för tillstånd av piller
 - Mobile phones (in trays) Bapple, Slamsmug, Wa-o-hey, Gurgle, Chiao-you, bocchia, ... (material på skärmen?)
 - Tavlor med motiv från landet/orten
 - (Fler typer av innehåll i väskorna)
@@ -35,6 +34,7 @@ Att göra (prioriterat) efter kickstarter:
 - Personlig terminal-output på datorskärmen
 - Personliga böcker - titlar/författtare från Kickstarter
 - Fler kroppstyper
+- Config för vad som ska stå på papper för "Doctors note"
 
 - Skoj material på mobil (kan nog återanvända en del filmer, men borde vara nytt material också)
 - Fler "datorer"

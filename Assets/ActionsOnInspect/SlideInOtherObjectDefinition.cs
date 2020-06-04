@@ -10,4 +10,5 @@ public class SlideInOtherObjectDefinition {
     public bool animateReverse = true;
     public bool hideAfterReverse = true;
     public float animationTime;
+    public bool enabled = true;
 }

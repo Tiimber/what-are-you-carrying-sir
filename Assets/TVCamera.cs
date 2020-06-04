@@ -15,17 +15,30 @@ public class TVCamera : MonoBehaviour {
 
     private bool on = true;
 
+    public bool isOn () {
+        return on;
+    }
+
     public void ToggleTV () {
         if (!Misc.IsScaleAnimationActive("tvPowerToggleTopBar") && !Misc.IsScaleAnimationActive("tvPowerToggleLeftBar")) {
-            on = !on;
-
-            StartCoroutine(toggleTVState());
+            bool toggledState = !on;
+            StartCoroutine(delayToggleOnState());
+            StartCoroutine(toggleTVState(toggledState));
         }
     }
 
-    private IEnumerator toggleTVState() {
-        float topBottomTargetZ = on ? topBottomTurnOnScaleZ : topBottomTurnOffScaleZ;
-        float leftRightTargetX = on ? leftRightTurnOnScaleX : leftRightTurnOffScaleX;
+    private IEnumerator delayToggleOnState () {
+        if (on) {
+            on = false;
+        } else {
+            yield return null;
+            on = true;
+        }
+    }
+
+    private IEnumerator toggleTVState(bool toggledState) {
+        float topBottomTargetZ = toggledState ? topBottomTurnOnScaleZ : topBottomTurnOffScaleZ;
+        float leftRightTargetX = toggledState ? leftRightTurnOnScaleX : leftRightTurnOffScaleX;
 
         Vector3 topBarTargetScale = new Vector3(blackBarTop.transform.localScale.x, blackBarTop.transform.localScale.y, topBottomTargetZ);
         Vector3 bottomBarTargetScale = new Vector3(blackBarBottom.transform.localScale.x, blackBarBottom.transform.localScale.y, topBottomTargetZ);

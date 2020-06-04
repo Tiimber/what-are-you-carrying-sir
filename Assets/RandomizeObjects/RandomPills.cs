@@ -12,6 +12,8 @@ public class RandomPills : MonoBehaviour, RandomInterface {
     public GameObject liquidContainer;
     public GameObject liquidContainerXray;
     public Material organicMaterialXray;
+    public PillBottle pillBottle;
+    public DoctorsNote doctorsNote;
 
     public PillsToRandomize[] pillsToRandomize;
 
@@ -27,6 +29,14 @@ public class RandomPills : MonoBehaviour, RandomInterface {
 
     public void run() {
         PillsToRandomize chosenPillsConfig = ItsRandom.pickRandom(pillsToRandomize.ToList());
-        chosenPillsConfig.assign(gameObject, objectWithMaterial, materialIndex, pillsContainer, pillsContainerXray, liquidContainer, liquidContainerXray, organicMaterialXray);
+        chosenPillsConfig.assign(pillBottle, objectWithMaterial, materialIndex, pillsContainer, pillsContainerXray, liquidContainer, liquidContainerXray, organicMaterialXray);
+        if (!chosenPillsConfig.needsPrescription) {
+	        SlideInOtherObjectInspectAction slideInOtherObjectInspectAction = this.gameObject.GetComponent<SlideInOtherObjectInspectAction>();
+	        foreach (SlideInOtherObjectDefinition slideInOtherObjectDefinition in slideInOtherObjectInspectAction.slideInObjectDefinitions) {
+		        if (slideInOtherObjectDefinition.gameObjectToSlideIn.name.StartsWith("Doctors Note")) {
+			        slideInOtherObjectDefinition.enabled = false;
+		        }
+	        }
+        }
     }
 }

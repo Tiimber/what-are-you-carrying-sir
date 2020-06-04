@@ -11,6 +11,9 @@ public class SlideInOtherObjectInspectAction : MonoBehaviour, ActionOnInspect {
 	public void run(bool reverse) {
         for (int i = 0; i < slideInObjectDefinitions.Length; i++) { 
             SlideInOtherObjectDefinition slideInObjectDefinition = slideInObjectDefinitions[i];
+            if (!slideInObjectDefinition.enabled) {
+                continue;
+            }
             if (slideInObjectDefinition.instantiatedObject == null) {
                 slideInObjectDefinition.instantiatedObject = Instantiate(slideInObjectDefinition.gameObjectToSlideIn, null);
                 slideInObjectDefinition.instantiatedObject.transform.localPosition = slideInObjectDefinition.startSlidePosition;

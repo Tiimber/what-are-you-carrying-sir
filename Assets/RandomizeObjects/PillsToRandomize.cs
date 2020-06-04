@@ -7,6 +7,23 @@ using UnityEngine;
 public class PillsToRandomize {
 
     static Color ORGANIC_PILL_COLOR = new Color(0.83137256f, 0.7058824f, 0.16078432f);
+    private static List<Color[]> NON_ORGANIC_PILL_COLORS = new List<Color[]>() {
+        new Color[] {
+            new Color(1f, 0f, 0f)
+        },
+        new Color[] {
+            new Color(0f, 1f, 0f), new Color(0f, 0f, 1f)
+        }, 
+        new Color[] {
+            new Color(0f, 1f, 0f)
+        }, 
+        new Color[] {
+            new Color(0.89f, 0.53f, 0.046f)
+        }, 
+        new Color[] {
+            new Color(0f, 0f, 1f)
+        },
+    };
 
     const int RANDOM_BASE_AMOUNT_PILLS = 10;
 
@@ -18,19 +35,20 @@ public class PillsToRandomize {
     public bool specifiedAsOrganic;
     public bool specifiedAsLiquid;
     public string pillLabel;
+    public bool needsPrescription;
 
     // Actually instantiated
     public int amount;
     public bool organic;
     public bool liquid;
 
-    public void assign(GameObject pillBottle, PerRendererShaderTexture objectWithMaterial, int materialIndex, GameObject pillsContainer, GameObject pillsContainerXray, GameObject liquidContainer, GameObject liquidContainerXray, Material organicMaterialXray) {
+    public void assign(PillBottle pillBottle, PerRendererShaderTexture objectWithMaterial, int materialIndex, GameObject pillsContainer, GameObject pillsContainerXray, GameObject liquidContainer, GameObject liquidContainerXray, Material organicMaterialXray) {
         objectWithMaterial.texture = texture;
         objectWithMaterial.materialIndex = materialIndex;
 
         // Set the name (and label - for inspect) on the pill bottle
-        pillBottle.name = "Bottle of '" + pillLabel + "'";
-        pillBottle.GetComponent<BagContentProperties>().displayName = "Bottle of '" + pillLabel + "'";
+        pillBottle.gameObject.name = "Bottle of '" + pillLabel + "'";
+        pillBottle.gameObject.GetComponent<BagContentProperties>().displayName = "Bottle of '" + pillLabel + "'";
 
         liquid = specifiedAsLiquid;
         amount = specifiedAmount;
@@ -57,25 +75,46 @@ public class PillsToRandomize {
         }
 
         if (amount > 0) {
+            // Decide color pair for pills
+            Color[] chosenColor = organic ? 
+                new[] {ORGANIC_PILL_COLOR} : 
+                ItsRandom.pickRandom(NON_ORGANIC_PILL_COLORS);
+
             for (int i = amount; i < pillsContainer.transform.childCount; i++) {
                 pillsContainer.transform.GetChild(i).gameObject.SetActive(false);
                 pillsContainerXray.transform.GetChild(i).gameObject.SetActive(false);
             }
 
             // TODO - Maybe make > some < of the pills organic (if wrong that should be detected)
-            if (organic) {
-                for (int i = 0; i < amount; i++) {
-                    PerRendererShader perRendererShader = pillsContainer.transform.GetChild(i).GetComponent<PerRendererShader>();
-                    perRendererShader.color = ORGANIC_PILL_COLOR;
-                    perRendererShader.enabled = true;
-                    pillsContainerXray.transform.GetChild(i).GetComponent<Renderer>().material = organicMaterialXray;
+            for (int i = 0; i < amount; i++) {
+                if (organic) {
+                    Material[] organicMaterials = new []{organicMaterialXray, organicMaterialXray};
+                    Debug.Log(pillsContainerXray.transform.GetChild(i).GetChild(0).GetComponent<Renderer>().materials.Length);
+                    Debug.Log(organicMaterialXray.name);
+                    Debug.Log(pillsContainerXray.transform.GetChild(i).GetChild(0).GetComponent<Renderer>().materials[0].name);
+                    Debug.Log(pillsContainerXray.transform.GetChild(i).GetChild(0).GetComponent<Renderer>().materials[1].name);
+                    // pillsContainerXray.transform.GetChild(i).GetChild(0).GetComponent<Renderer>().materials[0] = organicMaterialXray;
+                    // pillsContainerXray.transform.GetChild(i).GetChild(0).GetComponent<Renderer>().materials[1] = organicMaterialXray;
+                    pillsContainerXray.transform.GetChild(i).GetChild(0).GetComponent<Renderer>().materials = organicMaterials;
+                    Debug.Log(pillsContainerXray.transform.GetChild(i).GetChild(0).GetComponent<Renderer>().materials[0].name);
+                    Debug.Log(pillsContainerXray.transform.GetChild(i).GetChild(0).GetComponent<Renderer>().materials[1].name);
                 }
+                PerRendererShader[] perRendererShaders = pillsContainer.transform.GetChild(i).GetChild(0).GetComponents<PerRendererShader>();
+                Debug.Log("Colors: " + chosenColor[0].ToString() + ", " + (chosenColor.Length > 1 ? chosenColor[1] : chosenColor[0]).ToString());
+                perRendererShaders[0].color = chosenColor[0];
+                perRendererShaders[1].color = chosenColor.Length > 1 ? chosenColor[1] : chosenColor[0];
+                perRendererShaders[0].enabled = true;
+                perRendererShaders[1].enabled = true;
+
+                pillBottle.colorHalf1 = chosenColor[0];
+                pillBottle.colorHalf2 = chosenColor.Length > 1 ? chosenColor[1] : chosenColor[0];
             }
 
-            // Remove pills from gameObject
+            // Remove liquid from gameObject
             GameObject.Destroy(liquidContainer);
             GameObject.Destroy(liquidContainerXray);
         } else {
+            // Remove pills from gameObject
             GameObject.Destroy(pillsContainer);
             GameObject.Destroy(pillsContainerXray);
         }
