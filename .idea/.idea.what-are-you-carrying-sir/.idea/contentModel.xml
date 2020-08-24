@@ -5,8 +5,8 @@
     <e p="$APPLICATION_CONFIG_DIR$/consoles/db" t="IncludeRecursive" />
     <e p="$APPLICATION_CONFIG_DIR$/extensions" t="IncludeRecursive" />
     <e p="$APPLICATION_CONFIG_DIR$/scratches" t="IncludeRecursive" />
-    <e p="$PROJECT_DIR$/../Library/Caches/JetBrains/Rider2020.1/extResources" t="IncludeRecursive" />
-    <e p="$PROJECT_DIR$/../Library/Caches/JetBrains/Rider2020.1/resharper-host/local/Transient/ReSharperHost/v201/SolutionCaches/_what-are-you-carrying-sir.1026112148.00" t="ExcludeRecursive" />
+    <e p="$PROJECT_DIR$/../Library/Caches/JetBrains/Rider2020.2/extResources" t="IncludeRecursive" />
+    <e p="$PROJECT_DIR$/../Library/Caches/JetBrains/Rider2020.2/resharper-host/local/Transient/Rider/v202/SolutionCaches/_what-are-you-carrying-sir.1026112148.00" t="ExcludeRecursive" />
     <e p="$PROJECT_DIR$" t="IncludeRecursive">
       <e p="Assembly-CSharp-Editor-firstpass.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
@@ -59,8 +59,11 @@
         <e p="DoctorsNote.cs" t="Include" />
         <e p="Editor" t="Include">
           <e p="MeshCombineWizard.cs" t="Include" />
+          <e p="MeshCombineWizard2.cs" t="Include" />
         </e>
-        <e p="example-person-config.xml" t="Include" />
+        <e p="example-people-config.xml" t="Include" />
+        <e p="example-person-config-1.xml" t="Include" />
+        <e p="example-person-config-2.xml" t="Include" />
         <e p="FPSDisplay.cs" t="Include" />
         <e p="Game.cs" t="Include" />
         <e p="Generic.cs" t="Include" />
@@ -104,6 +107,8 @@
         <e p="PerRendererShaderTexture.cs" t="Include" />
         <e p="Person.cs" t="Include" />
         <e p="PersonBagDefinition.cs" t="Include" />
+        <e p="PersonBooksConfig.cs" t="Include" />
+        <e p="PersonConfig.cs" t="Include" />
         <e p="PhysicalTVButton.cs" t="Include" />
         <e p="PillBottle.cs" t="Include" />
         <e p="PlayRandomAudioPosition.cs" t="Include" />
