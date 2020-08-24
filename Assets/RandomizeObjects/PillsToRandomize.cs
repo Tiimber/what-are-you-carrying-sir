@@ -89,18 +89,18 @@ public class PillsToRandomize {
             for (int i = 0; i < amount; i++) {
                 if (organic) {
                     Material[] organicMaterials = new []{organicMaterialXray, organicMaterialXray};
-                    Debug.Log(pillsContainerXray.transform.GetChild(i).GetChild(0).GetComponent<Renderer>().materials.Length);
-                    Debug.Log(organicMaterialXray.name);
-                    Debug.Log(pillsContainerXray.transform.GetChild(i).GetChild(0).GetComponent<Renderer>().materials[0].name);
-                    Debug.Log(pillsContainerXray.transform.GetChild(i).GetChild(0).GetComponent<Renderer>().materials[1].name);
+                    // Debug.Log(pillsContainerXray.transform.GetChild(i).GetChild(0).GetComponent<Renderer>().materials.Length);
+                    // Debug.Log(organicMaterialXray.name);
+                    // Debug.Log(pillsContainerXray.transform.GetChild(i).GetChild(0).GetComponent<Renderer>().materials[0].name);
+                    // Debug.Log(pillsContainerXray.transform.GetChild(i).GetChild(0).GetComponent<Renderer>().materials[1].name);
                     // pillsContainerXray.transform.GetChild(i).GetChild(0).GetComponent<Renderer>().materials[0] = organicMaterialXray;
                     // pillsContainerXray.transform.GetChild(i).GetChild(0).GetComponent<Renderer>().materials[1] = organicMaterialXray;
                     pillsContainerXray.transform.GetChild(i).GetChild(0).GetComponent<Renderer>().materials = organicMaterials;
-                    Debug.Log(pillsContainerXray.transform.GetChild(i).GetChild(0).GetComponent<Renderer>().materials[0].name);
-                    Debug.Log(pillsContainerXray.transform.GetChild(i).GetChild(0).GetComponent<Renderer>().materials[1].name);
+                    // Debug.Log(pillsContainerXray.transform.GetChild(i).GetChild(0).GetComponent<Renderer>().materials[0].name);
+                    // Debug.Log(pillsContainerXray.transform.GetChild(i).GetChild(0).GetComponent<Renderer>().materials[1].name);
                 }
                 PerRendererShader[] perRendererShaders = pillsContainer.transform.GetChild(i).GetChild(0).GetComponents<PerRendererShader>();
-                Debug.Log("Colors: " + chosenColor[0].ToString() + ", " + (chosenColor.Length > 1 ? chosenColor[1] : chosenColor[0]).ToString());
+                // Debug.Log("Colors: " + chosenColor[0].ToString() + ", " + (chosenColor.Length > 1 ? chosenColor[1] : chosenColor[0]).ToString());
                 perRendererShaders[0].color = chosenColor[0];
                 perRendererShaders[1].color = chosenColor.Length > 1 ? chosenColor[1] : chosenColor[0];
                 perRendererShaders[0].enabled = true;

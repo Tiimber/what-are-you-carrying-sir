@@ -2,11 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
 using UnityEngine;
 
 public class Person : MonoBehaviour, IPubSub {
 
     private static int PERSON_ID = 0;
+
+    public PersonConfig config;
 
     private int id;
     private PersonBagDefinition bagDefinition = new PersonBagDefinition();
@@ -27,6 +30,7 @@ public class Person : MonoBehaviour, IPubSub {
     public DateTime dateOfBirth;
     public string idPhrase;
     public Texture photo;
+    public List<Tuple2<string, string>> books;
 
     private string worstMistake = "none";
     private static List<string> WORST_MISTAKES = new List<string>(){
@@ -45,21 +49,25 @@ public class Person : MonoBehaviour, IPubSub {
     void Awake() {
         id = ++PERSON_ID;
         Debug.Log("PERSON CREATED");
+    }
+
+    public void setConfig(Tuple2<XmlDocument, Texture2D> personConfig) {
+        config = new PersonConfig(personConfig.First, personConfig.Second);
+
         // Decide person characteristics
-        personUniqueId = "TODO-randomizeme"; // TODO - Real person
-        
-        personName = "Retep Grebsrof"; // TODO - Real person
-        nationality = "Swedish"; // TODO - Real person
-        dateOfBirth = new DateTime(1905, 3, 1); // TODO - Real person
-        idPhrase = "You never win if you always lose"; // TODO - Real person
-        personName = "Retep Grebsrof"; // TODO - Real person
-//        photo = X; // TODO - Real person
-        voice = "robot1"; // TODO - Decide voice
-        bodyColor = new Color(0f, 0.8f, 0.2f); // TODO - Real favourite color - will change color of entire person 
-        favouriteColor = new Color(1f, 0.2f, 0.2f); // TODO - Real favourite color - will change color of person shirt
-        Dictionary<string, string> books = new Dictionary<string, string>() {
-            {"Dolan J Droumpf", "I will be the greatest [INSERT SOMETHING HERE] ever!"}
-        };
+        personUniqueId = config.id;
+        personName = config.name;
+        nationality = config.nationality;
+        dateOfBirth = config.dob;
+        idPhrase = config.idPhrase;
+        photo = config.photoTexture;
+        voice = config.voice;
+        bodyColor = config.bodyColor;
+        favouriteColor = config.favouriteColor;
+
+        books = config.personBooksConfig.books.GetRange(0, config.personBooksConfig.books.Count);
+
+        /*
         Dictionary<string, Dictionary<string, float>> probabilityMap = new Dictionary<string, Dictionary<string, float>>() {
             {"clothing", new Dictionary<string, float>() {
                     {"briefs", 1f},
@@ -103,6 +111,7 @@ public class Person : MonoBehaviour, IPubSub {
                 }
             }
         };
+        */
 
         // Load information on audio clips
         clips = Resources.LoadAll<AudioClip>("voice/" + voice).ToList();
@@ -111,9 +120,12 @@ public class Person : MonoBehaviour, IPubSub {
 //        haveSaidGreeting = ItsRandom.randomBool(); // TODO
         haveSaidGreeting = false;
     }
-
+    
 	// Use this for initialization
 	void Start () {
+        Debug.Log("CONFIG");
+        Debug.Log(config);
+
         // Choose greeting
         greeting = ItsRandom.pickRandom(clips.FindAll(i => i.name.StartsWith("greetings-")));
 
@@ -300,5 +312,16 @@ public class Person : MonoBehaviour, IPubSub {
         passport.animateAndDestroy();
         Destroy(walkingMan.gameObject);
         finishPerson();
+    }
+
+    public Tuple2<string, string> getRandomBook() {
+        if (books.Count > 0) {
+            Tuple2<string,string> book = ItsRandom.pickRandom(books);
+            int bookIndex = books.IndexOf(book);
+            books.RemoveAt(bookIndex);
+            return book;
+        }
+
+        return null;
     }
 }

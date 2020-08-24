@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<person
+    id="UNIQUE-HASHED-ID-1"
+    name="Javier Baristo"
+    nationality="Argentinian"
+    dateOfBirth="2005-06-04"
+    idPhrase="I like my coffee as my women, hot!"
+    photo="http://samlingar.com/whatareyoucarryingsir/Javier_Baristo.jpeg"
+    voice="robot1"
+    bodyColor="51,164,51"
+    favouriteColor="51,51,255"
+>
+    <books>
+        <book author="Dolan J Droumpf" title="I will be the greatest [INSERT SOMETHING HERE] ever!"/>
+        <book author="Montgomery P Y Thon" title="Tis but a scratch"/>
+    </books>
+    
+    <clothing>
+        <item type="briefs" probability="1" maxAmount="5"/>
+        <item type="panties" probability="0.1" maxAmount="5"/>
+        <item type="bras" probability="0.5" maxAmount="4"/>
+        <item type="shirts" probability="0.4" maxAmount="3"/>
+        <item type="jeans" probability="0.4" maxAmount="3"/>
+        <item type="dress" probability="0.01" maxAmount="2"/>
+        <item type="skirt" probability="0.01" maxAmount="3"/>
+        <item type="socks" probability="0.9" maxAmount="8"/>
+        <item type="hat" probability="0.05" maxAmount="1"/>
+        <item type="cap" probability="0.05" maxAmount="2"/>
+        <item type="slippers" probability="0.05" maxAmount="1"/>
+        <item type="shoes" probability="0.05" maxAmount="1"/>
+        <item type="gloves" probability="0.05" maxAmount="1"/>
+    </clothing>
+    
+</person>
+<!--
+        {"pills", new Dictionary<string, float>() {
+                {"allergies", 1f},
+                {"moreThanOne", 0f},
+                {"smuggler", 0.01f}
+            }
+        },
+        {"weapons", new Dictionary<string, float>() {
+                {"risk", 1f},
+                {"riskGun", 1f},
+                {"riskKnife", 1f}
+            }
+        },
+        // Computers, mobile phone material
+        {"displays", new Dictionary<string, float>() {
+                {"piracy", 0.2f},
+                {"worried", 0.5f},
+                {"noob", 0.3f}
+            }
+        },
+        {"personality", new Dictionary<string, float>() {
+                {"rude", 0.2f},
+                {"polite", 0.4f},
+                {"impatient", 0.3f},
+            }
+        }
+-->

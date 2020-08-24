@@ -350,6 +350,8 @@ public class BagHandler : MonoBehaviour, IPubSub {
             bool itemFitsInBag = findPlaceForItemInBag(bagContentProperties, bagProperties, 10);
 
             if (itemFitsInBag) {
+                bagContentProperties.person = person;
+
                 bagProperties.bagContents.Add(bagContentProperties);
 
                 // Trigger "random"-functions on it
@@ -362,9 +364,7 @@ public class BagHandler : MonoBehaviour, IPubSub {
                 contentPiece.transform.parent = null;
                 Destroy(contentPiece);
             }
-
-            bagContentProperties.person = person;
-
+            
 /*
             yieldCounter--;
             if (yieldCounter == 0) {

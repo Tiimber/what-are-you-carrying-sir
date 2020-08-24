@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<person
+    id="UNIQUE-HASHED-ID-2"
+    name="Lars Wide Mark"
+    nationality="Norrlänning"
+    dateOfBirth="1980-12-31"
+    idPhrase="Modorööööv!"
+    photo="http://samlingar.com/whatareyoucarryingsir/Lars_Wide_Mark.jpg"
+    voice="robot1"
+    bodyColor="245,188,66"
+    favouriteColor="245,81,66"
+>
+    <books>
+        <book author="Rob Been" title="ScrumBut - By the Book"/>
+        <book author="Gott ze Almightie" title="Lé biblis"/>
+    </books>
+    
+    <clothing>
+        <item type="briefs" probability="0" maxAmount="5"/>
+        <item type="panties" probability="1" maxAmount="5"/>
+        <item type="bras" probability="1" maxAmount="4"/>
+        <item type="shirts" probability="0.4" maxAmount="3"/>
+        <item type="jeans" probability="0.1" maxAmount="3"/>
+        <item type="dress" probability="0.5" maxAmount="2"/>
+        <item type="skirt" probability="0.7" maxAmount="3"/>
+        <item type="socks" probability="1" maxAmount="8"/>
+        <item type="hat" probability="0.05" maxAmount="1"/>
+        <item type="cap" probability="0.05" maxAmount="2"/>
+        <item type="slippers" probability="0.2" maxAmount="1"/>
+        <item type="shoes" probability="0.5" maxAmount="1"/>
+        <item type="gloves" probability="0.1" maxAmount="1"/>
+    </clothing>
+    
+</person>
+<!--
+        {"pills", new Dictionary<string, float>() {
+                {"allergies", 1f},
+                {"moreThanOne", 0f},
+                {"smuggler", 0.01f}
+            }
+        },
+        {"weapons", new Dictionary<string, float>() {
+                {"risk", 1f},
+                {"riskGun", 1f},
+                {"riskKnife", 1f}
+            }
+        },
+        // Computers, mobile phone material
+        {"displays", new Dictionary<string, float>() {
+                {"piracy", 0.2f},
+                {"worried", 0.5f},
+                {"noob", 0.3f}
+            }
+        },
+        {"personality", new Dictionary<string, float>() {
+                {"rude", 0.2f},
+                {"polite", 0.4f},
+                {"impatient", 0.3f},
+            }
+        }
+-->

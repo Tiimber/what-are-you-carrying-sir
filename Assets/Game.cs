@@ -16,6 +16,9 @@ public class Game : MonoBehaviour, IPubSub {
 
     private const float TV_SCROLL_MOVEMENT_SPEED = 7f;
 
+    private List<XmlDocument> peopleConfigs = new List<XmlDocument>();
+    private List<Texture2D> passportTextures = new List<Texture2D>();
+    
     private BagHandler bagHandler;
     public Person personPrefab;
     public WalkingMan walkingMan;
@@ -31,6 +34,7 @@ public class Game : MonoBehaviour, IPubSub {
     public TVLogic tvLogic;
     public TVContentSet startMenuTVContent;
     public TVContentSet pauseTVContent;
+    public Material blankScreen;
 
     public static Game instance;
 
@@ -72,8 +76,8 @@ public class Game : MonoBehaviour, IPubSub {
         ItsRandom.setRandomSeed(987654321, "people");
         
         // "Download" people config - TODO - this should be done elsewhere, preloaded per mission 
-        string personConfigUrl = "file:///Users/robbintapper/what-are-you-carrying-sir/Assets/example-person-config.xml";
-        StartCoroutine (loadPersonConfig (personConfigUrl));
+        string peopleConfigUrl = "file:///Users/robbintapper/what-are-you-carrying-sir/Assets/example-people-config.xml";
+        StartCoroutine (loadPeopleConfig (peopleConfigUrl));
 
         // Set framerate only for editor - Should do based on device later?!
 //#if UNITY_EDITOR
@@ -205,6 +209,7 @@ public class Game : MonoBehaviour, IPubSub {
         Vector3 startPoint = currentXrayMachine.bagDropPoint + currentXrayMachine.transform.position;
         startPoint.z = 5;
         Person newPerson = Instantiate(personPrefab, startPoint, Quaternion.identity);
+        newPerson.setConfig(getNextPersonConfig());
         newPerson.greetingPositionX = currentXrayMachine.scanRight;
 
         float walkingManStartPositionRelativePersonCube = 20f;
@@ -492,16 +497,40 @@ public class Game : MonoBehaviour, IPubSub {
             Destroy(instantiated);
         }
     }
-    
+
+    private IEnumerator loadPeopleConfig(string peopleConfigUrl) {
+        WWW www = CacheWWW.Get(peopleConfigUrl);
+        yield return www;
+        XmlDocument xmlDoc = new XmlDocument ();
+        xmlDoc.LoadXml (www.text);
+
+        XmlNodeList people = xmlDoc.SelectNodes("/people/person");
+        foreach (XmlNode person in people) {
+            string personUrl = Misc.xmlString(person.Attributes.GetNamedItem("href"));
+            yield return loadPersonConfig(personUrl);
+        }
+    }
+
     private IEnumerator loadPersonConfig (string personConfigUrl) {
         WWW www = CacheWWW.Get(personConfigUrl);
         yield return www;
         XmlDocument xmlDoc = new XmlDocument ();
         xmlDoc.LoadXml (www.text);
-
-        Debug.Log("Person config loaded!");
-        Debug.Log(xmlDoc);
         
-        // levels = new Levels(xmlDoc);
+        // Load Texture for passport photo that belongs to this config
+        string photoUrl = Misc.xmlString(xmlDoc.SelectSingleNode("/person").Attributes.GetNamedItem("photo"));
+        WWW photoWWW = CacheWWW.Get(photoUrl);
+        yield return photoWWW;
+        Texture2D passportTexture = new Texture2D (350, 389);
+        photoWWW.LoadImageIntoTexture (passportTexture);
+
+        peopleConfigs.Add(xmlDoc);
+        passportTextures.Add(passportTexture);
+    }
+
+    private Tuple2<XmlDocument, Texture2D> getNextPersonConfig() {
+        // TODO - pop lists
+        int randomPersonIndex = ItsRandom.randomRange(0, peopleConfigs.Count);
+        return new Tuple2<XmlDocument, Texture2D>(peopleConfigs[randomPersonIndex], passportTextures[randomPersonIndex]);
     }
 }

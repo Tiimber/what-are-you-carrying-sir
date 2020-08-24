@@ -21,10 +21,11 @@ public class RandomBook : MonoBehaviour, RandomInterface {
     public void run() {
 	    // First, try to lookup book author + title in person
 	    Person person = GetComponent<BagContentProperties>().person;
-	    // TODO
+	    Tuple2<string, string> randomBook = person.getRandomBook();
+	    if (randomBook == null) {
+		    randomBook = ItsRandom.pickRandom(GenericBookText.books);
+	    }
 	    
-
-	    Tuple2<string, string> randomBook = ItsRandom.pickRandom(GenericBookText.books);
 	    foreach (TextMeshPro author in authors) {
 		    author.text = randomBook.First;
 	    }

@@ -1695,7 +1695,6 @@ GameObject:
   - component: {fileID: 1349741250}
   - component: {fileID: 1349741253}
   - component: {fileID: 1349741252}
-  - component: {fileID: 1349741251}
   m_Layer: 0
   m_Name: TMP SubMesh [SFNSDisplayCondensed-Heavy SDF Material + LiberationSans SDF
     Atlas]
@@ -1718,26 +1717,6 @@ Transform:
   m_Father: {fileID: 506394071}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1349741251
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1349741249}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07994bfe8b0e4adb97d706de5dea48d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_fontAsset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
-  m_material: {fileID: 0}
-  m_sharedMaterial: {fileID: 0}
-  m_isDefaultMaterial: 0
-  m_padding: 0
-  m_renderer: {fileID: 0}
-  m_TextComponent: {fileID: 0}
 --- !u!33 &1349741252
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1834,6 +1813,7 @@ MonoBehaviour:
   tvLogic: {fileID: 1619923348}
   startMenuTVContent: {fileID: 525909345}
   pauseTVContent: {fileID: 547227629}
+  blankScreen: {fileID: 2100000, guid: 8a22e794aed6747cba0999e67b0fc87f, type: 2}
   zoomedOutState: 1
   cameraXPos: 1
   currentXrayMachine: {fileID: 0}
@@ -1854,6 +1834,8 @@ MonoBehaviour:
   - {fileID: 1873141104481846, guid: 680c81601664444fdb7152047524f86e, type: 3}
   - {fileID: 7365737387815243746, guid: 9fbba39fa484145938268d72387bf3ff, type: 3}
   - {fileID: 457062165914181558, guid: f10e5426be96942018cceaeb18cd7b77, type: 3}
+  - {fileID: 6092609549549798895, guid: 9281aaf8790bb4dc8ac0ea7e9cbf91da, type: 3}
+  - {fileID: 9032455855219235510, guid: f377e9785150e411385a9ce838179dd7, type: 3}
   preloadContainer: {fileID: 1448087190}
   points: 0
 --- !u!4 &1350434890
@@ -1921,6 +1903,12 @@ MonoBehaviour:
   - contentObj: {fileID: 8297490848007574543, guid: 0142819c1d5e444d0bd38a2a85af216f,
       type: 3}
     frequency: 8
+  - contentObj: {fileID: 6092609549549798895, guid: 9281aaf8790bb4dc8ac0ea7e9cbf91da,
+      type: 3}
+    frequency: 50
+  - contentObj: {fileID: 9032455855219235510, guid: f377e9785150e411385a9ce838179dd7,
+      type: 3}
+    frequency: 50
   bagContentTypesIllegal:
   - contentObj: {fileID: 1745091033705920, guid: 2c118b15ed25543a69258da84a07d853,
       type: 3}
@@ -1955,7 +1943,13 @@ MonoBehaviour:
     frequency: 10
   - contentObj: {fileID: 1829317634330666, guid: be2211b8cb1ac412b9710f30e65e771b,
       type: 3}
-    frequency: 100
+    frequency: 30
+  - contentObj: {fileID: 6092609549549798895, guid: 9281aaf8790bb4dc8ac0ea7e9cbf91da,
+      type: 3}
+    frequency: 50
+  - contentObj: {fileID: 9032455855219235510, guid: f377e9785150e411385a9ce838179dd7,
+      type: 3}
+    frequency: 50
   bagInspectState: 0
 --- !u!114 &1350434892
 MonoBehaviour:
