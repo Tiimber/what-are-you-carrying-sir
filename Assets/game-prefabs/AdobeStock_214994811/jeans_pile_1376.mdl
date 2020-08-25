@@ -1,0 +1,88 @@
+mdl 1.3;
+
+using state import *;
+
+import adobe::mtl::*;
+import adobe::util::*;
+import ::tex::gamma_mode;
+import ::state::normal;
+
+export material jeans_pile_1376_jeans1_MatSG(*)
+  = adobe::mtl::standard(
+    opacity : float(1.0),
+    baseColor : adobe::util::color_texture( texture_2d("jeans_pile_1376/jeans_pile_1376_jeans1_Mat_baseColor.png", ::tex::gamma_srgb) ),
+    translucence : float(0.0),
+    glow : float(0.0),
+    indexOfRefraction : float(1.6),
+    density : float(1.0),
+    roughness : adobe::util::float_texture( texture_2d("jeans_pile_1376/jeans_pile_1376_jeans1_Mat_roughness.png", ::tex::gamma_linear) ),
+    normal : adobe::util::normal_texture( texture_2d("jeans_pile_1376/jeans_pile_1376_jeans1_Mat_normal.png", ::tex::gamma_linear) ),
+    interiorColor : color(1.0, 1.0, 1.0),
+    metallic : adobe::util::float_texture( texture_2d("jeans_pile_1376/jeans_pile_1376_jeans1_Mat_metallic.png", ::tex::gamma_linear) ),
+    height : float(0.5),
+    heightScale : float(1.0)
+    );
+
+export material jeans_pile_1376_jeans4_MatSG(*)
+  = adobe::mtl::standard(
+    opacity : float(1.0),
+    baseColor : adobe::util::color_texture( texture_2d("jeans_pile_1376/jeans_pile_1376_jeans4_Mat_baseColor.png", ::tex::gamma_srgb) ),
+    translucence : float(0.0),
+    glow : float(0.0),
+    indexOfRefraction : float(1.6),
+    density : float(1.0),
+    roughness : adobe::util::float_texture( texture_2d("jeans_pile_1376/jeans_pile_1376_jeans4_Mat_roughness.png", ::tex::gamma_linear) ),
+    normal : adobe::util::normal_texture( texture_2d("jeans_pile_1376/jeans_pile_1376_jeans4_Mat_normal.png", ::tex::gamma_linear) ),
+    interiorColor : color(1.0, 1.0, 1.0),
+    metallic : adobe::util::float_texture( texture_2d("jeans_pile_1376/jeans_pile_1376_jeans4_Mat_metallic.png", ::tex::gamma_linear) ),
+    height : float(0.5),
+    heightScale : float(1.0)
+    );
+
+export material jeans_pile_1376_jeans3_MatSG(*)
+  = adobe::mtl::standard(
+    opacity : float(1.0),
+    baseColor : adobe::util::color_texture( texture_2d("jeans_pile_1376/jeans_pile_1376_jeans3_Mat_baseColor.png", ::tex::gamma_srgb) ),
+    translucence : float(0.0),
+    glow : float(0.0),
+    indexOfRefraction : float(1.6),
+    density : float(1.0),
+    roughness : adobe::util::float_texture( texture_2d("jeans_pile_1376/jeans_pile_1376_jeans3_Mat_roughness.png", ::tex::gamma_linear) ),
+    normal : adobe::util::normal_texture( texture_2d("jeans_pile_1376/jeans_pile_1376_jeans4_Mat_normal.png", ::tex::gamma_linear) ),
+    interiorColor : color(1.0, 1.0, 1.0),
+    metallic : adobe::util::float_texture( texture_2d("jeans_pile_1376/jeans_pile_1376_jeans3_Mat_metallic.png", ::tex::gamma_linear) ),
+    height : float(0.5),
+    heightScale : float(1.0)
+    );
+
+export material jeans_pile_1376_button_MatSG(*)
+  = adobe::mtl::standard(
+    opacity : float(1.0),
+    baseColor : adobe::util::color_texture( texture_2d("jeans_pile_1376/jeans_pile_1376_button_Mat_baseColor.png", ::tex::gamma_srgb) ),
+    translucence : float(0.0),
+    glow : float(0.0),
+    indexOfRefraction : float(1.6),
+    density : float(1.0),
+    roughness : adobe::util::float_texture( texture_2d("jeans_pile_1376/jeans_pile_1376_button_Mat_roughness.png", ::tex::gamma_linear) ),
+    normal : adobe::util::normal_texture( texture_2d("jeans_pile_1376/jeans_pile_1376_button_Mat_normal.png", ::tex::gamma_linear) ),
+    interiorColor : color(1.0, 1.0, 1.0),
+    metallic : adobe::util::float_texture( texture_2d("jeans_pile_1376/jeans_pile_1376_button_Mat_metallic.png", ::tex::gamma_linear) ),
+    height : float(0.5),
+    heightScale : float(1.0)
+    );
+
+export material jeans_pile_1376_jeans2_MatSG(*)
+  = adobe::mtl::standard(
+    opacity : float(1.0),
+    baseColor : adobe::util::color_texture( texture_2d("jeans_pile_1376/jeans_pile_1376_jeans2_Mat_baseColor.png", ::tex::gamma_srgb) ),
+    translucence : float(0.0),
+    glow : float(0.0),
+    indexOfRefraction : float(1.6),
+    density : float(1.0),
+    roughness : adobe::util::float_texture( texture_2d("jeans_pile_1376/jeans_pile_1376_jeans2_Mat_roughness.png", ::tex::gamma_linear) ),
+    normal : adobe::util::normal_texture( texture_2d("jeans_pile_1376/jeans_pile_1376_jeans2_Mat_normal.png", ::tex::gamma_linear) ),
+    interiorColor : color(1.0, 1.0, 1.0),
+    metallic : adobe::util::float_texture( texture_2d("jeans_pile_1376/jeans_pile_1376_jeans2_Mat_metallic.png", ::tex::gamma_linear) ),
+    height : float(0.5),
+    heightScale : float(1.0)
+    );
