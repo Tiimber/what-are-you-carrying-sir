@@ -59,17 +59,15 @@
         <e p="DoctorsNote.cs" t="Include" />
         <e p="Editor" t="Include">
           <e p="MeshCombineWizard.cs" t="Include" />
-          <e p="MeshCombineWizard2.cs" t="Include" />
         </e>
-        <e p="example-people-config.xml" t="Include" />
-        <e p="example-person-config-1.xml" t="Include" />
-        <e p="example-person-config-2.xml" t="Include" />
+        <e p="example-person-config.xml" t="Include" />
         <e p="FPSDisplay.cs" t="Include" />
         <e p="Game.cs" t="Include" />
         <e p="Generic.cs" t="Include" />
         <e p="GenericBookText.cs" t="Include" />
         <e p="GenericTrigger.cs" t="Include" />
         <e p="GyroInput.cs" t="Include" />
+        <e p="IncrementVersionNumber.cs" t="Include" />
         <e p="InspectActionBag.cs" t="Include" />
         <e p="InspectUI.cs" t="Include" />
         <e p="InspectUIButton.cs" t="Include" />
@@ -107,8 +105,6 @@
         <e p="PerRendererShaderTexture.cs" t="Include" />
         <e p="Person.cs" t="Include" />
         <e p="PersonBagDefinition.cs" t="Include" />
-        <e p="PersonBooksConfig.cs" t="Include" />
-        <e p="PersonConfig.cs" t="Include" />
         <e p="PhysicalTVButton.cs" t="Include" />
         <e p="PillBottle.cs" t="Include" />
         <e p="PlayRandomAudioPosition.cs" t="Include" />
@@ -147,6 +143,7 @@
           <e p="TextureToRandomize.cs" t="Include" />
           <e p="TextureToSet.cs" t="Include" />
         </e>
+        <e p="Readme.txt" t="Include" />
         <e p="Room.cs" t="Include" />
         <e p="ScoreScreen.cs" t="Include" />
         <e p="Singleton.cs" t="Include" />
@@ -154,6 +151,9 @@
         <e p="SpawningSoundObject.cs" t="Include" />
         <e p="speaking_phrases.txt" t="Include" />
         <e p="Standard Assets" t="Include">
+          <e p="DefaultResources" t="Include">
+            <e p="Normal-Diffuse.shader" t="Include" />
+          </e>
           <e p="Editor" t="Include">
             <e p="ImageEffects" t="Include">
               <e p="AntialiasingEditor.cs" t="Include" />
@@ -321,6 +321,7 @@
             </e>
           </e>
         </e>
+        <e p="Test.cs" t="Include" />
         <e p="TextMesh Pro" t="Include">
           <e p="Examples &amp; Extras" t="Include">
             <e p="Fonts" t="Include">
