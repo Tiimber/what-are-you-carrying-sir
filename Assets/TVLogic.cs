@@ -21,7 +21,9 @@ public class TVLogic : MonoBehaviour, IPubSub {
     public void setCurrentContent(TVContentSet content) {
         Debug.Log("CONTENT CHANGE");
         if (tvCamera.isOn()) {
-            this.currentContent.transform.gameObject.SetActive(false);
+            if (this.currentContent != null) {
+                this.currentContent.transform.gameObject.SetActive(false);
+            }
             content.transform.gameObject.SetActive(true);
             this.currentContent = content;
             resetCamera();
