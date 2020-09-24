@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 5369505458702204379}
   - component: {fileID: 5369505458702204382}
   - component: {fileID: 5369505458702204378}
+  - component: {fileID: 7588893122931198065}
   m_Layer: 11
   m_Name: Sock
   m_TagString: Untagged
@@ -206,6 +207,24 @@ MonoBehaviour:
   - {x: 1.02, y: 1, z: 1.02}
   - {x: 1.05, y: 1, z: 1.05}
   - {x: 1.07, y: 1, z: 1.07}
+--- !u!114 &7588893122931198065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5369505458702204356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2f2ec04182484e43b42ffc36817a6eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  texturesToRandomize:
+  - objectWithMaterial: {fileID: 4068587646775253305}
+    materialIndex: 0
+    textures:
+    - {fileID: 2800000, guid: 110310be8d12046259176a00c152e834, type: 3}
+    - {fileID: 2800000, guid: 35008115a48d3484093c1d3c75c85ef5, type: 3}
 --- !u!1 &5369505458763192462
 GameObject:
   m_ObjectHideFlags: 0
@@ -248,6 +267,7 @@ GameObject:
   - component: {fileID: 5369505458622527908}
   - component: {fileID: 5369505460027399143}
   - component: {fileID: 5369505460027399142}
+  - component: {fileID: 4068587646775253305}
   m_Layer: 10
   m_Name: sockX 1
   m_TagString: Untagged
@@ -318,6 +338,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &4068587646775253305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5369505460027399137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43510af06da6e417aac5e77ef5268f47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  texture: {fileID: 0}
+  materialIndex: 0
 --- !u!1 &8445787495566229209
 GameObject:
   m_ObjectHideFlags: 0

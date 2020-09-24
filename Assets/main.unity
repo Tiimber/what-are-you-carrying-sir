@@ -1172,7 +1172,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3501375259899709322}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &805948761
+--- !u!114 &805948763
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1193,7 +1193,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3501375259899709322}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &828172379
+--- !u!114 &828172380
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1881,7 +1881,7 @@ MonoBehaviour:
   room: {fileID: 1822977621}
   tvLogic: {fileID: 1619923348}
   startMenuTVContent: {fileID: 991032386}
-  pauseTVContent: {fileID: 805948761}
+  pauseTVContent: {fileID: 805948763}
   zoomedOutState: 1
   cameraXPos: 1
   currentXrayMachine: {fileID: 0}
@@ -1902,6 +1902,8 @@ MonoBehaviour:
   - {fileID: 1873141104481846, guid: 680c81601664444fdb7152047524f86e, type: 3}
   - {fileID: 7365737387815243746, guid: 9fbba39fa484145938268d72387bf3ff, type: 3}
   - {fileID: 457062165914181558, guid: f10e5426be96942018cceaeb18cd7b77, type: 3}
+  - {fileID: 5369505458702204356, guid: d48aba9ea93084c928a0c204ba352c5f, type: 3}
+  - {fileID: 5369505458702204356, guid: d48aba9ea93084c928a0c204ba352c5f, type: 3}
   - {fileID: 5369505458702204356, guid: d48aba9ea93084c928a0c204ba352c5f, type: 3}
   preloadContainer: {fileID: 1448087190}
   points: 0
