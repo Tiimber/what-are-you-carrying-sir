@@ -1266,6 +1266,75 @@ Transform:
   m_Father: {fileID: 1900839198}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &960718378
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6857648093184740221, guid: de5117c3ea8234296bfd0e2ec2fbe7fd,
+        type: 3}
+      propertyPath: m_Name
+      value: Toothbrush
+      objectReference: {fileID: 0}
+    - target: {fileID: 7322246645632543000, guid: de5117c3ea8234296bfd0e2ec2fbe7fd,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7322246645632543000, guid: de5117c3ea8234296bfd0e2ec2fbe7fd,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7322246645632543000, guid: de5117c3ea8234296bfd0e2ec2fbe7fd,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.5660492
+      objectReference: {fileID: 0}
+    - target: {fileID: 7322246645632543000, guid: de5117c3ea8234296bfd0e2ec2fbe7fd,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7322246645632543000, guid: de5117c3ea8234296bfd0e2ec2fbe7fd,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7322246645632543000, guid: de5117c3ea8234296bfd0e2ec2fbe7fd,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7322246645632543000, guid: de5117c3ea8234296bfd0e2ec2fbe7fd,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7322246645632543000, guid: de5117c3ea8234296bfd0e2ec2fbe7fd,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7322246645632543000, guid: de5117c3ea8234296bfd0e2ec2fbe7fd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7322246645632543000, guid: de5117c3ea8234296bfd0e2ec2fbe7fd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 7322246645632543000, guid: de5117c3ea8234296bfd0e2ec2fbe7fd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: de5117c3ea8234296bfd0e2ec2fbe7fd, type: 3}
 --- !u!850595691 &979130360
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -1903,8 +1972,7 @@ MonoBehaviour:
   - {fileID: 7365737387815243746, guid: 9fbba39fa484145938268d72387bf3ff, type: 3}
   - {fileID: 457062165914181558, guid: f10e5426be96942018cceaeb18cd7b77, type: 3}
   - {fileID: 5369505458702204356, guid: d48aba9ea93084c928a0c204ba352c5f, type: 3}
-  - {fileID: 5369505458702204356, guid: d48aba9ea93084c928a0c204ba352c5f, type: 3}
-  - {fileID: 5369505458702204356, guid: d48aba9ea93084c928a0c204ba352c5f, type: 3}
+  - {fileID: 6857648093184740221, guid: de5117c3ea8234296bfd0e2ec2fbe7fd, type: 3}
   preloadContainer: {fileID: 1448087190}
   points: 0
 --- !u!4 &1350434890
@@ -1975,6 +2043,9 @@ MonoBehaviour:
   - contentObj: {fileID: 5369505458702204356, guid: d48aba9ea93084c928a0c204ba352c5f,
       type: 3}
     frequency: 20
+  - contentObj: {fileID: 6857648093184740221, guid: de5117c3ea8234296bfd0e2ec2fbe7fd,
+      type: 3}
+    frequency: 5
   bagContentTypesIllegal:
   - contentObj: {fileID: 1745091033705920, guid: 2c118b15ed25543a69258da84a07d853,
       type: 3}
@@ -2013,6 +2084,9 @@ MonoBehaviour:
   - contentObj: {fileID: 5369505458702204356, guid: d48aba9ea93084c928a0c204ba352c5f,
       type: 3}
     frequency: 20
+  - contentObj: {fileID: 6857648093184740221, guid: de5117c3ea8234296bfd0e2ec2fbe7fd,
+      type: 3}
+    frequency: 5
   bagInspectState: 0
 --- !u!114 &1350434892
 MonoBehaviour:
