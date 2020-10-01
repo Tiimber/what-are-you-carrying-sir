@@ -1,0 +1,85 @@
+newmtl jeans_pile_1376_jeans3_MatSG
+Pr 0.921
+Ni 1.6
+Ka 0 0 0
+d 1.0
+Ke 0.0
+Kd 0 0 0
+adobe_map_normal jeans_pile_1376/jeans_pile_1376_jeans4_Mat_normal.png
+Tr 0
+illum 7
+Ks 1 1 1
+adobe_translucence 1.0
+adobe_interior_color 1.0 1.0 1.0
+adobe_density 1.0
+map_Pm jeans_pile_1376/jeans_pile_1376_jeans3_Mat_metallic.png
+Ns 16
+map_Kd jeans_pile_1376/jeans_pile_1376_jeans3_Mat_baseColor.png
+newmtl jeans_pile_1376_jeans1_MatSG
+Pr 0.921
+Ni 1.6
+Ka 0 0 0
+d 1.0
+Ke 0.0
+Kd 0 0 0
+adobe_map_normal jeans_pile_1376/jeans_pile_1376_jeans1_Mat_normal.png
+Tr 0
+illum 7
+Ks 1 1 1
+adobe_translucence 1.0
+adobe_interior_color 1.0 1.0 1.0
+adobe_density 1.0
+map_Pm jeans_pile_1376/jeans_pile_1376_jeans1_Mat_metallic.png
+Ns 16
+map_Kd jeans_pile_1376/jeans_pile_1376_jeans1_Mat_baseColor.png
+newmtl jeans_pile_1376_jeans4_MatSG
+Pr 0.921
+Ni 1.6
+Ka 0 0 0
+d 1.0
+Ke 0.0
+Kd 0 0 0
+adobe_map_normal jeans_pile_1376/jeans_pile_1376_jeans4_Mat_normal.png
+Tr 0
+illum 7
+Ks 1 1 1
+adobe_translucence 1.0
+adobe_interior_color 1.0 1.0 1.0
+adobe_density 1.0
+map_Pm jeans_pile_1376/jeans_pile_1376_jeans4_Mat_metallic.png
+Ns 16
+map_Kd jeans_pile_1376/jeans_pile_1376_jeans4_Mat_baseColor.png
+newmtl jeans_pile_1376_button_MatSG
+Pr 0.356
+Ni 1.6
+Ka 0 0 0
+d 1.0
+Ke 0.0
+Kd 0 0 0
+adobe_map_normal jeans_pile_1376/jeans_pile_1376_button_Mat_normal.png
+Tr 0
+illum 7
+Ks 1 1 1
+adobe_translucence 1.0
+adobe_interior_color 1.0 1.0 1.0
+adobe_density 1.0
+map_Pm jeans_pile_1376/jeans_pile_1376_button_Mat_metallic.png
+Ns 16
+map_Kd jeans_pile_1376/jeans_pile_1376_button_Mat_baseColor.png
+newmtl jeans_pile_1376_jeans2_MatSG
+Pr 0.921
+Ni 1.6
+Ka 0 0 0
+d 1.0
+Ke 0.0
+Kd 0 0 0
+adobe_map_normal jeans_pile_1376/jeans_pile_1376_jeans2_Mat_normal.png
+Tr 0
+illum 7
+Ks 1 1 1
+adobe_translucence 1.0
+adobe_interior_color 1.0 1.0 1.0
+adobe_density 1.0
+map_Pm jeans_pile_1376/jeans_pile_1376_jeans2_Mat_metallic.png
+Ns 16
+map_Kd jeans_pile_1376/jeans_pile_1376_jeans2_Mat_baseColor.png

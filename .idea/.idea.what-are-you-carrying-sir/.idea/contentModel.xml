@@ -66,6 +66,7 @@
         <e p="GenericBookText.cs" t="Include" />
         <e p="GenericTrigger.cs" t="Include" />
         <e p="GyroInput.cs" t="Include" />
+        <e p="IncrementVersionNumber.cs" t="Include" />
         <e p="InspectActionBag.cs" t="Include" />
         <e p="InspectUI.cs" t="Include" />
         <e p="InspectUIButton.cs" t="Include" />
@@ -143,6 +144,7 @@
           <e p="TextureToRandomize.cs" t="Include" />
           <e p="TextureToSet.cs" t="Include" />
         </e>
+        <e p="Readme.txt" t="Include" />
         <e p="Room.cs" t="Include" />
         <e p="ScoreScreen.cs" t="Include" />
         <e p="Singleton.cs" t="Include" />
@@ -150,6 +152,9 @@
         <e p="SpawningSoundObject.cs" t="Include" />
         <e p="speaking_phrases.txt" t="Include" />
         <e p="Standard Assets" t="Include">
+          <e p="DefaultResources" t="Include">
+            <e p="Normal-Diffuse.shader" t="Include" />
+          </e>
           <e p="Editor" t="Include">
             <e p="ImageEffects" t="Include">
               <e p="AntialiasingEditor.cs" t="Include" />
@@ -317,6 +322,7 @@
             </e>
           </e>
         </e>
+        <e p="Test.cs" t="Include" />
         <e p="TextMesh Pro" t="Include">
           <e p="Examples &amp; Extras" t="Include">
             <e p="Fonts" t="Include">
