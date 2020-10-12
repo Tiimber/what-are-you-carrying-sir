@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class BagContentProperties : MonoBehaviour, IPubSub {
+public class BagContentProperties : BagContentPropertiesBase, IPubSub {
 
     public const float TIME_ANIMATE_TO_DROP_POINT = 0.3f;
     public const float TIME_TO_TARGET_POS = 0.4f;
@@ -15,9 +15,7 @@ public class BagContentProperties : MonoBehaviour, IPubSub {
     public int id;
 
     private bool inspecting = false;
-
-	public Vector3 objectSize;
-
+    
     private Vector3 locationInBag;
     private Quaternion rotationInBag;
     private Transform parentBag;

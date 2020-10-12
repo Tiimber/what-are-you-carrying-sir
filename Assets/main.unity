@@ -2037,6 +2037,10 @@ MonoBehaviour:
   - contentObj: {fileID: 6857648093184740221, guid: de5117c3ea8234296bfd0e2ec2fbe7fd,
       type: 3}
     frequency: 5
+  bagContentTypesHidden:
+  - contentObj: {fileID: 8762312663117403639, guid: 5931102c88a304fc29587abf1413ee36,
+      type: 3}
+    frequency: 20
   bagInspectState: 0
 --- !u!114 &1350434892
 MonoBehaviour:

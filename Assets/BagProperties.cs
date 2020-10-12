@@ -15,6 +15,7 @@ public class BagProperties : MonoBehaviour, IPubSub {
 	public GameObject lidRotationObj;
     public Vector3 lidRotationOpen;
 	public GameObject placingCube;
+	public GameObject hiddenObjectsPlacingCube;
 	public GameObject[] initialColliders;
 	public Collider bottomCollider;
 	public float halfBagHeight;

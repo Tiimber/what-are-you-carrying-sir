@@ -43,6 +43,7 @@
         <e p="AssignMaterialToObject.cs" t="Include" />
         <e p="AssignMeshAndPositionToObject.cs" t="Include" />
         <e p="BagContentProperties.cs" t="Include" />
+        <e p="BagContentPropertiesBase.cs" t="Include" />
         <e p="BagContentPropertiesReference.cs" t="Include" />
         <e p="BagContentType.cs" t="Include" />
         <e p="BagHandler.cs" t="Include" />
@@ -66,6 +67,7 @@
         <e p="GenericBookText.cs" t="Include" />
         <e p="GenericTrigger.cs" t="Include" />
         <e p="GyroInput.cs" t="Include" />
+        <e p="HiddenBagContentProperties.cs" t="Include" />
         <e p="IncrementVersionNumber.cs" t="Include" />
         <e p="InspectActionBag.cs" t="Include" />
         <e p="InspectUI.cs" t="Include" />

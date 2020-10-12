@@ -18,6 +18,7 @@ public class BagHandler : MonoBehaviour, IPubSub {
     public BagContentType[] bagContentTypes;
     public BagContentType[] bagContentTypesIllegal;
     public BagContentType[] bagContentTypesLegal;
+    public BagContentType[] bagContentTypesHidden;
 
     private List<BagProperties> activeBags = new List<BagProperties>();
 
@@ -311,9 +312,19 @@ public class BagHandler : MonoBehaviour, IPubSub {
         bagProperties.placingCube.SetActive(false);
 //        Debug.Log(bagBounds);
 
+        // TODO - Hidden items, make sure to check person config on frequency of putting these items in
+        // TODO - For now, always put one item
+        GameObject hiddenObj = ItsRandom.pickRandom<BagContentType>(bagContentTypesHidden.ToList()).contentObj;
+        GameObject hiddenItem = Instantiate(hiddenObj);
+        hiddenItem.transform.parent = bagProperties.transform;
+        BagContentProperties hiddenItemProperties = hiddenItem.GetComponent<BagContentProperties> ();
+        // Randomize place in bottom of bag
+        findPlaceForItemInBag(hiddenItemProperties, bagProperties, int.MaxValue, true);
+        bagProperties.bagContents.Add(hiddenItemProperties);
+        
         // TODO - This code block is only made for forcing an illegal item
         GameObject gunObj = ItsRandom.pickRandom<BagContentType>(bagContentTypesIllegal.ToList()).contentObj;
-        GameObject gun = Instantiate (gunObj);
+        GameObject gun = Instantiate(gunObj);
         gun.transform.parent = bagProperties.contents.transform;
         BagContentProperties gunProperties = gun.GetComponent<BagContentProperties> ();
         // Randomize place in bag
@@ -464,8 +475,12 @@ public class BagHandler : MonoBehaviour, IPubSub {
         dropBag(bagDropPosition);
     }
 
-    private bool findPlaceForItemInBag(BagContentProperties item, BagProperties bagProperties, int tries = 10) {
-        Vector3 bagSize = bagProperties.placingCube.transform.localScale;
+    private bool findPlaceForItemInBag(BagContentPropertiesBase item, BagProperties bagProperties, int tries = 10, bool inBottom = false) {
+        Vector3 bagSize = (
+            inBottom
+                ? bagProperties.hiddenObjectsPlacingCube.transform.localScale
+                : bagProperties.placingCube.transform.localScale
+        );
         Vector3 objectSize = item.transform.localRotation * item.objectSize;
 
         bool objectsCollide = true;
@@ -480,13 +495,23 @@ public class BagHandler : MonoBehaviour, IPubSub {
         while (objectsCollide && tries-- > 0) {
             bool haveAdjustedPos = false;
             // Randomize position for object
-            item.transform.localPosition = new Vector3(ItsRandom.randomPlusMinus(0f, (bagSize.x - objectSize.x) / 2f, RANDOM_TYPE), ItsRandom.randomPlusMinus(0f, (bagSize.y - objectSize.y) / 2f, RANDOM_TYPE), ItsRandom.randomPlusMinus(0f, (bagSize.z - objectSize.z) / 2f, RANDOM_TYPE));
+            item.transform.localPosition = new Vector3(ItsRandom.randomPlusMinus(0f, (bagSize.x - objectSize.x) / 2f, RANDOM_TYPE), ItsRandom.randomPlusMinus(0f, (bagSize.y - objectSize.y) / 2f, RANDOM_TYPE), ItsRandom.randomPlusMinus(0f, (bagSize.z - objectSize.z) / 2f, RANDOM_TYPE))
+                + (
+                    inBottom
+                        ? bagProperties.hiddenObjectsPlacingCube.transform.localPosition
+                        : bagProperties.placingCube.transform.localPosition
+                );
+
+            if (inBottom) {
+                objectsCollide = false;
+                break;
+            }
 
             while (true) {
                 List<Collider> bagContentColliders = item.GetComponents<Collider>().ToList();
                 Vector3 direction = Vector3.zero;
                 float distance = 0f;
-
+                
                 objectsCollide = bagContentColliders.Find(ownCollider => {
                     return allOtherColliders.Find(otherCollider => {
                         return Physics.ComputePenetration(ownCollider, item.transform.localPosition, item.transform.localRotation, otherCollider, otherCollider.gameObject.transform.localPosition, otherCollider.gameObject.transform.localRotation, out direction, out distance);

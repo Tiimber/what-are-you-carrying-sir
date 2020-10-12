@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2357849479508511198}
   - component: {fileID: 8323860409148388647}
   - component: {fileID: 1112450066402224141}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: pill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,9 +26,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7762126564097524219}
-  m_LocalRotation: {x: 0.86373687, y: -0.29721835, z: 0.40355766, w: -0.052546363}
+  m_LocalRotation: {x: 0.863738, y: -0.2972161, z: 0.40355742, w: -0.052542575}
   m_LocalPosition: {x: -0.155, y: -0.264, z: 0.147}
-  m_LocalScale: {x: 0.060563464, y: 0.060563464, z: 0.060563464}
+  m_LocalScale: {x: 0.06109, y: 0.061090004, z: 0.06109}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -60,8 +60,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6cda84c54eba04be5aab6bbef1da55bb, type: 2}
-  - {fileID: 2100000, guid: 1335c48cbf071456bbf0347c8a6db8b6, type: 2}
+  - {fileID: 2100000, guid: 533f597a8145948f5b5178be94efe687, type: 2}
+  - {fileID: 2100000, guid: 533f597a8145948f5b5178be94efe687, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
