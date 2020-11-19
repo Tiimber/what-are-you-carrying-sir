@@ -20,7 +20,9 @@ public class BagProperties : MonoBehaviour, IPubSub {
 	public Collider bottomCollider;
 	public float halfBagHeight;
     public GameObject contentsTriggerCube;
+    public GameObject teddybearWithMaterials;
 
+    public List<Rigidbody> chainLinksAndTeddy = new List<Rigidbody>();
     public List<BagContentProperties> bagContents = new List<BagContentProperties>();
 
     public bool allowFurtherInspectionAction = true;
@@ -112,10 +114,22 @@ public class BagProperties : MonoBehaviour, IPubSub {
         }
     }
 
+    private void enableChainLinksGravity() {
+        for (int i = 0; i < chainLinksAndTeddy.Count; i++) {
+            Rigidbody chainLink = chainLinksAndTeddy[i];
+            bool isLast = i == chainLinksAndTeddy.Count - 1;
+            chainLink.isKinematic = false;
+            if (isLast) {
+                chainLink.useGravity = true;
+            }
+        }
+    }
+
 	public void OnTriggerEnter (Collider collider) {
 		if (collider != null && collider.GetComponent<ConveyorObject> () != null) {
             isOnConveyor = true;
 			setEnabledStateCollidersAndRigidbodies (false);
+            enableChainLinksGravity();
 
             // Calculate how much "up-force" we should apply on bag to move it on top of conveyor
             Vector3 pushBackDirection;

@@ -6927,6 +6927,7 @@ MonoBehaviour:
   connectingConveyorLeftPos: {x: -74.69, y: 0, z: 0}
   connectingConveyorRightPos: {x: 29.4, y: 0, z: 0}
   xPointOfNoReturn: 90
+  xPointOfNoBackingBags: 42.5
   xPointOfTrayInsertion: 9
   scanAreaCube: {fileID: 1718280763510166}
   scanLeft: 0
@@ -7685,12 +7686,12 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 70
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294965961
+    m_Bits: 2561
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 2bd813d78312f41c5b697cf96f2627cb, type: 2}
   m_TargetDisplay: 1

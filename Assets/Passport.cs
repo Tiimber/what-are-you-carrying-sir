@@ -23,6 +23,7 @@ public class Passport : MonoBehaviour, IPubSub {
     public TextMeshPro nationality;
     public TextMeshPro dateOfBirth;
     public TextMeshPro quote;
+    public GameObject favoriteColorObject;
 
     public Person person;
 
@@ -87,6 +88,10 @@ public class Passport : MonoBehaviour, IPubSub {
             }
         }
         return default(PROPAGATION);
+    }
+
+    public void setFavoriteColor(Color color) {
+        favoriteColorObject.GetComponent<Renderer>().material.SetColor("_Color", color);
     }
 
     private void togglePassport() {

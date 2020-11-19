@@ -14,11 +14,13 @@ public class Person : MonoBehaviour, IPubSub {
     private int id;
     private PersonBagDefinition bagDefinition = new PersonBagDefinition();
     public List<BagContentProperties> toBePlacedInTrays = new List<BagContentProperties>();
-    private float currentX;
+    public float currentX;
 
     public SpawningSoundObject soundObject;
     private Color bodyColor;
     private Color favouriteColor;
+    private Color favouriteColor2;
+    private Color chosenFavoriteColor;
     private string voice;
     private bool haveSaidGreeting = false;
     private AudioClip greeting;
@@ -40,15 +42,23 @@ public class Person : MonoBehaviour, IPubSub {
     private List<AudioClip> clips;
 
     const float PASSPORT_OFFSET_X =  1.5f;
-    private bool showingPassport;
+    public bool showingPassport;
     public Passport passportPrefab;
 
     [HideInInspector]
     public Passport passport;
 
+    public bool isDestroyed = false;
+
     void Awake() {
         id = ++PERSON_ID;
         Debug.Log("PERSON CREATED");
+    }
+
+    private void OnDestroy() {
+        Destroy(passport);
+        isDestroyed = true;
+        Game.instance.removePerson(this);
     }
 
     public void setConfig(Tuple2<XmlDocument, Texture2D> personConfig) {
@@ -64,6 +74,11 @@ public class Person : MonoBehaviour, IPubSub {
         voice = config.voice;
         bodyColor = config.bodyColor;
         favouriteColor = config.favouriteColor;
+        favouriteColor2 = config.favouriteColor2;
+        
+        // TODO - Pick favorite color based on person in front - make sure to not choose a similar
+        // chosenFavoriteColor = ...
+        chosenFavoriteColor = favouriteColor;
 
         books = config.personBooksConfig.books.GetRange(0, config.personBooksConfig.books.Count);
 
@@ -132,7 +147,7 @@ public class Person : MonoBehaviour, IPubSub {
         bagDefinition.person = this;
         currentX = this.transform.position.x;
         walkingMan.reportPositionX(currentX);
-        walkingMan.setColors(bodyColor, favouriteColor);
+        walkingMan.setColors(bodyColor, chosenFavoriteColor);
 
         PubSub.subscribe("belt_movement", this);
 
@@ -157,6 +172,19 @@ public class Person : MonoBehaviour, IPubSub {
 
     public IEnumerator startPlaceBagsCoroutine(BagHandler bagHandler, Vector3 bagDropPosition) {
         yield return bagHandler.packBagAndDropIt(bagDropPosition, bagDefinition, toBePlacedInTrays, this);
+    }
+
+    public void setTeddyBearColor(BagProperties bag) {
+        GameObject teddybear = bag.teddybearWithMaterials;
+        // Add PerRendererShaders on teddybear and assign favorite colors on it
+        PerRendererShader teddyMain = teddybear.AddComponent<PerRendererShader>();
+        teddyMain.materialIndex = 0;
+        teddyMain.color = chosenFavoriteColor;
+        
+        PerRendererShader teddyTass = teddybear.AddComponent<PerRendererShader>();
+        teddyTass.materialIndex = 1;
+        teddyTass.color = chosenFavoriteColor == favouriteColor ? favouriteColor2 : favouriteColor;
+
     }
 
     private Coroutine playVoice(AudioClip clip) {
@@ -236,7 +264,7 @@ public class Person : MonoBehaviour, IPubSub {
                                 showPassport();
                             }
                         } else if (showingPassport) {
-                            showPassport(false);
+                            // showPassport(false);
                         }
 
                         // Check if we move past a certain point, to say our greeting
@@ -283,13 +311,14 @@ public class Person : MonoBehaviour, IPubSub {
         return worstMistake;
     }
 
-    private void showPassport(bool show = true) {
+    public void showPassport(bool show = true) {
         showingPassport = show;
-        float passportMovementY = 1.63f;
+        float passportMovementY = 2.61f;
         if (show && passport == null) {
             passport = Instantiate(passportPrefab);
             passport.person = this;
-            Vector3 passportTargetPosition = new Vector3(passport.transform.localPosition.x - PASSPORT_OFFSET_X * (passport.id % 3), passport.transform.localPosition.y + passportMovementY, passport.transform.localPosition.z);
+            passport.setFavoriteColor(chosenFavoriteColor);
+            Vector3 passportTargetPosition = new Vector3(passport.transform.localPosition.x - PASSPORT_OFFSET_X * (passport.id % 6), passport.transform.localPosition.y + passportMovementY, passport.transform.localPosition.z);
             Quaternion passportTargetRotation = passport.transform.localRotation;
             Misc.AnimateMovementTo("person_passport_show_" + id, passport.gameObject, passportTargetPosition);
             passport.originalPosition = passportTargetPosition;
@@ -323,5 +352,13 @@ public class Person : MonoBehaviour, IPubSub {
         }
 
         return null;
+    }
+
+    public void applyTeddybearForce(float force) {
+        foreach (BagProperties bag in bagDefinition.bags) {
+            if (!bag.isDestroyed) {
+                bag.teddybearWithMaterials.GetComponentInParent<Rigidbody>().AddForce(new Vector3(force, 0, 0), ForceMode.Impulse);
+            } 
+        }
     }
 }

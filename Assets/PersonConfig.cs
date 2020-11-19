@@ -16,6 +16,7 @@ public class PersonConfig {
     public string voice;
     public Color bodyColor;
     public Color favouriteColor;
+    public Color favouriteColor2;
 
     public PersonBooksConfig personBooksConfig;
 
@@ -31,6 +32,7 @@ public class PersonConfig {
         voice = Misc.xmlString(personAttributes.GetNamedItem("voice"));
         bodyColor = Misc.parseColor(Misc.xmlString(personAttributes.GetNamedItem("bodyColor")));
         favouriteColor = Misc.parseColor(Misc.xmlString(personAttributes.GetNamedItem("favouriteColor")));
+        // favouriteColor2 = Misc.parseColor(Misc.xmlString(personAttributes.GetNamedItem("scondaryFavouriteColor")));
 
         personBooksConfig = new PersonBooksConfig(xmlDoc.SelectNodes("/person/books/book"));
         

@@ -471,6 +471,9 @@ public class BagHandler : MonoBehaviour, IPubSub {
         currentBagPlacing.bagDefinition = bagDefinition;
         currentBagPlacing.bagType = BagProperties.TYPE.DEFAULT;
         bagDefinition.addBag(currentBagPlacing);
+        
+        // Set teddybear color
+        person.setTeddyBearColor(currentBagPlacing);
 
         dropBag(bagDropPosition);
     }
@@ -573,7 +576,12 @@ public class BagHandler : MonoBehaviour, IPubSub {
                     if (movement > 0 && bagNewXPos > xRayMachine.xPointOfNoReturn) {
                         bagProperties.bagFinished();
                     } else {
-                        bag.transform.position = new Vector3(bag.transform.position.x + movement, bag.transform.position.y, bag.transform.position.z);
+                        if (bagProperties.bagDefinition.person.showingPassport && bagProperties.bagDefinition.person.currentX >= xRayMachine.xPointOfNoBackingBags) {
+                            bagProperties.bagDefinition.person.showPassport(false);
+                        }
+                        if (movement > 0 || (movement < 0 && bag.transform.position.x < xRayMachine.xPointOfNoBackingBags)) {
+                            bag.transform.position = new Vector3(bag.transform.position.x + movement, bag.transform.position.y, bag.transform.position.z);
+                        }
                     }
                 }
             }

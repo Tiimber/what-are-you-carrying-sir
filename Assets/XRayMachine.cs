@@ -35,6 +35,7 @@ public class XRayMachine : MonoBehaviour {
     public Vector3 connectingConveyorRightPos;
 
     public float xPointOfNoReturn;
+    public float xPointOfNoBackingBags;
     public float xPointOfTrayInsertion;
 
     public GameObject scanAreaCube;

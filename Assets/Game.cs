@@ -61,6 +61,8 @@ public class Game : MonoBehaviour, IPubSub {
 
     public static bool paused = false;
     public int points;
+    
+    private List<Person> allPeople = new List<Person>();
 
     enum Direction {
         UP,
@@ -204,6 +206,10 @@ public class Game : MonoBehaviour, IPubSub {
 //        Debug.Log("swipe gesture complete: " + direction);
     }
 
+    public void removePerson(Person person) {
+        allPeople.Remove(person);
+    }
+    
     private void createNewPerson() {
 
         Vector3 startPoint = currentXrayMachine.bagDropPoint + currentXrayMachine.transform.position;
@@ -223,6 +229,8 @@ public class Game : MonoBehaviour, IPubSub {
         Vector3 bagDropPosition = Misc.getWorldPosForParentRelativePos(bagDropPositionRelativeXrayMachine, currentXrayMachine.transform);
 
         newPerson.startPlaceBags(bagHandler, bagDropPosition);
+        
+        allPeople.Add(newPerson);
     }
 
     public void pauseGame (bool gameStart = false) {
@@ -304,9 +312,17 @@ public class Game : MonoBehaviour, IPubSub {
 		if ((Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) && Input.GetKey (KeyCode.Space)) {
             // Backwards
             BagHandler.instance.moveConveyor(- CONVEYOR_SPEED * CONVEYOR_BACK_PCT_SPEED, currentXrayMachine);
+            // If this is the first frame we pressed space or shift - apply teddybear force
+            if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift) || Input.GetKeyDown(KeyCode.Space)) {
+                applyTeddybearForce(CONVEYOR_SPEED * CONVEYOR_BACK_PCT_SPEED);
+            }
 		} else if (Input.GetKey(KeyCode.Space)) {
             // Forwards
             BagHandler.instance.moveConveyor(CONVEYOR_SPEED, currentXrayMachine);
+            // If this is the first frame we pressed space or we let go of shift - apply teddybear force
+            if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift) || Input.GetKeyDown(KeyCode.Space)) {
+                applyTeddybearForce(-CONVEYOR_SPEED * CONVEYOR_BACK_PCT_SPEED);
+            }
 		}
 
 		// Create a new bag - disable lid
@@ -532,5 +548,13 @@ public class Game : MonoBehaviour, IPubSub {
         // TODO - pop lists
         int randomPersonIndex = ItsRandom.randomRange(0, peopleConfigs.Count);
         return new Tuple2<XmlDocument, Texture2D>(peopleConfigs[randomPersonIndex], passportTextures[randomPersonIndex]);
+    }
+
+    private void applyTeddybearForce(float force) {
+        foreach (Person person in allPeople) {
+            if (!person.isDestroyed) {
+                person.applyTeddybearForce(force);
+            }
+        }
     }
 }

@@ -975,8 +975,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f455d6ab405214ad086529f5e56bd75e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
   objectSize: {x: 3.828079, y: 0.8923767, z: 3.931}
+  id: 0
   acceptableActions: 02000000
   actionTaken: 0
   manualInspectTrayNumber: 0
@@ -986,6 +986,7 @@ MonoBehaviour:
   xrayMaterialObjects:
   - {fileID: 5164392251998031891}
   - {fileID: 0}
+  person: {fileID: 0}
 --- !u!114 &240900680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1159,6 +1160,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 4543548674574441658, guid: 1b00ed38b0e9147fdb5f7bd5acfe2dd0,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 10b8c99406e8b4bcb87eaff824697a71, type: 2}
     - target: {fileID: 5845149389021405399, guid: 1b00ed38b0e9147fdb5f7bd5acfe2dd0,
         type: 3}
       propertyPath: m_Layer
