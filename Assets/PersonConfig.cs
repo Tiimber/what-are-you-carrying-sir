@@ -32,7 +32,7 @@ public class PersonConfig {
         voice = Misc.xmlString(personAttributes.GetNamedItem("voice"));
         bodyColor = Misc.parseColor(Misc.xmlString(personAttributes.GetNamedItem("bodyColor")));
         favouriteColor = Misc.parseColor(Misc.xmlString(personAttributes.GetNamedItem("favouriteColor")));
-        // favouriteColor2 = Misc.parseColor(Misc.xmlString(personAttributes.GetNamedItem("scondaryFavouriteColor")));
+        favouriteColor2 = Misc.parseColor(Misc.xmlString(personAttributes.GetNamedItem("secondaryFavouriteColor")));
 
         personBooksConfig = new PersonBooksConfig(xmlDoc.SelectNodes("/person/books/book"));
         

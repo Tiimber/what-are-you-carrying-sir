@@ -50,6 +50,9 @@ public class Person : MonoBehaviour, IPubSub {
 
     public bool isDestroyed = false;
 
+    private static bool HasInstantiatedPerson = false;
+    private static Person LastPerson;
+
     void Awake() {
         id = ++PERSON_ID;
         Debug.Log("PERSON CREATED");
@@ -60,7 +63,32 @@ public class Person : MonoBehaviour, IPubSub {
         isDestroyed = true;
         Game.instance.removePerson(this);
     }
+    
+    private float colorDistance(Color col1, Color col2) {
+        long r1 = (long)(col1.r * 256);
+        long r2 = (long)(col2.r * 256);
+        long g1 = (long)(col1.g * 256);
+        long g2 = (long)(col2.g * 256);
+        long b1 = (long)(col1.b * 256);
+        long b2 = (long)(col2.b * 256);
+        
+        long rmean = (r1 + r2) / 2;
+        long r = r1 - r2;
+        long g = g1 - g2;
+        long b = b1 - b2;
+        return Mathf.Sqrt(
+            (((512 + rmean) * r * r) >> 8)
+            + 4 * g * g + 
+            (((767 - rmean) * b * b) >> 8)
+        );
+    }
 
+    private Color pickFavouriteColorWithBiggestDistance(Color col1, Color col2, Color prevCol) {
+        float distanceCol1 = colorDistance(col1, prevCol);
+        float distanceCol2 = colorDistance(col2, prevCol);
+        return distanceCol1 >= distanceCol2 ? col1 : col2;
+    }
+    
     public void setConfig(Tuple2<XmlDocument, Texture2D> personConfig) {
         config = new PersonConfig(personConfig.First, personConfig.Second);
 
@@ -76,9 +104,14 @@ public class Person : MonoBehaviour, IPubSub {
         favouriteColor = config.favouriteColor;
         favouriteColor2 = config.favouriteColor2;
         
-        // TODO - Pick favorite color based on person in front - make sure to not choose a similar
-        // chosenFavoriteColor = ...
-        chosenFavoriteColor = favouriteColor;
+        if (Person.HasInstantiatedPerson) {
+            chosenFavoriteColor = pickFavouriteColorWithBiggestDistance(favouriteColor, favouriteColor2, Person.LastPerson.getFavouriteColor());
+        } else {
+            chosenFavoriteColor = favouriteColor;
+        }
+        
+        Person.LastPerson = this;
+        Person.HasInstantiatedPerson = true;
 
         books = config.personBooksConfig.books.GetRange(0, config.personBooksConfig.books.Count);
 
@@ -135,6 +168,10 @@ public class Person : MonoBehaviour, IPubSub {
 //        haveSaidGreeting = ItsRandom.randomBool(); // TODO
         haveSaidGreeting = false;
     }
+
+    private Color getFavouriteColor() {
+        return chosenFavoriteColor;
+    }
     
 	// Use this for initialization
 	void Start () {
@@ -174,17 +211,47 @@ public class Person : MonoBehaviour, IPubSub {
         yield return bagHandler.packBagAndDropIt(bagDropPosition, bagDefinition, toBePlacedInTrays, this);
     }
 
+    private List<Color> getTeddyColors(Color baseColor) {
+        Color colorDiff = new Color(0.2f, 0.2f, 0.2f);
+
+        float r = baseColor.r;
+        float g = baseColor.g;
+        float b = baseColor.b;
+
+        int numberTooDark = 0;
+        if (r < 0.15f) {
+            numberTooDark++;
+        }
+        if (g < 0.15f) {
+            numberTooDark++;
+        }
+        if (b < 0.15f) {
+            numberTooDark++;
+        }
+
+        List<Color> colors = new List<Color>();
+        if (numberTooDark < 2) {
+            colors.Add(baseColor);
+            colors.Add(baseColor - colorDiff);
+        } else {
+            colors.Add(baseColor + colorDiff);
+            colors.Add(baseColor);
+        }
+
+        return colors;
+    } 
+
     public void setTeddyBearColor(BagProperties bag) {
+        List<Color> teddyColors = getTeddyColors(chosenFavoriteColor); 
         GameObject teddybear = bag.teddybearWithMaterials;
         // Add PerRendererShaders on teddybear and assign favorite colors on it
         PerRendererShader teddyMain = teddybear.AddComponent<PerRendererShader>();
         teddyMain.materialIndex = 0;
-        teddyMain.color = chosenFavoriteColor;
+        teddyMain.color = teddyColors[0];
         
         PerRendererShader teddyTass = teddybear.AddComponent<PerRendererShader>();
         teddyTass.materialIndex = 1;
-        teddyTass.color = chosenFavoriteColor == favouriteColor ? favouriteColor2 : favouriteColor;
-
+        teddyTass.color = teddyColors[1];
     }
 
     private Coroutine playVoice(AudioClip clip) {

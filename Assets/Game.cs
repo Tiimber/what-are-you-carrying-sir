@@ -78,7 +78,7 @@ public class Game : MonoBehaviour, IPubSub {
         ItsRandom.setRandomSeed(987654321, "people");
         
         // "Download" people config - TODO - this should be done elsewhere, preloaded per mission 
-        string peopleConfigUrl = "http://samlingar.com/whatareyoucarryingsir/example-people-config.xml";
+        string peopleConfigUrl = "http://samlingar.com/whatareyoucarryingsir/example-people-config-2.xml";
         StartCoroutine (loadPeopleConfig (peopleConfigUrl));
 
         // Set framerate only for editor - Should do based on device later?!
