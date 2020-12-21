@@ -42,7 +42,9 @@ public class PillsToRandomize {
     public bool organic;
     public bool liquid;
 
-    public void assign(PillBottle pillBottle, PerRendererShaderTexture objectWithMaterial, int materialIndex, GameObject pillsContainer, GameObject pillsContainerXray, GameObject liquidContainer, GameObject liquidContainerXray, Material organicMaterialXray) {
+    public void assign(PillBottle pillBottle, PerRendererShaderTexture objectWithMaterial, int materialIndex,
+        GameObject pillsContainer, GameObject pillsContainerXray, GameObject liquidContainer,
+        GameObject liquidContainerXray, Material organicMaterialXray) {
         objectWithMaterial.texture = texture;
         objectWithMaterial.materialIndex = materialIndex;
 
@@ -61,9 +63,11 @@ public class PillsToRandomize {
             if (wrongSubstanceLiquid && !specifiedAsLiquid) {
                 amount = 0;
                 liquid = true;
-            } else if (wrongSubstanceLiquid && specifiedAsLiquid) {
+            }
+            else if (wrongSubstanceLiquid && specifiedAsLiquid) {
                 liquid = false;
-            } else {
+            }
+            else {
                 organic = !specifiedAsOrganic;
             }
         }
@@ -74,7 +78,11 @@ public class PillsToRandomize {
             amount = ItsRandom.randomRange(1, (!specifiedAsLiquid ? specifiedAmount : RANDOM_BASE_AMOUNT_PILLS) + 3);
         }
 
-        if (amount > 0) {
+        if (liquid) {
+            amount = 0;
+        }
+
+    if (amount > 0) {
             // Decide color pair for pills
             Color[] chosenColor = organic ? 
                 new[] {ORGANIC_PILL_COLOR} : 
@@ -114,9 +122,17 @@ public class PillsToRandomize {
             GameObject.Destroy(liquidContainer);
             GameObject.Destroy(liquidContainerXray);
         } else {
+            // // Show the liquid container 
+            // liquidContainer.SetActive(true);
+            // liquidContainerXray.SetActive(true);
+        
             // Remove pills from gameObject
             GameObject.Destroy(pillsContainer);
             GameObject.Destroy(pillsContainerXray);
-        }
+
+            pillBottle.liquidPrepared = true;
+            // // Fill bottle with liquid
+            // pillBottle.fillLiquid();
+    }
     }
 }

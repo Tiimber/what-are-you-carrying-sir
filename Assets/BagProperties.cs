@@ -90,7 +90,9 @@ public class BagProperties : MonoBehaviour, IPubSub {
 
     public void enableContentColliders (bool enable = true) {
         foreach (Collider collider in contents.transform.GetComponentsInChildren<Collider> ()) {
-            collider.enabled = enable;
+            if (collider.GetComponent<ProtectedCollider>() == null) {
+                collider.enabled = enable;
+            }
         }
     }
 

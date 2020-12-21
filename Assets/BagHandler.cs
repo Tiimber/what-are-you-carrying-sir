@@ -466,6 +466,9 @@ public class BagHandler : MonoBehaviour, IPubSub {
         yield return placeItems(toBePlacedInTrays, person);
         yield return shuffleBag();
         yield return closeLid();
+
+        // yield return fillLiquidBottles(currentBagPlacing);
+        
         currentBagPlacing.showItems(false);
 
         currentBagPlacing.bagDefinition = bagDefinition;
@@ -478,6 +481,24 @@ public class BagHandler : MonoBehaviour, IPubSub {
         dropBag(bagDropPosition);
     }
 
+    public IEnumerator fillLiquidBottles (BagProperties bag) {
+        bool hadAnyLiquidBottles = false;
+        foreach (BagContentProperties bagContentPropertiese in bag.bagContents) {
+            // TODO - More types to fill?
+            PillBottle pillBottle = bagContentPropertiese.GetComponent<PillBottle>();
+            if (!System.Object.ReferenceEquals(pillBottle, null)) {
+                bool willFillLiquid = pillBottle.fillLiquid();
+                if (willFillLiquid) {
+                    hadAnyLiquidBottles = true;
+                }
+            }
+        }
+
+        if (hadAnyLiquidBottles) {
+            yield return new WaitForSeconds(1.2f);
+        }
+    }
+        
     private bool findPlaceForItemInBag(BagContentPropertiesBase item, BagProperties bagProperties, int tries = 10, bool inBottom = false) {
         Vector3 bagSize = (
             inBottom
