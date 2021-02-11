@@ -40,6 +40,7 @@ public class Game : MonoBehaviour, IPubSub {
 
     public bool zoomedOutState = true;
     public int cameraXPos = 1;
+    private bool lastFrameMovedBelt = false;
 
 	public XRayMachine currentXrayMachine;
 
@@ -316,6 +317,7 @@ public class Game : MonoBehaviour, IPubSub {
             if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift) || Input.GetKeyDown(KeyCode.Space)) {
                 applyTeddybearForce(CONVEYOR_SPEED * CONVEYOR_BACK_PCT_SPEED);
             }
+            lastFrameMovedBelt = true;
 		} else if (Input.GetKey(KeyCode.Space)) {
             // Forwards
             BagHandler.instance.moveConveyor(CONVEYOR_SPEED, currentXrayMachine);
@@ -323,7 +325,11 @@ public class Game : MonoBehaviour, IPubSub {
             if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift) || Input.GetKeyDown(KeyCode.Space)) {
                 applyTeddybearForce(-CONVEYOR_SPEED * CONVEYOR_BACK_PCT_SPEED);
             }
-		}
+            lastFrameMovedBelt = true;
+        } else if (lastFrameMovedBelt) {
+            lastFrameMovedBelt = false;
+            PubSub.publish("belt_stop");
+        }
 
 		// Create a new bag - disable lid
 		if (!Game.paused && Input.GetKeyDown (KeyCode.Alpha1)) {

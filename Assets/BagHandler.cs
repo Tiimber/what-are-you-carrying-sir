@@ -67,7 +67,7 @@ public class BagHandler : MonoBehaviour, IPubSub {
         string bagInspectStateString = null;
         if (bagInspectState == BagInspectState.BAG_OPEN) {
             bagInspectStateString = "Inspecting " + currentBagInspect.bagDisplayName;
-        } else if (bagInspectState == BagInspectState.ITEM_INSPECT) {
+        } else if (bagInspectState == BagInspectState.ITEM_INSPECT && BagContentProperties.currentInspectedItem) {
             bagInspectStateString = "Inspecting \"" + BagContentProperties.currentInspectedItem.displayName + "\" in " + currentBagInspect.bagDisplayName;
         }
 
@@ -213,14 +213,16 @@ public class BagHandler : MonoBehaviour, IPubSub {
         return PROPAGATION.DEFAULT;
     }
 
-    public void inspectBagDone() {
-        if (bagInspectState == BagInspectState.BAG_OPEN) {
+    public void inspectBagDone(bool force = false) {
+        if (force || bagInspectState == BagInspectState.BAG_OPEN) {
+            Debug.Log("BUSY - " + System.DateTime.Now.Millisecond);
             bagInspectState = BagInspectState.BUSY;
             currentBagInspect.putBackOkContent();
         }
     }
 
     public void bagInspectItemEnded (bool separateTrayItems = false) {
+        Debug.Log("BUSY - " + System.DateTime.Now.Millisecond);
         bagInspectState = BagInspectState.BUSY;
         Misc.AnimateBlurTo("blurCamera", Game.instance.blurCamera.GetComponent<BlurOptimized>(), 0, 0f, 1);
         StartCoroutine(delayedInspectEndActions(separateTrayItems));
@@ -228,6 +230,7 @@ public class BagHandler : MonoBehaviour, IPubSub {
 
     public void bagInspectFinalized () {
         currentBagInspect.enableContentColliders(false);
+        Debug.Log("NOTHING - " + System.DateTime.Now.Millisecond);
         bagInspectState = BagInspectState.NOTHING;
     }
 
@@ -235,6 +238,7 @@ public class BagHandler : MonoBehaviour, IPubSub {
         yield return new WaitForSeconds(time);
         switchToGameCamera(reverse);
         PubSub.publish("inspect_inactive");
+        Debug.Log("BAG_OPEN - " + System.DateTime.Now.Millisecond);
         bagInspectState = BagInspectState.BAG_OPEN;
         if (separateTrayItems) {
             currentBagInspect.separateTrayItems();

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
+    <e p="$APPLICATION_CONFIG_DIR$/scratches" t="IncludeRecursive" />
     <e p="$PROJECT_DIR$/../Library/Caches/JetBrains/Rider2020.3/extResources" t="IncludeRecursive" />
     <e p="$PROJECT_DIR$/../Library/Caches/JetBrains/Rider2020.3/resharper-host/local/Transient/Rider/v203/SolutionCaches/_what-are-you-carrying-sir.1026112148.00" t="ExcludeRecursive" />
     <e p="$PROJECT_DIR$" t="IncludeRecursive">
@@ -423,6 +424,13 @@
             </e>
             <e p="Obi.asmdef" t="Include" />
             <e p="Oni.cs" t="Include" />
+          </e>
+        </e>
+        <e p="original-3D-models" t="Include">
+          <e p="Clocks" t="Include">
+            <e p="Wall Clock 4" t="Include">
+              <e p="Readme.txt" t="Include" />
+            </e>
           </e>
         </e>
         <e p="OutlineEffect" t="Include">

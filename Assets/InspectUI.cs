@@ -8,9 +8,9 @@ public class InspectUI : MonoBehaviour, IPubSub {
     public InspectUIButtonParent objectOk;
     // Top right
     public InspectUIButtonParent throwAway;
-    // Top left
-    public InspectUIButtonParent manualInspect;
     // Bottom left
+    public InspectUIButtonParent manualInspect;
+    // Top left
     public InspectUIButtonParent callPolice;
 
     private Vector3 objectOffsetLeft = Vector3.left * 9f;

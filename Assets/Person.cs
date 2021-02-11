@@ -59,6 +59,7 @@ public class Person : MonoBehaviour, IPubSub {
     }
 
     private void OnDestroy() {
+        Debug.Log("Destroy person");
         Destroy(passport);
         isDestroyed = true;
         Game.instance.removePerson(this);

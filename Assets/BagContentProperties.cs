@@ -8,6 +8,7 @@ public class BagContentProperties : BagContentPropertiesBase, IPubSub {
     public const float TIME_ANIMATE_TO_DROP_POINT = 0.3f;
     public const float TIME_TO_TARGET_POS = 0.4f;
     private static float ROTATION_SPEED = 25f;
+    private static float MAX_ROTATION_MOMENTUM = 5f;
 
     private const int POINTS_ALL_FINE_ACTION = 1000;
 
@@ -123,16 +124,39 @@ public class BagContentProperties : BagContentPropertiesBase, IPubSub {
     }
 
     public void callPolice () {
+        Person reportPerson = currentInspectedItem.person;
+        BagProperties inspectedBag = currentInspectedItem.parentBag.GetComponentInParent<BagProperties>();
+        
         inspectDone();
         Misc.AnimateMovementTo("call_police_move_" + id, this.gameObject, InspectUI.instance.callPolice.transform.localPosition);
         Misc.AnimateScaleTo("call_police_scale_" + id, this.gameObject, Vector3.zero);
         BagHandler.instance.bagInspectItemEnded();
+
+        StartCoroutine(reportPersonAfterDelay(reportPerson, inspectedBag));
+    }
+
+    public IEnumerator reportPersonAfterDelay(Person reportPerson, BagProperties inspectedBag, float delay = 0.3f) {
+        yield return new WaitForSeconds(delay);
+
+        BagHandler.instance.inspectBagDone(true);
+        int numberOfOkItems = inspectedBag.bagContents
+            .FindAll(item => item.actionTaken == InspectUIButton.INSPECT_TYPE.OK).Count;
+        yield return new WaitForSeconds(delay*2 + BagContentProperties.TIME_ANIMATE_TO_DROP_POINT + BagContentProperties.TIME_TO_TARGET_POS + numberOfOkItems * 0.05f);
+        
+        reportPerson.reportToAuthorities();
     }
 
     public PROPAGATION onMessage(string message, object data) {
 
         if (message == "inspect_rotate") {
             Vector3 move = (Vector3) data;
+
+            bool isPillBottleWithLiquid = BagContentProperties.currentInspectedItem.category == "pills";
+            bool restrictMovementSpeed = isPillBottleWithLiquid;
+            float movementAmount = move.magnitude;
+            if (restrictMovementSpeed && movementAmount > MAX_ROTATION_MOMENTUM) {
+                move *= (MAX_ROTATION_MOMENTUM / movementAmount);
+            }
 
             float rotX = move.x * ROTATION_SPEED * Mathf.Deg2Rad;
             float rotY = move.y * ROTATION_SPEED * Mathf.Deg2Rad;
