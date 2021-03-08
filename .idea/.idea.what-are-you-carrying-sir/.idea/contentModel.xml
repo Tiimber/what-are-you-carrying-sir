@@ -52,8 +52,12 @@
         <e p="BagProperties.cs" t="Include" />
         <e p="CacheWWW.cs" t="Include" />
         <e p="CameraHandler.cs" t="Include" />
+        <e p="ClockPositions.cs" t="Include" />
         <e p="CombineChildren.cs" t="Include" />
         <e p="ConveyorObject.cs" t="Include" />
+        <e p="DigitalAlarmClock.cs" t="Include" />
+        <e p="DigitalColon.cs" t="Include" />
+        <e p="DigitalNumber.cs" t="Include" />
         <e p="DoctorsNote.cs" t="Include" />
         <e p="Editor" t="Include">
           <e p="MeshCombineWizard.cs" t="Include" />
