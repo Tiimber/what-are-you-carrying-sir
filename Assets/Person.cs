@@ -48,6 +48,8 @@ public class Person : MonoBehaviour, IPubSub {
     [HideInInspector]
     public Passport passport;
 
+    private String personRandom;
+    
     public bool isDestroyed = false;
 
     private static bool HasInstantiatedPerson = false;
@@ -88,6 +90,11 @@ public class Person : MonoBehaviour, IPubSub {
         float distanceCol1 = colorDistance(col1, prevCol);
         float distanceCol2 = colorDistance(col2, prevCol);
         return distanceCol1 >= distanceCol2 ? col1 : col2;
+    }
+
+    public void setRandomSeeds(String personRandom, String bagsRandom) {
+        this.personRandom = personRandom;
+        bagDefinition.bagRandomSeed = bagsRandom;
     }
     
     public void setConfig(Tuple2<XmlDocument, Texture2D> personConfig) {
@@ -166,7 +173,7 @@ public class Person : MonoBehaviour, IPubSub {
         clips = Resources.LoadAll<AudioClip>("voice/" + voice).ToList();
         // Greeting
         // Some people don't say greeting - in those cases, pretend we've already greeted
-//        haveSaidGreeting = ItsRandom.randomBool(); // TODO
+        // haveSaidGreeting = ItsRandom.randomBool(personRandom); // TODO
         haveSaidGreeting = false;
     }
 
@@ -180,7 +187,7 @@ public class Person : MonoBehaviour, IPubSub {
         Debug.Log(config);
 
         // Choose greeting
-        greeting = ItsRandom.pickRandom(clips.FindAll(i => i.name.StartsWith("greetings-")));
+        greeting = ItsRandom.pickRandom(clips.FindAll(i => i.name.StartsWith("greetings-")), personRandom);
 
         bagDefinition.person = this;
         currentX = this.transform.position.x;
@@ -281,25 +288,25 @@ public class Person : MonoBehaviour, IPubSub {
         string coroutineKey = "inspect-reaction-" + item.id;
         List<AudioClip> itemAudioClips = clips.FindAll(i => i.name.Contains(item.category + "-"));
 
-        yield return new WaitForSeconds(ItsRandom.randomRange(4f, 8f));
+        yield return new WaitForSeconds(ItsRandom.randomRange(4f, 8f, personRandom));
         while (Misc.HasCoroutine(coroutineKey)) {
-            if (ItsRandom.randomRange(0, 100) < 25) {
-                yield return playVoice(ItsRandom.pickRandom(itemAudioClips));
+            if (ItsRandom.randomRange(0, 100, personRandom) < 25) {
+                yield return playVoice(ItsRandom.pickRandom(itemAudioClips, personRandom));
             }
-            yield return new WaitForSeconds(ItsRandom.randomRange(3f, 5f));
+            yield return new WaitForSeconds(ItsRandom.randomRange(3f, 5f, personRandom));
         }
     }
 
     private IEnumerator reactOnAction(string action) {
-        yield return new WaitForSeconds(ItsRandom.randomRange(0.5f, 1.5f));
+        yield return new WaitForSeconds(ItsRandom.randomRange(0.5f, 1.5f, personRandom));
         List<AudioClip> reactionAudioClips = clips.FindAll(i => i.name.Contains(action + "-"));
-        yield return playVoice(ItsRandom.pickRandom(reactionAudioClips));
+        yield return playVoice(ItsRandom.pickRandom(reactionAudioClips, personRandom));
     }
 
     private void reactOnInspectAction(InspectUIButton.INSPECT_TYPE action, BagContentProperties item) {
         if (action == InspectUIButton.INSPECT_TYPE.MANUAL_INSPECT || action == InspectUIButton.INSPECT_TYPE.MANUAL_INSPECT_NEW) {
             // TODO - Maybe don't react on 50% (ajdust level)
-            if (ItsRandom.randomBool()) {
+            if (ItsRandom.randomBool(personRandom)) {
                 StartCoroutine(reactOnAction("manual"));
             }
         } else if (action == InspectUIButton.INSPECT_TYPE.TRASHCAN) {
@@ -404,7 +411,7 @@ public class Person : MonoBehaviour, IPubSub {
     public void reportToAuthorities() {
         // TODO - was it really a mistake to "report person"?
         worstMistake = "false arrest";
-        playVoice(ItsRandom.pickRandom(clips.FindAll(i => i.name.StartsWith("false_arrest-"))));
+        playVoice(ItsRandom.pickRandom(clips.FindAll(i => i.name.StartsWith("false_arrest-")), personRandom));
         bagDefinition.bags.ForEach(bag => bag.bagFinished(false));
         passport.animateAndDestroy();
         Destroy(walkingMan.gameObject);
@@ -413,7 +420,7 @@ public class Person : MonoBehaviour, IPubSub {
 
     public Tuple2<string, string> getRandomBook() {
         if (books.Count > 0) {
-            Tuple2<string,string> book = ItsRandom.pickRandom(books);
+            Tuple2<string,string> book = ItsRandom.pickRandom(books, personRandom);
             int bookIndex = books.IndexOf(book);
             books.RemoveAt(bookIndex);
             return book;

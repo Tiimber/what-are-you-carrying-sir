@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 public class PersonBagDefinition {
 
     public Person person;
+    public String bagRandomSeed;
 
     // All bags (and trays) belonging to person
     public List<BagProperties> bags = null;

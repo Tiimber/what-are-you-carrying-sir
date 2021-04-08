@@ -1551,6 +1551,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8204935532080750573}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1199241083 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3501375259899709324, guid: aa675fbd8329c45c1ab288fefa2068ab,
+    type: 3}
+  m_PrefabInstance: {fileID: 3501375259899709322}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89c2cf1fe2cd04a01996b9157b8588f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1238527516 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 257365215, guid: aa675fbd8329c45c1ab288fefa2068ab,
@@ -1881,11 +1893,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e76ac82eced5849abb17885fe5792618, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  passportTextures: []
   personPrefab: {fileID: 114896399489124114, guid: c872c56022a104785a2a1262ab627763,
     type: 3}
   walkingMan: {fileID: 1887093688, guid: 74db35aff11114c93b7779b891d32d12, type: 3}
   xrayMachines:
   - {fileID: 1808961900406086, guid: d14aca50d4b9d43edabb04f4eb981a40, type: 3}
+  clocks:
+  - {fileID: 6514095929283297398, guid: 3419f57fcf45d4e5198cf750c07e5b96, type: 3}
   gameCamera: {fileID: 1632778878}
   inspectCamera: {fileID: 1710677106}
   blurCamera: {fileID: 553381949}
@@ -3158,6 +3173,26 @@ PrefabInstance:
     - target: {fileID: 547227627, guid: aa675fbd8329c45c1ab288fefa2068ab, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1313075362, guid: aa675fbd8329c45c1ab288fefa2068ab, type: 3}
+      propertyPath: trigger.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1350434889}
+    - target: {fileID: 1313075362, guid: aa675fbd8329c45c1ab288fefa2068ab, type: 3}
+      propertyPath: trigger.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: loadTutorial
+      objectReference: {fileID: 0}
+    - target: {fileID: 1313075362, guid: aa675fbd8329c45c1ab288fefa2068ab, type: 3}
+      propertyPath: trigger.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Game, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1313075362, guid: aa675fbd8329c45c1ab288fefa2068ab, type: 3}
+      propertyPath: trigger.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 1199241083}
+    - target: {fileID: 1313075362, guid: aa675fbd8329c45c1ab288fefa2068ab, type: 3}
+      propertyPath: trigger.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: TVCamera, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1486939342, guid: aa675fbd8329c45c1ab288fefa2068ab, type: 3}
       propertyPath: m_IsActive

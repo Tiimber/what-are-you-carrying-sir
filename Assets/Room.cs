@@ -10,20 +10,33 @@ public class Room : MonoBehaviour {
     public Vector3 pauseScreenPos;
     public Vector3 pauseScreenRotation;
 
-    private Dictionary<string, string> airportNames = new Dictionary<string, string>(){
-        {"mma", "Malmö - Puruts Airport"}
+    public Dictionary<string, Dictionary<string, string>> airportNames = new Dictionary<string, Dictionary<string, string>>(){
+        {"mma", new Dictionary<string, string>() {
+                {"name", "Malmö - Puruts Airport"},
+                {"locale", "se"},
+                {"xraymachine", "Machine #1"}
+            }
+        },
+        {"waycs", new Dictionary<string, string>() {
+                {"name", "What are you carrying, sir?"},
+                {"locale", "eu"},
+                {"xraymachine", "Machine #1"}
+            }
+        }
     };
 
-    public void setLocation(string locale, string airportIdentifier) {
-        GetComponent<SpecificTexture>().setTexture("flagPicture", "flags/" + locale);
-        airportName.text = getAirportNameForIdentifier(airportIdentifier);
+    public String setLocation(string airportIdentifier) {
+        Dictionary<string, string> details = getAirportDetailsForIdentifier(airportIdentifier);
+        GetComponent<SpecificTexture>().setTexture("flagPicture", "flags/" + details["locale"]);
+        airportName.text = details["name"];
+        return details["xraymachine"];
     }
 
-    private String getAirportNameForIdentifier(string identifier) {
+    private Dictionary<String, String> getAirportDetailsForIdentifier(string identifier) {
         if (airportNames.ContainsKey(identifier)) {
             return airportNames[identifier];
         }
-        return "What are you carrying, sir?";
+        return airportNames["waycs"];
     }
 
 }

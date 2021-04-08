@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,9 +8,7 @@ using UnityStandardAssets.ImageEffects;
 public class BagHandler : MonoBehaviour, IPubSub {
 
     public static BagHandler instance;
-
-    public const string RANDOM_TYPE = "bags";
-
+    
     private BagProperties currentBagPlacing;
     public BagProperties currentBagInspect;
 
@@ -80,9 +79,9 @@ public class BagHandler : MonoBehaviour, IPubSub {
         }
     }
 
-    public void createBag (Vector3 bagDropPosition) {
+    public void createBag (Vector3 bagDropPosition, String randomSeed) {
         // TODO - Random bag - Some distribution factor? Maybe not plastic tray except for certain content?
-        int randomBagIndex = ItsRandom.randomRange(0, bags.Length, RANDOM_TYPE);
+        int randomBagIndex = ItsRandom.randomRange(0, bags.Length, randomSeed);
         GameObject bagGameObject = Instantiate (bags [randomBagIndex], bagDropPosition, Quaternion.identity);
         BagProperties bagProperties = bagGameObject.GetComponent<BagProperties> ();
         bagGameObject.transform.position = new Vector3 (bagDropPosition.x, bagDropPosition.y + bagProperties.halfBagHeight, bagDropPosition.z);
@@ -106,7 +105,7 @@ public class BagHandler : MonoBehaviour, IPubSub {
             bagDefinition.addBag(bagProperties);
 
             moveBagsAsideForTray (bagGameObject.GetComponent<BagProperties>());
-            StartCoroutine (placeItemsInBagAndDrop (currentBagPlacing, items));
+            StartCoroutine (placeItemsInBagAndDrop (currentBagPlacing, items, bagDefinition.bagRandomSeed));
 
             // TODO - Need shuffle
 
@@ -114,8 +113,8 @@ public class BagHandler : MonoBehaviour, IPubSub {
         }
     }
 
-    public Coroutine placeItems (List<BagContentProperties> toBePlacedInTrays, Person person) {
-        return StartCoroutine (placeItemsInBag (currentBagPlacing, 20, toBePlacedInTrays, person));
+    public Coroutine placeItems (List<BagContentProperties> toBePlacedInTrays, Person person, String randomSeed) {
+        return StartCoroutine (placeItemsInBag (currentBagPlacing, 20, toBePlacedInTrays, person, randomSeed));
     }
 
     public Coroutine shuffleBag () {
@@ -290,12 +289,12 @@ public class BagHandler : MonoBehaviour, IPubSub {
         }
     }
 
-    IEnumerator placeItemsInBagAndDrop (BagProperties bagProperties, List<BagContentProperties> items) {
+    IEnumerator placeItemsInBagAndDrop (BagProperties bagProperties, List<BagContentProperties> items, String randomSeed) {
         Vector3 bagSize = bagProperties.placingCube.transform.localScale;
         foreach (BagContentProperties item in items) {
             item.transform.parent = bagProperties.contents.transform;
             Vector3 objectSize = item.objectSize;
-            item.transform.localPosition = new Vector3(ItsRandom.randomPlusMinus(0f, (bagSize.x - objectSize.x) / 2f, RANDOM_TYPE), bagProperties.halfBagHeight, ItsRandom.randomPlusMinus(0f, (bagSize.z - objectSize.z) / 2f, RANDOM_TYPE));
+            item.transform.localPosition = new Vector3(ItsRandom.randomPlusMinus(0f, (bagSize.x - objectSize.x) / 2f, randomSeed), bagProperties.halfBagHeight, ItsRandom.randomPlusMinus(0f, (bagSize.z - objectSize.z) / 2f, randomSeed));
             item.transform.localScale = Vector3.one;
             bagProperties.bagContents.Add(item);
             bagProperties.freezeContents(true);
@@ -306,7 +305,7 @@ public class BagHandler : MonoBehaviour, IPubSub {
         dropBag(Vector3.zero);
     }
 
-    IEnumerator placeItemsInBag (BagProperties bagProperties, int amount, List<BagContentProperties> toBePlacedInTrays, Person person) {
+    IEnumerator placeItemsInBag (BagProperties bagProperties, int amount, List<BagContentProperties> toBePlacedInTrays, Person person, String randomSeed) {
         int yieldEveryXthItem = 5;
         int yieldCounter = yieldEveryXthItem;
 //        float lastCycleStart = Time.realtimeSinceStartup;
@@ -318,21 +317,21 @@ public class BagHandler : MonoBehaviour, IPubSub {
 
         // TODO - Hidden items, make sure to check person config on frequency of putting these items in
         // TODO - For now, always put one item
-        GameObject hiddenObj = ItsRandom.pickRandom<BagContentType>(bagContentTypesHidden.ToList()).contentObj;
+        GameObject hiddenObj = ItsRandom.pickRandom<BagContentType>(bagContentTypesHidden.ToList(), randomSeed).contentObj;
         GameObject hiddenItem = Instantiate(hiddenObj);
         hiddenItem.transform.parent = bagProperties.transform;
         BagContentProperties hiddenItemProperties = hiddenItem.GetComponent<BagContentProperties> ();
         // Randomize place in bottom of bag
-        findPlaceForItemInBag(hiddenItemProperties, bagProperties, int.MaxValue, true);
+        findPlaceForItemInBag(hiddenItemProperties, bagProperties, randomSeed, int.MaxValue, true);
         bagProperties.bagContents.Add(hiddenItemProperties);
         
         // TODO - This code block is only made for forcing an illegal item
-        GameObject gunObj = ItsRandom.pickRandom<BagContentType>(bagContentTypesIllegal.ToList()).contentObj;
+        GameObject gunObj = ItsRandom.pickRandom<BagContentType>(bagContentTypesIllegal.ToList(), randomSeed).contentObj;
         GameObject gun = Instantiate(gunObj);
         gun.transform.parent = bagProperties.contents.transform;
         BagContentProperties gunProperties = gun.GetComponent<BagContentProperties> ();
         // Randomize place in bag
-        findPlaceForItemInBag(gunProperties, bagProperties, int.MaxValue);
+        findPlaceForItemInBag(gunProperties, bagProperties, randomSeed, int.MaxValue, false);
         bagProperties.bagContents.Add(gunProperties);
         // TODO - END
 
@@ -342,7 +341,7 @@ public class BagHandler : MonoBehaviour, IPubSub {
             // TODO - below are the REAL CODE - NOT ABOVE
 //            List<int> weights = bagContentTypes.Select(obj => obj.frequency).ToList();
 //            List<GameObject> gameObjects = bagContentTypes.Select(obj => obj.contentObj).ToList();
-            GameObject randomGameObject = ItsRandom.pickRandomWithWeights(weights, gameObjects, RANDOM_TYPE);
+            GameObject randomGameObject = ItsRandom.pickRandomWithWeights(weights, gameObjects, randomSeed);
 
             // Check if item should be in tray, or not instantiated by any other reason (eg. not place 3 guns in bag...)
             bool acceptItem = true;
@@ -362,7 +361,7 @@ public class BagHandler : MonoBehaviour, IPubSub {
             BagContentProperties bagContentProperties = contentPiece.GetComponent<BagContentProperties> ();
 
             // Randomize place in bag
-            bool itemFitsInBag = findPlaceForItemInBag(bagContentProperties, bagProperties, 10);
+            bool itemFitsInBag = findPlaceForItemInBag(bagContentProperties, bagProperties, randomSeed, 10, false);
 
             if (itemFitsInBag) {
                 bagContentProperties.person = person;
@@ -466,8 +465,8 @@ public class BagHandler : MonoBehaviour, IPubSub {
     }
 
     public IEnumerator packAndDropBag (Vector3 bagDropPosition, PersonBagDefinition bagDefinition, List<BagContentProperties> toBePlacedInTrays, Person person) {
-        createBag(INIT_BAG_POINT);
-        yield return placeItems(toBePlacedInTrays, person);
+        createBag(INIT_BAG_POINT, bagDefinition.bagRandomSeed);
+        yield return placeItems(toBePlacedInTrays, person, bagDefinition.bagRandomSeed);
         yield return shuffleBag();
         yield return closeLid();
 
@@ -503,7 +502,7 @@ public class BagHandler : MonoBehaviour, IPubSub {
         }
     }
         
-    private bool findPlaceForItemInBag(BagContentPropertiesBase item, BagProperties bagProperties, int tries = 10, bool inBottom = false) {
+    private bool findPlaceForItemInBag(BagContentPropertiesBase item, BagProperties bagProperties, String randomSeed, int tries = 10, bool inBottom = false) {
         Vector3 bagSize = (
             inBottom
                 ? bagProperties.hiddenObjectsPlacingCube.transform.localScale
@@ -523,7 +522,7 @@ public class BagHandler : MonoBehaviour, IPubSub {
         while (objectsCollide && tries-- > 0) {
             bool haveAdjustedPos = false;
             // Randomize position for object
-            item.transform.localPosition = new Vector3(ItsRandom.randomPlusMinus(0f, (bagSize.x - objectSize.x) / 2f, RANDOM_TYPE), ItsRandom.randomPlusMinus(0f, (bagSize.y - objectSize.y) / 2f, RANDOM_TYPE), ItsRandom.randomPlusMinus(0f, (bagSize.z - objectSize.z) / 2f, RANDOM_TYPE))
+            item.transform.localPosition = new Vector3(ItsRandom.randomPlusMinus(0f, (bagSize.x - objectSize.x) / 2f, randomSeed), ItsRandom.randomPlusMinus(0f, (bagSize.y - objectSize.y) / 2f, randomSeed), ItsRandom.randomPlusMinus(0f, (bagSize.z - objectSize.z) / 2f, randomSeed))
                 + (
                     inBottom
                         ? bagProperties.hiddenObjectsPlacingCube.transform.localPosition

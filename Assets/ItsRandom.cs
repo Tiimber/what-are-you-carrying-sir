@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
+using Random = System.Random;
 
 public class ItsRandom {
 
@@ -12,6 +13,41 @@ public class ItsRandom {
         {"generic", new System.Random()}
     };
 
+    public static Dictionary<String, List<String>> randomSets = new Dictionary<string, List<string>>();
+
+    public static void setRandomSeeds(List<int> randomSeeds, string parentType = DEFAULT_TYPE) {
+        if (ItsRandom.randomSets.ContainsKey(parentType)) {
+            ItsRandom.randomSets.Remove(parentType);
+        }
+
+        List<System.Random> seededRandoms = new List<System.Random>();
+        foreach (int seed in randomSeeds) {
+            seededRandoms.Add(new System.Random(seed));
+        }
+
+        int i = 1;
+        List<String> ids = new List<string>();
+        foreach (Random randomObj in seededRandoms) {
+            String currentId = parentType + "_" + i.ToString("D3");
+            random.Add(currentId, randomObj);
+            ids.Add(currentId);
+            i++;
+        }
+        
+        ItsRandom.randomSets.Add(parentType, ids);
+    }
+
+    public static String popRandomTypeForParentType(string parentType = DEFAULT_TYPE) {
+        if (ItsRandom.randomSets.ContainsKey(parentType) && randomSets[parentType].Count > 0) {
+            List<String> randomsForType = randomSets[parentType];
+            String first = randomsForType.First();
+            randomsForType.RemoveAt(0);
+            return first;
+        }
+        
+        return "no-seed-found";
+    }
+
     public static void setRandomSeed(int randomSeed, string type = DEFAULT_TYPE) {
         if (ItsRandom.random.ContainsKey(type)) {
             ItsRandom.random.Remove(type);
@@ -20,7 +56,10 @@ public class ItsRandom {
     }
 
     private static System.Random getRandomObj(string type) {
-        return ItsRandom.random[type];
+        if (ItsRandom.random.ContainsKey(type)) {
+            return ItsRandom.random[type];
+        }
+        return new Random();
     }
 
     public static T pickRandom<T>(List<T> list, string type = DEFAULT_TYPE) {

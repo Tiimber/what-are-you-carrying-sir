@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using UnityEditor;
 using UnityEngine;
@@ -16,13 +17,14 @@ public class Game : MonoBehaviour, IPubSub {
 
     private const float TV_SCROLL_MOVEMENT_SPEED = 7f;
 
-    private List<XmlDocument> peopleConfigs = new List<XmlDocument>();
-    private List<Texture2D> passportTextures = new List<Texture2D>();
+    public List<XmlDocument> peopleConfigs = new List<XmlDocument>();
+    public List<Texture2D> passportTextures = new List<Texture2D>();
     
     private BagHandler bagHandler;
     public Person personPrefab;
     public WalkingMan walkingMan;
 	public GameObject[] xrayMachines;
+	public GameObject[] clocks;
 
     public Camera gameCamera;
     public Camera inspectCamera;
@@ -43,6 +45,7 @@ public class Game : MonoBehaviour, IPubSub {
     private bool lastFrameMovedBelt = false;
 
 	public XRayMachine currentXrayMachine;
+	public Clock currentClock;
 
     private Dictionary<string, int> mistakeSeverity = new Dictionary<string, int>();
 
@@ -105,13 +108,7 @@ public class Game : MonoBehaviour, IPubSub {
     // Use this for initialization
 	void Start () {
         bagHandler = GetComponent<BagHandler>();
-
-		// TODO - Pick xrayMachine depending on level instead...
-		GameObject xrayMachineGameObject = Instantiate(xrayMachines[0], xrayMachines[0].transform.position, Quaternion.identity);
-		currentXrayMachine = xrayMachineGameObject.GetComponent<XRayMachine> ();
-        currentXrayMachine.attachConnectingConveyors();
-        room.GetComponent<Room>().setLocation("se", "mma");
-
+        
 //        // when using in conjunction with a pinch or rotation recognizer setting the min touches to 2 smoothes movement greatly
 //        if( Application.platform == RuntimePlatform.IPhonePlayer ) {
 //            recognizer.minimumNumberOfTouches = 2;
@@ -217,6 +214,7 @@ public class Game : MonoBehaviour, IPubSub {
         startPoint.z = 5;
         Person newPerson = Instantiate(personPrefab, startPoint, Quaternion.identity);
         newPerson.setConfig(getNextPersonConfig());
+        newPerson.setRandomSeeds(ItsRandom.popRandomTypeForParentType("people"), ItsRandom.popRandomTypeForParentType("bags"));
         newPerson.greetingPositionX = currentXrayMachine.scanRight;
 
         float walkingManStartPositionRelativePersonCube = 20f;
@@ -234,6 +232,55 @@ public class Game : MonoBehaviour, IPubSub {
         allPeople.Add(newPerson);
     }
 
+    private void buildMission() {
+        MissionConfig mission = MissionConfig.Instance;
+
+        // Pick the correct X-ray machine
+        string locationXrayMachineName = room.GetComponent<Room>().setLocation(mission.location);
+
+        GameObject locationXrayMachine = null;
+        foreach (GameObject xrayMachine in xrayMachines) {
+            if (xrayMachine.name == locationXrayMachineName) {
+                locationXrayMachine = xrayMachine;
+                break;
+            }
+        }
+
+        if (locationXrayMachine == null) {
+            locationXrayMachine = xrayMachines[0];
+        }
+
+        GameObject xrayMachineGameObject = Instantiate(locationXrayMachine, locationXrayMachine.transform.position, Quaternion.identity);
+        currentXrayMachine = xrayMachineGameObject.GetComponent<XRayMachine> ();
+        currentXrayMachine.attachConnectingConveyors();
+        
+        // Pick the correct time piece
+        GameObject locationClock = null;
+        foreach (GameObject clock in clocks) {
+            if (clock.name == mission.clockType) {
+                locationClock = clock;
+                break;
+            }
+        }
+
+        if (locationClock == null) {
+            locationClock = clocks[0];
+        }
+
+        GameObject clockObject = Instantiate(locationClock);
+        currentClock = clockObject.GetComponent<Clock> ();
+        currentClock.setTime(mission.startTime);
+        currentClock.speed = mission.timeSpeed;
+        currentClock.notifyOnTime(mission.endTime);
+        PubSub.subscribe("MISSION_TIME_END", this);
+        currentClock.setRandomPosition = false;
+        currentClock.clockPosition = mission.clockPosition;
+
+        // Set the encounter and bag seeds
+        ItsRandom.setRandomSeeds(mission.seedsConfig.bags, "bags");
+        ItsRandom.setRandomSeeds(mission.seedsConfig.people, "people");
+    } 
+
     public void pauseGame (bool gameStart = false) {
         Game.paused = !Game.paused;
         if (Game.paused && !gameStart) {
@@ -246,8 +293,15 @@ public class Game : MonoBehaviour, IPubSub {
     }
 
     public void pauseGameClickedTVStart (TVCamera tvCamera) {
-        if (tvCamera.isOn()) {
+        // TODO!
+        if (false && tvCamera.isOn()) {
             pauseGame();
+        }
+    }
+
+    public void loadTutorial (TVCamera tvCamera) {
+        if (tvCamera.isOn()) {
+            loadMission("example-mission.xml");
         }
     }
 
@@ -478,6 +532,9 @@ public class Game : MonoBehaviour, IPubSub {
                     }
                 }
             }
+        } else if (message == "MISSION_TIME_END") {
+            // TODO - Handle mission end due to time ended
+            Debug.Log("TIME OUT!");
         }
         return PROPAGATION.DEFAULT;
     }
@@ -520,6 +577,33 @@ public class Game : MonoBehaviour, IPubSub {
         }
     }
 
+    public void clearPersonConfigs() {
+        peopleConfigs.Clear();
+        passportTextures.Clear();
+    }
+    
+    private void loadMission(string name) {
+        // Clear old people
+        clearPersonConfigs();
+
+        string missionConfigUrl = "http://samlingar.com/whatareyoucarryingsir/" + name;
+        StartCoroutine(loadMissionConfig(missionConfigUrl));
+    }
+    
+    private IEnumerator loadMissionConfig(string peopleConfigUrl) {
+        WWW www = CacheWWW.Get(peopleConfigUrl);
+        yield return www;
+        XmlDocument xmlDoc = new XmlDocument ();
+        xmlDoc.LoadXml (www.text);
+
+        XmlNode mission = xmlDoc.SelectSingleNode("/mission");
+        yield return MissionConfig.LoadConfig(mission);
+
+        buildMission();
+        
+        pauseGame();
+    }
+    
     private IEnumerator loadPeopleConfig(string peopleConfigUrl) {
         WWW www = CacheWWW.Get(peopleConfigUrl);
         yield return www;
@@ -533,7 +617,7 @@ public class Game : MonoBehaviour, IPubSub {
         }
     }
 
-    private IEnumerator loadPersonConfig (string personConfigUrl) {
+    public IEnumerator loadPersonConfig (string personConfigUrl) {
         WWW www = CacheWWW.Get(personConfigUrl);
         yield return www;
         XmlDocument xmlDoc = new XmlDocument ();
@@ -551,9 +635,15 @@ public class Game : MonoBehaviour, IPubSub {
     }
 
     private Tuple2<XmlDocument, Texture2D> getNextPersonConfig() {
-        // TODO - pop lists
-        int randomPersonIndex = ItsRandom.randomRange(0, peopleConfigs.Count);
-        return new Tuple2<XmlDocument, Texture2D>(peopleConfigs[randomPersonIndex], passportTextures[randomPersonIndex]);
+        // TODO - Handle if "until time ends", i.e. no people remaining...
+        MissionConfig mission = MissionConfig.Instance;
+        List<PersonInMissionConfig> people = mission.encountersConfig.people;
+        PersonInMissionConfig firstPerson = people.First();
+        people.RemoveAt(0);
+        return new Tuple2<XmlDocument, Texture2D>(firstPerson.personConfig, firstPerson.personTexture);
+        // // TODO - pop lists
+        // int randomPersonIndex = ItsRandom.randomRange(0, peopleConfigs.Count);
+        // return new Tuple2<XmlDocument, Texture2D>(peopleConfigs[randomPersonIndex], passportTextures[randomPersonIndex]);
     }
 
     private void applyTeddybearForce(float force) {
