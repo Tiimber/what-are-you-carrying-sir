@@ -52,6 +52,7 @@
         <e p="BagProperties.cs" t="Include" />
         <e p="CacheWWW.cs" t="Include" />
         <e p="CameraHandler.cs" t="Include" />
+        <e p="Clock.cs" t="Include" />
         <e p="ClockPositions.cs" t="Include" />
         <e p="CombineChildren.cs" t="Include" />
         <e p="ConveyorObject.cs" t="Include" />
@@ -63,6 +64,7 @@
           <e p="MeshCombineWizard.cs" t="Include" />
           <e p="MeshCombineWizard2.cs" t="Include" />
         </e>
+        <e p="EncountersConfig.cs" t="Include" />
         <e p="example-people-config.xml" t="Include" />
         <e p="example-person-config-1.xml" t="Include" />
         <e p="example-person-config-2.xml" t="Include" />
@@ -90,6 +92,7 @@
         <e p="Math3d.cs" t="Include" />
         <e p="MeshTrigger.cs" t="Include" />
         <e p="Misc.cs" t="Include" />
+        <e p="MissionConfig.cs" t="Include" />
         <e p="MoveToParentNull.cs" t="Include" />
         <e p="NonConvexMeshCollider.cs" t="Include" />
         <e p="Obi" t="Include">
@@ -197,6 +200,10 @@
             </e>
           </e>
           <e p="Plugins" t="Include">
+            <e p="iOS" t="Include">
+              <e p="Oni.h" t="Include" />
+              <e p="OniHelpers.h" t="Include" />
+            </e>
             <e p="libOni.bundle" t="Include">
               <e p="Contents" t="Include">
                 <e p="Resources" t="Include">
@@ -459,6 +466,7 @@
         <e p="PersonBagDefinition.cs" t="Include" />
         <e p="PersonBooksConfig.cs" t="Include" />
         <e p="PersonConfig.cs" t="Include" />
+        <e p="PersonInMissionConfig.cs" t="Include" />
         <e p="PhysicalTVButton.cs" t="Include" />
         <e p="PillBottle.cs" t="Include" />
         <e p="PlayRandomAudioPosition.cs" t="Include" />
@@ -501,6 +509,7 @@
         <e p="Readme.txt" t="Include" />
         <e p="Room.cs" t="Include" />
         <e p="ScoreScreen.cs" t="Include" />
+        <e p="SeedsConfig.cs" t="Include" />
         <e p="Singleton.cs" t="Include" />
         <e p="SingletonInstance.cs" t="Include" />
         <e p="SpawningSoundObject.cs" t="Include" />
@@ -802,22 +811,6 @@
         <e p="TVContentSet.cs" t="Include" />
         <e p="TVLogic.cs" t="Include" />
         <e p="UIButtonManualInspectLogic.cs" t="Include" />
-        <e p="Ultimate Game Tools" t="Include">
-          <e p="ConcaveCollider" t="Include">
-            <e p="1st readme - v1.11.txt" t="Include" />
-            <e p="Editor" t="Include">
-              <e p="ConcaveColliderEditor.cs" t="Include" />
-            </e>
-            <e p="Sample Scenes" t="Include">
-              <e p="Bucket" t="Include">
-                <e p="SpawnObjects.cs" t="Include" />
-              </e>
-            </e>
-            <e p="Scripts" t="Include">
-              <e p="ConcaveCollider.cs" t="Include" />
-            </e>
-          </e>
-        </e>
         <e p="WalkingMan.cs" t="Include" />
         <e p="XRayMachine.cs" t="Include" />
       </e>
